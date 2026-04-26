@@ -10,7 +10,7 @@ layout: hextra-home
 {{< /hextra/hero-badge >}}
 
 <div class="hx-mt-8 hx-mb-2 hx-flex hx-justify-start">
-  <img src="/images/pando-logo.svg" alt="Pando" class="pando-home-logo" width="180" height="203" />
+  <img src="https://raw.githubusercontent.com/madeindigio/pando-docs/refs/heads/main/static/images/pando-logo.svg" alt="Pando" class="pando-home-logo" width="180" height="203" />
 </div>
 
 <div class="hx-mt-6 hx-mb-6">
