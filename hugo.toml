@@ -1,3 +1,95 @@
-baseURL = 'https://example.org/'
-locale = 'en-us'
-title = 'My New Hugo Project'
+baseURL = "https://docs.pando.dev/"
+title = "Pando"
+defaultContentLanguage = "es"
+defaultContentLanguageInSubdir = false
+
+[module]
+  [[module.imports]]
+    path = "github.com/imfing/hextra"
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    weight = 1
+    title = "Pando"
+    contentDir = "content/en"
+  [languages.es]
+    languageName = "Español"
+    weight = 2
+    title = "Pando"
+    contentDir = "content/es"
+
+# ── Navigation menu ───────────────────────────────────────────
+[[menus.main]]
+  identifier = "docs"
+  name = "Docs"
+  pageRef = "/docs"
+  weight = 1
+
+[[menus.main]]
+  identifier = "blog"
+  name = "Blog"
+  pageRef = "/blog"
+  weight = 2
+
+[[menus.main]]
+  identifier = "search"
+  weight = 3
+  [menus.main.params]
+    type = "search"
+
+[[menus.main]]
+  identifier = "github"
+  url = "https://github.com/digiogithub/pando"
+  weight = 4
+  [menus.main.params]
+    icon = "github"
+
+[[menus.main]]
+  identifier = "theme-toggle"
+  weight = 5
+  [menus.main.params]
+    type = "theme-toggle"
+
+[[menus.main]]
+  identifier = "language"
+  weight = 6
+  [menus.main.params]
+    type = "language-switch"
+
+# ── Site params ───────────────────────────────────────────────
+[params]
+  description = "Asistente IA terminal para desarrolladores — potente, extensible y open source"
+
+  [params.navbar]
+    displayTitle = true
+    displayLogo = true
+    [params.navbar.logo]
+      path = "images/logo.svg"
+      width  = "28"
+      height = "28"
+
+  [params.footer]
+    displayCopyright = true
+    displayPoweredBy = false
+
+  [params.search]
+    enable = true
+    type = "flexsearch"
+
+  [params.editURL]
+    enable = false
+
+  [params.blog]
+    [params.blog.list]
+      displayTags = true
+      sortBy = "date"
+      sortOrder = "desc"
+      pagerSize = 10
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

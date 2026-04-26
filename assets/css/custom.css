@@ -1,0 +1,190 @@
+/* ============================================================
+   Pando — Custom theme for Hextra
+   Paleta: Oro Pando #D4AF37 | Marfil #FCFAF2 | Oscuro #121214
+   ============================================================ */
+
+/* ---------- Primary color: Pando gold (HSL 46°, 64%, 52%) ---------- */
+
+:root {
+  --primary-hue: 46deg;
+  --primary-saturation: 64%;
+  --primary-lightness: 52%;
+}
+
+.dark {
+  --primary-hue: 46deg;
+  --primary-saturation: 60%;
+  --primary-lightness: 56%;
+}
+
+/* ---------- Body background — warm ivory / midnight ink ---------- */
+
+body {
+  background-color: #FCFAF2;
+}
+
+.dark body {
+  background-color: #121214;
+}
+
+/* ---------- Navbar ---------- */
+
+.hextra-nav-container-blur {
+  background-color: rgba(245, 242, 232, 0.88) !important;
+}
+
+.dark .hextra-nav-container-blur {
+  background-color: rgba(10, 10, 12, 0.88) !important;
+}
+
+/* Navbar title in gold */
+.hx\:font-extrabold {
+  color: #D4AF37;
+  letter-spacing: -0.01em;
+}
+
+.dark .hx\:font-extrabold {
+  color: #E5C365;
+}
+
+/* ---------- Feature cards — Pando sharp-edge style ---------- */
+
+.hextra-feature-card {
+  border-radius: 0 !important;
+  border-color: #CBB89B !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.hextra-feature-card:hover {
+  border-color: #D4AF37 !important;
+  box-shadow: 0 2px 16px rgba(212, 175, 55, 0.12) !important;
+}
+
+.dark .hextra-feature-card {
+  border-color: #2C2C2E !important;
+}
+
+.dark .hextra-feature-card:hover {
+  border-color: #D4AF37 !important;
+  box-shadow: 0 2px 20px rgba(212, 175, 55, 0.15) !important;
+}
+
+/* ---------- Hero buttons — Pando style ---------- */
+
+/* Solid primary button */
+a.hx\:rounded-full {
+  border-radius: 2px !important;
+}
+
+/* Outline button (GitHub) */
+a[style*="outline"],
+a[style="outline"] {
+  background-color: transparent !important;
+  color: #D4AF37 !important;
+  border: 1.5px solid #D4AF37 !important;
+  border-radius: 2px !important;
+}
+
+a[style*="outline"]:hover,
+a[style="outline"]:hover {
+  background-color: rgba(212, 175, 55, 0.1) !important;
+}
+
+.dark a[style*="outline"],
+.dark a[style="outline"] {
+  color: #E5C365 !important;
+  border-color: #E5C365 !important;
+}
+
+/* ---------- Homepage logo ---------- */
+
+.pando-home-logo {
+  display: block;
+  margin: 0 auto;
+  max-width: 200px;
+  filter: drop-shadow(0 4px 24px rgba(212, 175, 55, 0.25));
+}
+
+/* ---------- Hero spacing ---------- */
+
+.pando-hero-buttons {
+  margin-top: 2.5rem !important;
+  margin-bottom: 2.5rem !important;
+  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.pando-feature-grid-wrapper {
+  margin-top: 3.5rem !important;
+}
+
+/* ---------- Sidebar background ---------- */
+
+.hextra-sidebar-container {
+  background-color: #F5F2E8 !important;
+}
+
+.dark .hextra-sidebar-container {
+  background-color: #0A0A0C !important;
+}
+
+/* ---------- Search ---------- */
+
+.hx\:bg-white input,
+input[type="search"] {
+  background-color: #FFFFFF;
+  border-color: #CBB89B;
+}
+
+/* ---------- Footer — Pando style ---------- */
+
+footer.hextra-footer {
+  background-color: #EEE5D2 !important;
+  border-top: 1px solid #CBB89B;
+}
+
+.dark footer.hextra-footer {
+  background-color: #0A0A0C !important;
+  border-top: 1px solid #2C2C2E;
+}
+
+footer.hextra-footer .hx\:text-gray-600,
+footer.hextra-footer .hextra-max-footer-width {
+  color: #6E655A !important;
+}
+
+.dark footer.hextra-footer .hx\:dark\:text-gray-400,
+.dark footer.hextra-footer .hextra-max-footer-width {
+  color: #808080 !important;
+}
+
+footer.hextra-footer .hx\:text-xs {
+  color: #7A5A3A !important;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+
+.dark footer.hextra-footer .hx\:text-xs {
+  color: #B0B0B0 !important;
+}
+
+/* Separator line in footer */
+footer.hextra-footer hr {
+  border-color: #CBB89B !important;
+}
+
+.dark footer.hextra-footer hr {
+  border-color: #2C2C2E !important;
+}
+
+/* ---------- Blog list accent ---------- */
+
+.hx\:text-\[color\:hsl\(var\(--primary-hue\),100\%,50\%\)\] {
+  color: #D4AF37 !important;
+}
+
+.dark .hx\:text-\[color\:hsl\(var\(--primary-hue\),100\%,50\%\)\] {
+  color: #E5C365 !important;
+}
