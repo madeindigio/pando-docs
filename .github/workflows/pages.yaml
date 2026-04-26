@@ -39,9 +39,6 @@ jobs:
           hugo-version: "0.147.7"
           extended: true
 
-      - name: Download Hugo modules
-        run: hugo mod download
-
       - name: Build
         run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
