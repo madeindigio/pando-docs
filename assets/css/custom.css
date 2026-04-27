@@ -100,7 +100,7 @@ a[style="outline"]:hover {
 
 .pando-home-logo {
   display: block;
-  margin: 0 auto;
+  margin: 0;
   max-width: 200px;
   filter: drop-shadow(0 4px 24px rgba(212, 175, 55, 0.25));
 }
