@@ -1,0 +1,13 @@
+{
+    "servers": {
+        "pando": {
+            "type": "stdio",
+            "command": "pando",
+            "args": [
+                "mcp-server",
+                "--no-http"
+            ],
+        },
+    },
+    "inputs": [],
+}
