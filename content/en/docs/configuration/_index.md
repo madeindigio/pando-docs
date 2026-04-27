@@ -97,3 +97,132 @@ Pando supports the following AI providers:
 - **GitHub Copilot**
 - **OpenRouter** (access to multiple models)
 - **Local models** (via custom endpoint)
+- **Local models** (via custom endpoint)
+
+## Advanced configuration
+
+Below are the advanced options recognized by Pando, with examples in TOML and JSON. Not all fields are required; Pando will use sensible defaults when fields are missing.
+
+### Full example (TOML)
+
+```toml
+[data]
+directory = ".pando"           # Directory where Pando stores data (history, commands, caches)
+
+[providers]
+[providers.anthropic]
+apiKey = "your-api-key"
+disabled = false
+
+[providers.openai]
+apiKey = "your-openai-key"
+model = "gpt-4o"
+disabled = false
+
+[providers.gemini]
+apiKey = "your-gemini-key"
+disabled = true
+
+[agents]
+[agents.coder]
+model = "claude-3.7-sonnet"
+maxTokens = 5000
+temperature = 0.2
+
+[agents.chat]
+model = "gpt-4o"
+maxTokens = 3000
+temperature = 0.7
+
+[shell]
+path = "/bin/bash"
+args = ["-l"]
+
+debug = false                  # Enable detailed logs
+autoCompact = true            # Automatically compact long histories
+
+[acp]
+enabled = true
+max_sessions = 10
+idle_timeout = "30m"
+log_level = "info"           # info|debug|warn|error
+auto_permission = false       # true for CI or trusted environments
+
+[mcpServers]
+[mcpServers.my-server]
+command = "my-mcp-server"
+args = ["--flag"]
+env = { MY_VAR = "value" }
+
+[hooks]
+# Path to hooks in Lua or other scripts to customize behavior
+path = ".pando/hooks"
+
+[storage]
+type = "sqlite"               # sqlite|filesystem|custom
+path = ".pando/pando.db"
+
+[ui]
+theme = "dark"               # UI theme for web-ui if applicable
+editor = "nvim"              # default external editor
+
+[telemetry]
+enabled = false
+endpoint = "https://telemetry.example.com/collect"
+
+[logging]
+level = "info"
+file = ".pando/pando.log"
+```
+
+### Full example (JSON)
+
+```json
+{
+  "data": { "directory": ".pando" },
+  "providers": {
+    "anthropic": { "apiKey": "your-api-key", "disabled": false },
+    "openai": { "apiKey": "your-openai-key", "model": "gpt-4o", "disabled": false }
+  },
+  "agents": {
+    "coder": { "model": "claude-3.7-sonnet", "maxTokens": 5000, "temperature": 0.2 },
+    "chat": { "model": "gpt-4o", "maxTokens": 3000, "temperature": 0.7 }
+  },
+  "shell": { "path": "/bin/bash", "args": ["-l"] },
+  "debug": false,
+  "autoCompact": true,
+  "acp": { "enabled": true, "max_sessions": 10, "idle_timeout": "30m", "log_level": "info", "auto_permission": false },
+  "mcpServers": { "my-server": { "command": "my-mcp-server", "args": ["--flag"], "env": { "MY_VAR": "value" } } },
+  "hooks": { "path": ".pando/hooks" },
+  "storage": { "type": "sqlite", "path": ".pando/pando.db" },
+  "ui": { "theme": "dark", "editor": "nvim" },
+  "telemetry": { "enabled": false, "endpoint": "https://telemetry.example.com/collect" },
+  "logging": { "level": "info", "file": ".pando/pando.log" }
+}
+```
+
+### Main options description
+
+- data.directory: Base directory for Pando data (commands, history, caches).
+- providers.<name>: Provider-specific config (apiKey, model, disabled, custom endpoint).
+- agents.<name>: Agent/role config (model, maxTokens, temperature, optional systemPrompt).
+- shell.path / shell.args: Default shell and arguments used to launch it.
+- debug: Enable debug output.
+- autoCompact: Enable automatic history compaction to save tokens.
+- acp.*: Agent Client Protocol options (enable, max sessions, timeouts, auto permissions).
+- mcpServers.*: Define external MCP servers Pando can consume (command, args, env).
+- hooks.path: Path for custom hooks (Lua, scripts) executed on events.
+- storage.type/path: Storage type and path (SQLite recommended for persistence).
+- ui.theme/editor: Preferences for UI/web-ui and external editor.
+- telemetry.*: Telemetry configuration (disabled by default).
+- logging.*: Log level and file.
+
+This flexible configuration allows adapting Pando to many environments and use cases, from local development to CI/CD pipelines or production deployments.
+
+## Configuration via TUI assistant
+
+One of the easiest ways to configure Pando is via its interactive TUI assistant, which runs automatically if no configuration file is found. It will open the configuration panel, generate a default configuration file and let you add the AI providers you want to use and customize other options. The TUI assistant is ideal for new users or those who prefer guided setup.
+
+Provider and tool configuration is also saved in your user profile, so your API keys and preferences are preserved even if you move your project to another directory. When you start Pando in a new folder, the assistant pre-fills providers and tools already configured in your profile so you can start using them without reconfiguring everything.
+
+{{< asciinema file="https://asciinema.org/a/DgVZRnUHU0GEBKjW.cast" >}}
