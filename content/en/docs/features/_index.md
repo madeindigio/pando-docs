@@ -7,64 +7,133 @@ weight: 3
 
 Pando is built with [Bubble Tea](https://github.com/charmbracelet/bubbletea), a framework for building terminal user interfaces. It provides a smooth and responsive experience directly in your terminal.
 
-## Vim-like Editor
+## Vim-like Editor & Editor Integration
 
-Pando includes an integrated editor with Vim-style keybindings for composing messages and editing code without leaving the TUI.
+- **Built-in Editor**: Includes an editor with Vim-style keybindings for composing messages and editing code without leaving the TUI.
+- **External Editor**: Support for opening your preferred editor (Neovim, Emacs, VS Code, etc.) for complex editing tasks.
 
-## External Editor Support
+## WebUI & Embedded PWA
 
-You can open your preferred editor (Neovim, Emacs, etc.) to compose long or complex messages.
+Pando includes an API server (`pando serve`) that serves as a backend for a modern web interface and PWA. This allows you to interact with your projects from a browser with a rich desktop-like experience, while keeping all logic and data on your local machine.
 
-## Session Management
+## Session Management & Persistence
 
-- Save and restore previous conversations
-- Multiple simultaneous sessions
-- Persistence in a local SQLite database
+- Save and restore previous conversations automatically.
+- Support for multiple simultaneous sessions.
+- All data is stored locally in a SQLite database for maximum privacy and performance.
 
 ## Tool Integration
 
-The AI can execute tools directly in your project:
+The AI can execute tools directly in your project to enhance your workflow:
 
-- **Run commands**: Execute shell commands to build, test, etc.
-- **File search**: Find and read project files
-- **Code modification**: Edit files directly with user confirmation
-- **Web search**: Search the internet for up-to-date information
+- **Run commands**: Integrated shell for building, testing, or running scripts.
+- **File manipulation**: Read, write, and search files with user confirmation.
+- **Atomic Patches**: Apply coordinated changes across multiple files simultaneously.
+- **Web Search**: Integration with Google, Brave, Perplexity, and Exa for real-time, up-to-date information.
 
-## Custom Commands
+## Interactive Web Navigation
 
-Custom commands are predefined prompts stored as Markdown files:
+Pando can interact with the web in advanced ways:
 
-1. **User commands** (prefix `user:`): `$XDG_CONFIG_HOME/pando/commands/` or `$HOME/.pando/commands/`
-2. **Project commands** (prefix `project:`): `<PROJECT_DIR>/.pando/commands/`
+- **Browser Automation**: Navigate, click, fill forms, and execute JavaScript.
+- **Content Capture**: Extract clean text from complex sites and generate screenshots or PDFs of web pages.
+- **Network & Console Analysis**: Access console logs and network traffic for web application debugging.
 
-Commands support **named arguments** as placeholders:
+## Model Context Protocol (MCP)
 
-```markdown
-Analyze the file {{filename}} and explain the function {{function_name}}
-```
+- **MCP Client**: Connect to any MCP server to extend Pando's capabilities with third-party tools.
+- **MCP Server**: Pando can act as an MCP server (`pando mcp-server`), exposing its internal tools (filesystem, terminal, browser, search) to other agents or applications via `stdio` and `HTTP` transports.
 
-## LSP Integration
+## Isolation & Containers
 
-Pando includes **Language Server Protocol (LSP)** support for contextual code intelligence:
+Pando supports multiple execution environments for enhanced security and reproducibility:
 
-- LSP-informed autocompletion
-- Real-time diagnostics and errors
-- Code navigation
+- **Isolated Execution**: Native support for running commands and tools inside **Docker** or **Podman** containers.
+- **Devcontainers**: Integration with standardized development environments.
+- **Embedded Runtime**: Controlled execution to minimize side effects on the host system.
 
-## File Change Tracking
+## Multi-Provider & Multi-Account
 
-Pando tracks and visualizes file changes made during a session, showing a diff of what the AI modified.
+- **Broad Support**: Compatible with Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, Ollama, and OpenRouter.
+- **Account Management**: Configure multiple accounts for the same provider and switch between them or between different models instantly.
 
-## Auto Compaction
+## Automatic Indexing & RAG
 
-With `autoCompact = true`, Pando automatically compacts long conversation histories to optimize token usage.
+Pando understands your code and documentation through Retrieval-Augmented Generation (RAG):
 
-## Lua Hooks
+- **Automatic Context Injection**: The enrichment engine searches in parallel across the knowledge base, code index, and past session events to inject relevant information into every prompt.
+- **Code Indexing**: Uses tree-sitter and embeddings to create a semantic map of your project.
+- **Knowledge Base (KB)**: Sync Markdown documentation for intelligent retrieval.
 
-Pando supports **Lua** hooks for customizing and automating behaviors:
+## Personas & Customization
 
-- Before/after message hooks
-- Session start/end hooks
-- Workflow automation
+- **Persona Support**: Define different AI "personas" with specific system instructions. Pando can switch between them to adapt to different tasks (coding, review, doc, etc.).
+- **Self-Improvement**: Built-in tools for evaluating and self-improving prompts based on performance metrics and task success rates.
 
-See the `docs/` directory in the repository for Lua hook examples.
+## Agent Orchestration (Mesnada)
+
+Ability to delegate complex tasks to specialized sub-agents:
+
+- **Background Execution**: Launch time-consuming tasks while you continue working.
+- **Flexible Engines**: Support for different models and delegated agent configurations.
+
+## Contextual Intelligence & LSP
+
+- **LSP Integration**: Real-time code intelligence with diagnostics, errors, and autocompletion informed by the Language Server Protocol.
+- **Event Memory**: Record important decisions and observations for later recall.
+- **Change Tracking**: Real-time diff visualization of all changes made by the AI.
+
+## Automation & Hooks
+
+- **Custom Commands**: Define your own reusable prompts with argument support via Markdown files.
+- **Lua Hooks**: Customize Pando's behavior with Lua scripts to automate specific workflows.
+- **REST API & SSE**: Pando is fully API-fied, allowing integration into other workflows via its programmatic API.
+
+## Internal Tool Optimizations
+
+### Tool Response Caching & Pagination
+
+When a tool returns a large response (above configurable byte or line thresholds), Pando automatically intercepts the response before returning it to the LLM and stores it in a **per-session LRU cache**. Instead of sending the full content to the model — consuming precious tokens — a compact summary is returned with the cache ID, size metadata, and an inline preview with **line numbering**. The agent can then use the `cache_read` tool to retrieve specific pages of cached content as needed. This dramatically reduces token consumption for large tool responses such as extensive searches or file reads.
+
+### Lua Filters in the MCP Gateway (pre/post tool hooks)
+
+Pando exposes an **MCP Gateway** that centralizes tool calls to external MCP servers. This gateway supports **Lua-written filters** that run at two strategic points:
+
+- **Input filter (`<server-name>-input`)**: Runs just before calling the tool, allowing modification, sanitization, or enrichment of invocation parameters.
+- **Output filter (`<server-name>-output`)**: Runs immediately after receiving the tool response, allowing transformation or cleaning of the result before returning it to the agent.
+
+If no server-specific filter exists, a global fallback filter is used (`global-input` / `global-output`). Filters run in a Lua sandbox with configurable timeout, and shell/OS modules are explicitly excluded for security.
+
+### Lua Hook Engine in the Prompt System
+
+In addition to tool filters, Pando has a **complete Lua hook system** that fires at every stage of system prompt composition:
+
+- `hook_system_prompt` — Final modification of the complete prompt.
+- `hook_session_start` / `hook_session_restore` — Session lifecycle events.
+- `hook_user_prompt` — Sanitize the user message before storing it.
+- `hook_agent_response_finish` — Notification when model generation completes.
+- `hook_template_section` — Modify or remove individual template sections.
+- `hook_capability_check` — Override automatic capability detection.
+- `hook_provider_select` — Dynamic provider template selection.
+- `hook_prompt_compose` — Reorder, add, or remove entire prompt sections.
+
+Hooks are written in `.lua` files and support hot reloading (`HotReload`), ideal for iterative development. They include helper functions such as `pando_get_config`, `pando_load_file`, and `pando_list_mcp_servers`.
+
+### Line Numbering When Reading Files
+
+The `view` tool renders file contents with **automatic line numbering** (6-digit padded), making it easy for the agent to reference specific lines in its edits or explanations. When content exceeds the display limit, a note is appended indicating how many additional lines exist and how to use the `offset` parameter to continue reading.
+
+### High-Speed Search Engine
+
+Pando includes a **custom search engine** (`internal/search`) optimized for walking directory trees with multiple concurrent workers (4 by default). Features include:
+
+- **Concurrent scanning**: Producer-consumer pattern with parallel workers processing files simultaneously.
+- **Skip binaries**: Heuristic binary file detection (same heuristic as ripgrep) to avoid false positives.
+- **File ignores**: Native support for `.gitignore` and `.pandoignore`, walking the directory hierarchy up to the root.
+- **Type filters**: Search restricted to specific language extensions (`type: go`, `type: ts`, etc.).
+- **Match context**: `before` and `after` parameters for context lines, with a circular buffer for efficiency.
+- **Regex caching**: Regular expressions are compiled once and reused across the entire session via `sync.Map`.
+- **Multiline**: Support for patterns spanning multiple lines by loading the full file.
+- **Native pagination**: Results are sorted by modification time (newest first) and support `offset` and `head_limit` for navigating result pages.
+
+This internal search layer is entirely separate from web search tools, operating exclusively on the local filesystem for maximum speed and privacy.

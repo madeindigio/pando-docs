@@ -105,6 +105,25 @@ a[style="outline"]:hover {
   filter: drop-shadow(0 4px 24px rgba(212, 175, 55, 0.25));
 }
 
+/* Dark-mode adjustments for the mascot SVG when embedded via <img>.
+   We can't change internal SVG elements from CSS when the file is loaded
+   through an <img>, so we apply a color-preserving filter that brightens
+   dark strokes while keeping greens saturated and make white areas blend
+   with the dark page background. This is an approximation; for perfect
+   control inline the SVG or provide a dedicated dark-mode SVG file and
+   swap it with a <picture>/<source> element. */
+.dark .pando-home-logo {
+  /* keep the gold drop shadow but slightly brighter in dark mode */
+  filter: drop-shadow(0 4px 24px rgba(212,175,55,.28)) brightness(1.05) saturate(1.05) contrast(1.02) invert(1) hue-rotate(170deg) sepia(.05);
+}
+
+/* If you prefer to swap to a tailored dark SVG file, uncomment and use
+   the following rule and provide /images/pando_mascot-dark.svg.
+.dark .pando-home-logo {
+  content: url('/images/pando_mascot-dark.svg');
+}
+*/
+
 /* ---------- Hero spacing ---------- */
 
 .pando-hero-buttons {

@@ -4,7 +4,7 @@ layout: hextra-home
 ---
 
 <div class="hx:mt-10 hx:mb-2 hx:flex hx:items-start hx:justify-between hx:flex-col hx:sm:flex-row hx:w-full">
-<img src="https://raw.githubusercontent.com/madeindigio/pando-docs/refs/heads/main/static/images/pando-logo.svg" alt="Pando" class="pando-home-logo" width="180" height="203" />
+<img src="/images/pando_mascot.svg" alt="Pando" class="pando-home-logo" width="180" height="203" />
 <div class="hx:mt-4 hx:sm:mt-0">
 {{< hextra/hero-badge link="https://github.com/digiogithub/pando?tab=MIT-1-ov-file#readme" >}}
 <div class="hx-w-2 hx-h-2 hx-rounded-full hx-bg-primary-400"></div>

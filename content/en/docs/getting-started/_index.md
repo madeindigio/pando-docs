@@ -5,6 +5,12 @@ weight: 1
 
 ## Installation
 
+### From precompiled binaries
+
+Get the latest release on GitHub: [Releases · digiogithub/pando](https://github.com/digiogithub/pando/releases) and download the binary for your operating system.
+
+Specific installers for each platform (Windows, macOS, Linux) will also be available in the future.
+
 ### With Go
 
 If you have Go installed (1.21 or higher):

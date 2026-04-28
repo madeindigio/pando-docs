@@ -5,6 +5,12 @@ weight: 1
 
 ## Instalación
 
+### Desde binarios precompilados
+
+Accede a la última release en GitHub: [Releases · digiogithub/pando](https://github.com/digiogithub/pando/releases) y descarga el binario correspondiente a tu sistema operativo.
+
+También tendrás disponible en el futuro instaladores específicos para cada plataforma (Windows, macOS, Linux).
+
 ### Con Go
 
 Si tienes Go instalado (1.21 o superior):
