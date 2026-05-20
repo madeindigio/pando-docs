@@ -1,6 +1,7 @@
 ---
 title: Pando is beta for now
 date: 2026-04-26
+tags: ["Beta", "Community"]
 ---
 
 Pando is under very active development; at this moment, a large part of the current code improvements are already programmed by the software itself.

@@ -1,6 +1,7 @@
 ---
 title: Pando es beta por ahora
 date: 2026-04-26
+tags: ["Beta", "Comunidad"]
 ---
 
 Pando tiene un desarrollo muy activo, en estos momentos gran parte de las mejoras de código actuales ya las programa el propio software. 

@@ -1,6 +1,7 @@
 ---
 title: Pando v1.0.0 pronto!!
 date: 2026-04-26
+tags: ["Lanzamiento", "Beta"]
 ---
 
 Cada vez queda menos para la primera versión estable de Pando. Han sucedido muchos cambios y mejoras en Pando, y pronto se publicará la versión compilada instalable de Pando para Windows, Linux y Mac.

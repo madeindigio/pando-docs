@@ -12,9 +12,14 @@ Pando está construido con [Bubble Tea](https://github.com/charmbracelet/bubblet
 - **Editor Integrado**: Incluye un editor con atajos estilo Vim para componer mensajes y editar código sin salir de la TUI.
 - **Editor Externo**: Soporte para abrir tu editor preferido (Neovim, Emacs, VS Code, etc.) para tareas de edición complejas.
 
-## WebUI y PWA Embebida
+## Aplicación de Escritorio Nativa y WebUI
 
-Pando incluye un servidor API (`pando serve`) que sirve como backend para una interfaz web moderna y PWA. Esto permite interactuar con tus proyectos desde un navegador con una experiencia de escritorio rica, manteniendo toda la lógica y datos en tu máquina local.
+Pando está disponible como una **Aplicación de Escritorio Nativa** premium para macOS y Windows, así como una **interfaz web y PWA** totalmente responsiva. Esto te permite interactuar con tus proyectos en una ventana independiente libre de distracciones, con notificaciones del sistema y multitarea, o acceder a él desde cualquier navegador en escritorio y móvil. Todos tus datos y tu base de datos privada permanecen seguros en tu máquina local.
+
+## Proxy de Modelos Local
+
+Pando puede transformar tu ordenador en una pasarela centralizada de Inteligencia Artificial. Al iniciar el servidor proxy local, Pando unifica todos tus proveedores de IA configurados (incluidos los modelos de tu suscripción de GitHub Copilot) y los expone a través de un único endpoint local compatible con otras herramientas de desarrollo de tu ecosistema.
+
 
 ## Gestión de Sesiones y Persistencia
 
@@ -51,7 +56,7 @@ Pando soporta múltiples entornos de ejecución para mayor seguridad y reproduci
 
 ## Multiproveedor y Multicuenta
 
-- **Soporte Amplio**: Compatible con Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, Ollama y OpenRouter.
+- **Soporte Amplio**: Compatible con Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, Ollama, OpenRouter y el proveedor seguro **Antigravity**.
 - **Gestión de Cuentas**: Permite configurar múltiples cuentas para un mismo proveedor y alternar entre ellas o entre diferentes modelos de forma instantánea.
 
 ## Indexación y RAG Automático
@@ -68,9 +73,11 @@ Pando entiende tu código y documentación mediante recuperación aumentada por 
 
 ## Orquestación de Agentes (Mesnada)
 
-Capacidad de delegar tareas complejas a sub-agentes especializados:
-- **Ejecución en Segundo Plano**: Lanza tareas que requieren mucho tiempo mientras continúas trabajando.
-- **Motores Flexibles**: Soporte para diferentes modelos y configuraciones de agentes delegados.
+Pando incluye **Mesnada**, un potente sistema de delegación de agentes que te permite crear subagentes especializados para abordar tareas de programación complejas:
+
+- **Multitarea en Segundo Plano Silenciosa**: Los subagentes trabajan simultáneamente en segundo plano mientras tú te concentras en tu código. Pando gestiona múltiples procesos en paralelo sin conflictos ni bloqueos de recursos.
+- **Resiliencia con Auto-Reinicio**: Si un subagente experimenta una desconexión o fallo menor de red, Pando lo recupera y reinicia automáticamente para completar la tarea con éxito.
+- **Creación Simplificada de Agentes**: Inicia y coordina agentes con un solo comando o desde la barra lateral de la interfaz.
 
 ## Inteligencia Contextual y LSP
 

@@ -217,6 +217,15 @@ file = ".pando/pando.log"
 - telemetry.*: Telemetry configuration (disabled by default).
 - logging.*: Log level and file.
 
+## Premium Security & Convenience Settings
+
+Pando includes several modern features to streamline your configuration and keep your keys protected:
+
+- **Local Parameter Encryption (AGE)**: You can encrypt any sensitive value (such as API keys or database connection strings) in `.pando.toml` using `pando encrypt`. This keeps your credentials secure, allowing you to safely upload your configuration files to shared Git repositories.
+- **Visual Model Switching in TUI**: When using the interactive configuration panel (`Ctrl+g` in terminal), Pando provides a dynamic visual model selector with autocompletion, preventing typos when entering model names.
+- **Automatic Local HTTPS**: Pando automatically generates local SSL certificates during startup to secure all network communication for the desktop app and the browser-based Web-UI over HTTPS.
+- **Snapshot Toggle**: Control whether Pando automatically saves incremental session snapshots. You can disable snapshots in `.pando.toml` to save disk space on very large codebases.
+
 This flexible configuration allows adapting Pando to many environments and use cases, from local development to CI/CD pipelines or production deployments.
 
 ## Configuration via TUI assistant

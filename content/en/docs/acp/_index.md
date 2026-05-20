@@ -110,6 +110,13 @@ pando mcp-server --no-stdio
 pando mcp-server --no-http
 ```
 
+## Active Task Checklist & Planning
+
+When integrated with your editor via ACP, Pando displays an **Active Task Checklist** directly inside the editor UI. This provides high-level transparency into what the AI agent is currently doing:
+- **Real-Time Steps**: See which files the agent plans to modify and the progress of each task.
+- **In-Editor Decisions**: Approve or suggest adjustments to the agent's work plan before it executes.
+- **Clean Inactive Sessions**: Pando automatically cleans up inactive sessions to conserve system resources.
+
 ## Security features
 
 - Path validation to prevent access outside project directory

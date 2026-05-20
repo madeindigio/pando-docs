@@ -12,9 +12,14 @@ Pando is built with [Bubble Tea](https://github.com/charmbracelet/bubbletea), a 
 - **Built-in Editor**: Includes an editor with Vim-style keybindings for composing messages and editing code without leaving the TUI.
 - **External Editor**: Support for opening your preferred editor (Neovim, Emacs, VS Code, etc.) for complex editing tasks.
 
-## WebUI & Embedded PWA
+## Native Desktop App & WebUI
 
-Pando includes an API server (`pando serve`) that serves as a backend for a modern web interface and PWA. This allows you to interact with your projects from a browser with a rich desktop-like experience, while keeping all logic and data on your local machine.
+Pando is available as a premium **Native Desktop Application** for macOS and Windows, as well as a fully responsive **Web interface and PWA**. This allows you to interact with your projects in a distraction-free, native window with system notifications and multitasking, or access it from any browser on desktop and mobile. All your data and private database remain safely on your local machine.
+
+## Local LLM Proxy
+
+Pando can turn your computer into a centralized AI gateway. By launching the local proxy server, Pando unifies all your configured AI providers (including GitHub Copilot subscription models) and serves them through a single local endpoint compatible with other developer tools in your ecosystem.
+
 
 ## Session Management & Persistence
 
@@ -54,7 +59,7 @@ Pando supports multiple execution environments for enhanced security and reprodu
 
 ## Multi-Provider & Multi-Account
 
-- **Broad Support**: Compatible with Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, Ollama, and OpenRouter.
+- **Broad Support**: Compatible with Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, Ollama, OpenRouter, and the secure **Antigravity** provider.
 - **Account Management**: Configure multiple accounts for the same provider and switch between them or between different models instantly.
 
 ## Automatic Indexing & RAG
@@ -72,10 +77,11 @@ Pando understands your code and documentation through Retrieval-Augmented Genera
 
 ## Agent Orchestration (Mesnada)
 
-Ability to delegate complex tasks to specialized sub-agents:
+Pando includes **Mesnada**, a powerful agent delegation framework that allows you to spawn specialized sub-agents to tackle complex programming tasks:
 
-- **Background Execution**: Launch time-consuming tasks while you continue working.
-- **Flexible Engines**: Support for different models and delegated agent configurations.
+- **Seamless Background Work**: Sub-agents work concurrently in the background while you focus on your code. Pando manages multiple running instances without conflicts or resource locking.
+- **Auto-Relaunch Resilience**: If a sub-agent experiences a connection loss or minor failure, Pando automatically recovers and restarts the agent to complete the task.
+- **Simplified Agent Spawning**: Launch and orchestrate agents with a single command or sidebar toggle in the interface.
 
 ## Contextual Intelligence & LSP
 

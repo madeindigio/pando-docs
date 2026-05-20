@@ -38,9 +38,9 @@ Add Pando as an MCP server in your compatible client (Claude Desktop, Cursor, et
 Pando's MCP server exposes tools that allow clients to:
 
 - Execute commands in the project context
-- Read and modify files
-- Search the codebase
-- Interact with session history
+- Read, modify, and search files (with page-by-page reading optimizations and pagination)
+- Browse the web using an integrated high-speed browser, including lightweight **Lightpanda** browser support
+- Interact with session history and recall memory
 
 ## Consuming external MCP servers
 
@@ -52,6 +52,17 @@ command = "my-mcp-server"
 args = ["--flag"]
 env = { MY_VAR = "value" }
 ```
+
+### Encrypting Sensitive MCP Parameters
+
+If your external MCP server requires credentials or secret tokens, you can encrypt them using AGE:
+
+```toml
+[mcpServers.my-secure-server]
+command = "database-connector"
+env = { SECRET_TOKEN = "age1y7g9w...encrypted-value..." }
+```
+Pando automatically decrypts these parameters securely in memory at startup, protecting your private credentials.
 
 Or in JSON:
 

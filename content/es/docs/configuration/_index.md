@@ -216,6 +216,15 @@ file = ".pando/pando.log"
 - telemetry.*: Configuración para telemetría (desactivada por defecto).
 - logging.*: Nivel y archivo de logs.
 
+## Opciones de Seguridad y Comodidad Premium
+
+Pando incorpora varias características de última generación destinadas a simplificar tu configuración y proteger tus claves:
+
+- **Cifrado Local de Parámetros (AGE)**: Puedes cifrar cualquier cadena de texto sensible (como claves API de proveedores o datos de conexión a bases de datos) en tu archivo `.pando.toml` mediante `pando encrypt`. Esto mantiene a salvo tus credenciales, permitiéndote subir tus archivos de configuración a repositorios públicos de Git sin riesgos.
+- **Selector Visual de Modelos en la TUI**: Al utilizar el panel interactivo de configuración (`Ctrl+g` en la terminal), dispondrás de un selector visual de modelos con autocompletado en tiempo real, evitando errores tipográficos al introducir los nombres.
+- **HTTPS Seguro Local Automático**: Pando genera y gestiona automáticamente certificados SSL locales en el arranque para garantizar que todas las conexiones de red del Web-UI y la aplicación de escritorio se realicen bajo el protocolo HTTPS cifrado.
+- **Control de Snapshots (Instantáneas)**: Decide si deseas que Pando cree instantáneas automáticas de tus sesiones de trabajo. Puedes desactivarlas en el archivo `.pando.toml` para reducir el uso de espacio en disco en proyectos con bases de código masivas.
+
 Esta configuración flexible permite adaptar Pando a una amplia variedad de entornos y casos de uso, desde desarrollo local hasta integración en pipelines CI/CD o entornos de producción.
 
 ## Configuración a través de asistente TUI

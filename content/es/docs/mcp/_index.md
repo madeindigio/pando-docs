@@ -38,9 +38,9 @@ Añade Pando como servidor MCP en tu cliente compatible (Claude Desktop, Cursor,
 El servidor MCP de Pando expone herramientas que permiten a los clientes:
 
 - Ejecutar comandos en el contexto del proyecto
-- Leer y modificar archivos
-- Buscar en el codebase
-- Interactuar con el historial de sesiones
+- Leer, modificar y buscar archivos (con visualización optimizada y paginación)
+- Navegar por internet mediante el navegador de alta velocidad integrado, incluyendo compatibilidad con el navegador ligero **Lightpanda**
+- Interactuar con el historial de sesiones y recordar datos contextuales de interés
 
 ## Configuración de servidores MCP externos
 
@@ -52,6 +52,17 @@ command = "mi-mcp-server"
 args = ["--flag"]
 env = { MI_VAR = "valor" }
 ```
+
+### Cifrado de Parámetros MCP Sensibles
+
+Si tu servidor MCP requiere claves de API o contraseñas, puedes encriptarlas mediante AGE para evitar guardarlas en texto plano:
+
+```toml
+[mcpServers.mi-servidor-seguro]
+command = "conector-privado"
+env = { CLAVE_SECRETA = "age1y7g9w...cadena-cifrada..." }
+```
+Pando descifrará estos valores automáticamente en memoria al iniciar, manteniendo a salvo tus credenciales privadas.
 
 O en JSON:
 
