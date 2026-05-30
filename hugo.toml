@@ -33,27 +33,33 @@ defaultContentLanguageInSubdir = false
   weight = 2
 
 [[menus.main]]
-  identifier = "search"
+  identifier = "sdk"
+  name = "SDKs"
+  pageRef = "/sdk"
   weight = 3
+
+[[menus.main]]
+  identifier = "search"
+  weight = 4
   [menus.main.params]
     type = "search"
 
 [[menus.main]]
   identifier = "github"
   url = "https://github.com/digiogithub/pando"
-  weight = 4
+  weight = 5
   [menus.main.params]
     icon = "github"
 
 [[menus.main]]
   identifier = "theme-toggle"
-  weight = 5
+  weight = 6
   [menus.main.params]
     type = "theme-toggle"
 
 [[menus.main]]
   identifier = "language"
-  weight = 6
+  weight = 7
   [menus.main.params]
     type = "language-switch"
 
