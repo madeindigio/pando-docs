@@ -1,6 +1,6 @@
 baseURL = "https://docs.pando.dev/"
 title = "Pando"
-defaultContentLanguage = "es"
+defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 
 [module]

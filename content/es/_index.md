@@ -22,7 +22,7 @@ layout: hextra-home
 <p>&nbsp;</p>
 <div class="hx-mb-10">
 {{< hextra/hero-subtitle >}}
-  Pando es un asistente de AI multiplataforma avanzado.&nbsp;<br class="sm:hx-block hx-hidden" />Potente, extensible y con soporte para múltiples modos de trabajo.&nbsp;<br class="sm:hx-block hx-hidden" />Proporciona máxima flexibilidad para la completa automatización.
+  Potente, extensible y con soporte para múltiples modos de trabajo.&nbsp;<br class="sm:hx-block hx-hidden" />Proporciona máxima flexibilidad para la completa automatización.
 {{< /hextra/hero-subtitle >}}
 </div>
 <p>&nbsp;</p>
