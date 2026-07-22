@@ -95,6 +95,16 @@ Pando includes **Mesnada**, a powerful agent delegation framework that allows yo
 - **Lua Hooks**: Customize Pando's behavior with Lua scripts to automate specific workflows.
 - **REST API & SSE**: Pando is fully API-fied, allowing integration into other workflows via its programmatic API.
 
+## Vulnerability Hunter
+
+Adversarial security audit workflow ported from [Capital One's VulnHunter](https://github.com/capitalone/VulnHunter). Three slash commands provide a complete security workflow:
+
+- **`/vulnhunt`**: Full security audit — recon, parallel vulnerability hunting, exploitability verification, and adversarial disproof.
+- **`/vulnhunter-fix`**: Test-driven remediation — exploit proof, failing security test, fix, and regression-free verification.
+- **`/vulnhunt-fix-verify`**: Read-only independent verification of claimed fixes with per-finding verdicts.
+
+Findings are persisted to the knowledge base and can be referenced across sessions.
+
 ## Internal Tool Optimizations
 
 ### Tool Response Caching & Pagination

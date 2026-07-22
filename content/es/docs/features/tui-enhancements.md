@@ -50,6 +50,17 @@ theme = 'pando'
 
 Escribe **@** en el input del chat para abrir un diálogo de completado de archivos con búsqueda fuzzy. Reemplaza el carácter `/` anterior (ahora reservado para comandos slash).
 
+## Detalles del Modelo
+
+El diálogo de selección de modelo ahora muestra metadatos enriquecidos para cada modelo:
+
+- **Ventana de contexto**: Límite de tokens mostrado de forma compacta (ej., 200K, 1M)
+- **Precios**: Costos por millón de tokens de entrada/salida cuando están disponibles del proveedor o el catálogo de [models.dev](https://models.dev)
+- **Capacidades**: Indicadores de soporte de razonamiento e imágenes
+- **Corte de conocimiento**: Fecha de corte de datos de entrenamiento
+
+Esta información aparece como una línea de pie para la entrada del modelo resaltado, ayudándote a elegir el modelo adecuado para tu tarea.
+
 ## Alternar Auto-Aprobar
 
 Presiona **Shift+Tab** para alternar el modo auto-aprobar. Cuando está activo, todos los permisos de herramientas se aprueban automáticamente.

@@ -16,7 +16,9 @@ La interfaz web de Pando incluye las siguientes características:
 - **Navegación de ficheros**: Puedes abrir el panel de ficheros desde la barra lateral, puedes abrir cualquier fichero de texto con resaltado de sintaxis de código, y también editarlos dentro de Pando en la interfaz web, sin necesidad de abrir un editor externo.
 - **Soporte de múltiples ficheros abiertos en pestañas**: Puedes abrir múltiples ficheros a la vez y navegar entre ellos en pestañas dentro de la Web-UI.
 - **Visualización de imágenes y gráficos**: La Web-UI de Pando soporta la visualización de imágenes y gráficos generados por los agentes, directamente en la interfaz.
-- **Terminal integrado**: La Web-UI de Pando incluye un terminal integrado que puedes abrir en cualquier momento para ejecutar comandos directamente desde la interfaz web, sin necesidad de cambiar a una terminal externa.
+- **Terminal integrado**: La Web-UI de Pando incluye un terminal real potenciado por xterm.js, con soporte completo de interacción de shell incluyendo zsh, historial de comandos y colores ANSI.
+- **Barra lateral de info del chat**: Un panel de información en el lado derecho mostrando detalles de sesión, archivos modificados e info del repositorio — similar a la barra lateral de la TUI.
+- **Autenticación básica**: Al vincular a una IP externa, habilita aut básica para asegurar tu instancia de Pando con usuario y contraseña.
 - **Vista simple y vista avanzada**: Puedes cambiar entre una vista simple, con solo el chat y las herramientas básicas, y una vista avanzada que muestra todas las opciones, paneles y funcionalidades de Pando, para adaptarse a diferentes niveles de experiencia y necesidades de los usuarios.
 
 {{< callout >}}

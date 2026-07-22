@@ -16,7 +16,9 @@ The web interface includes the following features:
 - **File navigation**: Use the sidebar file panel to open any text file with syntax highlighting, and edit files in the web interface—no external editor needed.
 - **Multiple open files in tabs**: Open and switch between multiple files at once in Web-UI tabs.
 - **Image and graphic viewing**: The interface supports agent-generated images and graphics directly in the UI.
-- **Integrated terminal**: Open a terminal in the web UI at any time to execute commands directly from the browser.
+- **Integrated terminal**: Open a real terminal in the web UI powered by xterm.js, supporting full shell interaction including zsh, command history, and ANSI colors.
+- **Chat info sidebar**: A right-hand information panel showing session details, modified files, and repository info — similar to the TUI sidebar.
+- **Basic authentication**: When binding to an external IP, enable basic auth to secure your Pando instance with a username and password.
 - **Simple & advanced views**: Switch between a basic chat/tools view and an advanced view showing all options and panels—ideal for users of all experience levels.
 
 {{< callout >}}

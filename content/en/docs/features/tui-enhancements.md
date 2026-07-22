@@ -50,6 +50,17 @@ theme = 'pando'
 
 Type **@** in chat input to open a file completion dialog with fuzzy search. Replaces the old `/` character (now reserved for slash commands).
 
+## Model Details
+
+The model selection dialog now shows enriched metadata for each model:
+
+- **Context window**: Token limit displayed compactly (e.g., 200K, 1M)
+- **Pricing**: Per-million-token input/output costs when available from the provider or [models.dev](https://models.dev) catalog
+- **Capabilities**: Reasoning and image support indicators
+- **Knowledge cutoff**: Training data cutoff date
+
+This information appears as a footer line for the highlighted model entry, helping you choose the right model for your task.
+
 ## Auto-Approve Toggle
 
 Press **Shift+Tab** to toggle auto-approve mode. When active, all tool permissions are automatically approved.

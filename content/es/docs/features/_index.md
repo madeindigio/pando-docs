@@ -91,6 +91,16 @@ Pando incluye **Mesnada**, un potente sistema de delegación de agentes que te p
 - **Hooks en Lua**: Personaliza el comportamiento de Pando con scripts en Lua para automatizar flujos de trabajo específicos.
 - **API REST y SSE**: Pando está totalmente "apificado", permitiendo su integración en otros flujos de trabajo mediante su API programática.
 
+## Vulnerability Hunter
+
+Flujo de auditoría de seguridad adversarial portado desde [VulnHunter de Capital One](https://github.com/capitalone/VulnHunter). Tres comandos slash proporcionan un flujo de seguridad completo:
+
+- **`/vulnhunt`**: Auditoría de seguridad completa — recon, caza paralela de vulnerabilidades, verificación de explotabilidad y refutación adversarial.
+- **`/vulnhunter-fix`**: Remediación basada en tests — prueba de exploit, test de seguridad fallido, fix y verificación sin regresiones.
+- **`/vulnhunt-fix-verify`**: Verificación independiente de solo lectura de fixes reclamados con veredicto por hallazgo.
+
+Los hallazgos se persisten en la base de conocimientos y pueden ser referenciados entre sesiones.
+
 ## Optimizaciones Internas de Herramientas
 
 ### Caché y Paginación de Respuestas de Tools

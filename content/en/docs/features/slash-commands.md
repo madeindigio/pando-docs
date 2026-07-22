@@ -79,7 +79,6 @@ Caveman reduces output verbosity to save output tokens while keeping code, comma
 | `/caveman lite` | Drop filler and restatement. Normal sentences, fewer of them |
 | `/caveman full` | Terse by default. Conclusions and fragments, no unrequested explanation |
 | `/caveman ultra` | Maximum brevity. The answer and nothing around it |
-| `/caveman wenyan` | Render prose in Classical Chinese (文言文). Code stays verbatim |
 | `/caveman-finish` | Disable caveman and return to normal output |
 
 {{< callout type="info" >}}
@@ -132,6 +131,30 @@ When active, Pando:
 
 ---
 
+## Security Commands
+
+### Vulnerability Hunter
+
+Adversarial security audit workflow ported from [Capital One's VulnHunter](https://github.com/capitalone/VulnHunter). These commands run self-contained security workflows as normal agent turns — they stream, steer, and persist like any other message.
+
+| Command | Description |
+|---------|-------------|
+| `/vulnhunt [scope]` | Trace attacker input to sinks and report exploitable vulnerabilities |
+| `/vulnhunter-fix [finding]` | Test-driven remediation: exploit → failing test → fix → verify |
+| `/vulnhunt-fix-verify [findings]` | Read-only independent verification of claimed security fixes |
+
+**`/vulnhunt`** runs a full security audit: recon → parallel class-group hunt → exploitability verify → adversarial disprove → capability-filtered report. Findings are persisted to the knowledge base. Pass an optional scope (subdirectory, package, or emphasis) to narrow the audit.
+
+**`/vulnhunter-fix`** performs test-driven remediation of confirmed vulnerabilities: creates an exploit proof, writes a failing security test (RED), implements the fix (GREEN), and verifies the exploit is blocked without regressions.
+
+**`/vulnhunt-fix-verify`** is a read-only verification that checks claimed fixes against the actual code, emitting a per-finding verdict: FIXED, PARTIAL, NOT_FIXED, or INCONCLUSIVE.
+
+{{< callout type="info" >}}
+Security commands are not persistent modes — each run is a self-contained workflow. Findings are stored in the knowledge base and can be referenced by subsequent fix or verify runs.
+{{< /callout >}}
+
+---
+
 ## Custom Commands
 
 Pando supports custom slash commands via markdown files. Place `.md` files in:
@@ -151,6 +174,7 @@ Commands are organized into categories in the command palette:
 - **Code Quality**: Ponytail and Caveman modes
 - **Workflow**: Superpowers and Learning modes
 - **Project**: AGENTS.md management
+- **Security**: Vulnerability Hunter (vulnhunt, vulnhunter-fix, vulnhunt-fix-verify)
 
 {{< callout >}}
 Slash commands work across all Pando interfaces (TUI, Web UI, ACP). The command palette provides fuzzy search to quickly find the command you need.

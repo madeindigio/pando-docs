@@ -79,7 +79,6 @@ Caveman reduce la verbosidad de la salida para ahorrar tokens de salida mantenie
 | `/caveman lite` | Eliminar relleno y repeticiones. Oraciones normales, menos de ellas |
 | `/caveman full` | Breve por defecto. Conclusiones y fragmentos, sin explicación no solicitada |
 | `/caveman ultra` | Máxima brevedad. Solo la respuesta, nada más |
-| `/caveman wenyan` | Renderizar prosa en Chino Clásico (文言文). El código se mantiene literal |
 | `/caveman-finish` | Desactivar caveman y volver a la salida normal |
 
 {{< callout type="info" >}}
@@ -132,6 +131,30 @@ Cuando está activo, Pando:
 
 ---
 
+## Comandos de Seguridad
+
+### Vulnerability Hunter
+
+Flujo de auditoría de seguridad adversarial portado desde [VulnHunter de Capital One](https://github.com/capitalone/VulnHunter). Estos comandos ejecutan flujos de seguridad autocontenidos como turnos normales del agente — se transmiten, orientan y persisten como cualquier otro mensaje.
+
+| Comando | Descripción |
+|---------|-------------|
+| `/vulnhunt [alcance]` | Rastrear input de atacante hasta sinks y reportar vulnerabilidades explotables |
+| `/vulnhunter-fix [hallazgo]` | Remediación basada en tests: exploit → test fallido → fix → verificación |
+| `/vulnhunt-fix-verify [hallazgos]` | Verificación independiente de solo lectura de fixes de seguridad reclamados |
+
+**`/vulnhunt`** ejecuta una auditoría de seguridad completa: recon → caza paralela por clase → verificación de explotabilidad → refutación adversarial → reporte filtrado por capacidades. Los hallazgos se persisten en la base de conocimientos. Pasa un alcance opcional (subdirectorio, paquete o énfasis) para limitar la auditoría.
+
+**`/vulnhunter-fix`** realiza remediación basada en tests de vulnerabilidades confirmadas: crea una prueba de exploit, escribe un test de seguridad fallido (RED), implementa la fix (GREEN) y verifica que el exploit esté bloqueado sin regresiones.
+
+**`/vulnhunt-fix-verify`** es una verificación de solo lectura que comprueba los fixes reclamados contra el código real, emitiendo un veredicto por hallazgo: FIXED, PARTIAL, NOT_FIXED o INCONCLUSIVE.
+
+{{< callout type="info" >}}
+Los comandos de seguridad no son modos persistentes — cada ejecución es un flujo de trabajo autocontenido. Los hallazgos se almacenan en la base de conocimientos y pueden ser referenciados por ejecuciones posteriores de fix o verify.
+{{< /callout >}}
+
+---
+
 ## Comandos Personalizados
 
 Pando soporta comandos slash personalizados mediante archivos markdown. Coloca archivos `.md` en:
@@ -151,6 +174,7 @@ Los comandos se organizan en categorías en la paleta de comandos:
 - **Calidad de Código**: Modos Ponytail y Caveman
 - **Flujo de Trabajo**: Modos Superpowers y Learning
 - **Proyecto**: Gestión de AGENTS.md
+- **Seguridad**: Vulnerability Hunter (vulnhunt, vulnhunter-fix, vulnhunt-fix-verify)
 
 {{< callout >}}
 Los comandos slash funcionan en todas las interfaces de Pando (TUI, Web UI, ACP). La paleta de comandos proporciona búsqueda fuzzy para encontrar rápidamente el comando que necesitas.
