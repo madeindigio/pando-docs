@@ -5,10 +5,11 @@ weight: 6
 
 Pando provides official, production-ready SDKs to integrate local developer-focused AI features programmatically into your own tools, scripts, editors, or background workers.
 
-Each SDK supports all three primary modes of interacting with Pando:
+Each SDK supports all four modes of interacting with Pando:
 1. **Subprocess (One-Shot)**: Spawns `pando` as a child process for fast, single-turn prompts.
 2. **ACP Session (Stdio)**: Connects to a long-lived `pando acp` JSON-RPC 2.0 server over stdio for multi-turn conversations and real-time streaming.
 3. **HTTP REST Client**: Connects to a running `pando serve` or `pando app` server over local networks.
+4. **AG-UI (Generative UI)**: Connects to Pando's AG-UI endpoint for CopilotKit and other Generative-UI frontends — streaming chat, shared state, frontend tools, and human-in-the-loop.
 
 ## Supported Languages
 

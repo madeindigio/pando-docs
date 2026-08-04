@@ -34,11 +34,20 @@ Controls how much of a file Pando shows to the AI when reading it.
 
 ### Adaptive Auto-Mode Learning
 
+When you set the Read Mode to **Auto**, Pando uses a bounce tracker to learn from experience — it watches for cases where compressed reads don't give the AI enough detail, and automatically escalates to fuller reads for files or file types that need them.
+
+A "bounce" happens when Pando reads a file in compressed mode (signatures or map) and then immediately re-reads it in full mode — the AI needed more detail than the compressed view provided. The bounce tracker counts these events per file path and per file extension. If a file or extension bounces frequently, the next Auto read automatically escalates toward full mode.
+
 | Setting | Default | What it does |
 |---------|---------|--------------|
-| **Disabled** | Yes | When enabled, the auto reader learns which files need full detail and adjusts automatically |
+| **Disabled** | Yes | The bounce tracker still works (protecting you from bad compression), but Pando doesn't use statistical learning to predict which files need more detail. The tracker escalates purely based on hard bounce counts. |
+| **Enabled** | No | Enables a statistical learning layer (Beta posterior) that can predict, based on extension patterns, when to escalate even before a bounce occurs. Use this if you want Auto mode to be more aggressive about learning. |
 
-**Recommendation**: Leave this **disabled** unless you notice the auto mode compressing files that need full detail. When enabled, it learns from experience but may occasionally get things wrong.
+**Recommendation**: Leave this **disabled** unless you notice the auto mode compressing files that need full detail. When enabled, it learns from experience but may occasionally get things wrong. The bounce tracker itself is always active in Auto mode — this setting only controls the extra statistical learning layer.
+
+{{< callout type="info" >}}
+The bounce tracker only applies when using **Auto** mode. If you use Full, Signatures, or Map explicitly, no learning occurs.
+{{< /callout >}}
 
 ## Shell Output Optimization (RTK)
 
@@ -95,6 +104,26 @@ The **Savings** widget in the Token Optimization settings shows:
 - Percentage reduction
 - Breakdown by source (file reads, shell output, deduplication)
 
+You can also view savings from the command line:
+
+```bash
+# Show cumulative savings summary
+pando gain
+
+# Show savings for the last 30 days
+pando gain --days 30
+
+# Estimate cost savings (price per million tokens)
+pando gain --price 3
+
+# Output as JSON (for scripting)
+pando gain --json
+```
+
+### Savings via MCP
+
+The `pando_stats` tool is available to agents during conversations. It reports the same savings data — tokens saved, reduction percentage, and per-source breakdown — so the AI can reference its own optimization stats when relevant. Use `pando_stats` with an optional `days` parameter to limit the reporting window.
+
 ## Configuration File
 
 All settings can be configured in `.pando.toml`:
@@ -118,6 +147,13 @@ RelatedFilesHint = false
 
 # Track token savings (default: true)
 SavingsLedgerDisabled = false
+```
+
+You can also override the read mode via environment variable:
+
+```bash
+# Force auto mode for all sessions
+PANDO_READ_MODE_DEFAULT=auto pando serve
 ```
 
 Or in `.pando.json`:
@@ -147,6 +183,14 @@ Or in `.pando.json`:
 | Related Files | Off | Optional | Low |
 | Savings Ledger | On | On | None (tracking only) |
 
+**CLI commands:**
+| Command | Description |
+|---------|-------------|
+| `pando gain` | Show cumulative token savings summary |
+| `pando gain --days 30` | Show savings for a time period |
+| `pando gain --price 3` | Estimate USD cost savings |
+| `pando gain --json` | JSON output for scripting |
+
 {{< callout >}}
-All optimization features are additive and fail-safe. You can safely experiment with different settings — if something doesn't work well, just change it back. The defaults preserve Pando's standard behavior.
+All optimization features are additive and fail-safe. Compressed reads never cost more than full reads — if compression produces more tokens than the raw content, Pando falls back to the full read automatically. You can safely experiment with different settings — if something doesn't work well, just change it back. The defaults preserve Pando's standard behavior.
 {{< /callout >}}

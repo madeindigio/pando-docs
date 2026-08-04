@@ -34,11 +34,20 @@ Controla cuánto de un archivo muestra Pando a la IA cuando lo lee.
 
 ### Aprendizaje Adaptativo del Modo Auto
 
+Cuando configuras el Modo de Lectura en **Auto**, Pando usa un rastreador de rebotes para aprender de la experiencia — observa cuando las lecturas comprimidas no dan suficiente detalle a la IA y escala automáticamente a lecturas más completas para archivos o tipos de archivo que lo necesitan.
+
+Un "rebote" ocurre cuando Pando lee un archivo en modo comprimido (firmas o mapa) y luego inmediatamente lo relee en modo completo — la IA necesitaba más detalle que la vista comprimida proporcionaba. El rastreador de rebotes cuenta estos eventos por ruta de archivo y por extensión. Si un archivo o extensión rebota frecuentemente, la siguiente lectura Auto escala automáticamente hacia modo completo.
+
 | Configuración | Por defecto | Qué hace |
 |---------------|-------------|----------|
-| **Desactivado** | No | Cuando se activa, el lector auto aprende qué archivos necesitan detalle completo y se ajusta automáticamente |
+| **Desactivado** | Sí | El rastreador de rebotes sigue funcionando (protegiéndote de mala compresión), pero Pando no usa aprendizaje estadístico para predecir qué archivos necesitan más detalle. El rastreador escala puramente basándose en conteos duros de rebotes. |
+| **Activado** | No | Activa una capa de aprendizaje estadístico (posterior Beta) que puede predecir, basándose en patrones de extensión, cuándo escalar incluso antes de que ocurra un rebote. Usa esto si quieres que el modo Auto sea más agresivo en el aprendizaje. |
 
-**Recomendación**: Mantén esto **desactivado** a menos que notes que el modo auto comprime archivos que necesitan detalle completo. Cuando se activa, aprende de la experiencia pero ocasionalmente puede equivocarse.
+**Recomendación**: Mantén esto **desactivado** a menos que notes que el modo auto comprime archivos que necesitan detalle completo. Cuando se activa, aprende de la experiencia pero ocasionalmente puede equivocarse. El rastreador de rebotes siempre está activo en modo Auto — esta configuración solo controla la capa extra de aprendizaje estadístico.
+
+{{< callout type="info" >}}
+El rastreador de rebotes solo se aplica cuando usas el modo **Auto**. Si usas Completo, Firmas o Mapa explícitamente, no ocurre aprendizaje.
+{{< /callout >}}
 
 ## Optimización de Salida de Shell (RTK)
 
@@ -95,6 +104,26 @@ El widget de **Ahorros** en los ajustes de Optimización de tokens muestra:
 - Porcentaje de reducción
 - Desglose por fuente (lecturas de archivos, salida de shell, deduplicación)
 
+También puedes ver los ahorros desde la línea de comandos:
+
+```bash
+# Mostrar resumen acumulado de ahorros
+pando gain
+
+# Mostrar ahorros de los últimos 30 días
+pando gain --days 30
+
+# Estimar ahorro en coste (precio por millón de tokens)
+pando gain --price 3
+
+# Salida en JSON (para scripts)
+pando gain --json
+```
+
+### Ahorros vía MCP
+
+La herramienta `pando_stats` está disponible para los agentes durante las conversaciones. Reporta los mismos datos de ahorro — tokens ahorrados, porcentaje de reducción y desglose por fuente — para que la IA pueda referenciar sus propias estadísticas de optimización cuando sea relevante. Usa `pando_stats` con un parámetro opcional `days` para limitar el período de reporte.
+
 ## Archivo de Configuración
 
 Todas las configuraciones se pueden ajustar en `.pando.toml`:
@@ -118,6 +147,13 @@ RelatedFilesHint = false
 
 # Registrar ahorro de tokens (por defecto: true)
 SavingsLedgerDisabled = false
+```
+
+También puedes sobrescribir el modo de lectura con una variable de entorno:
+
+```bash
+# Forzar modo auto para todas las sesiones
+PANDO_READ_MODE_DEFAULT=auto pando serve
 ```
 
 O en `.pando.json`:
@@ -147,6 +183,14 @@ O en `.pando.json`:
 | Archivos Relacionados | Desactivado | Opcional | Bajo |
 | Registro de Ahorros | Activado | Activado | Ninguno (solo seguimiento) |
 
+**Comandos de línea de comandos:**
+| Comando | Descripción |
+|---------|-------------|
+| `pando gain` | Mostrar resumen acumulado de ahorros de tokens |
+| `pando gain --days 30` | Mostrar ahorros de un período de tiempo |
+| `pando gain --price 3` | Estimar ahorro en coste USD |
+| `pando gain --json` | Salida JSON para scripts |
+
 {{< callout >}}
-Todas las funciones de optimización son aditivas y a prueba de fallos. Puedes experimentar con diferentes configuraciones sin preocuparte — si algo no funciona bien, simplemente cámbialo. Los valores por defecto preservan el comportamiento estándar de Pando.
+Todas las funciones de optimización son aditivas y a prueba de fallos. Las lecturas comprimidas nunca cuestan más que las lecturas completas — si la compresión produce más tokens que el contenido crudo, Pando vuelve automáticamente a la lectura completa. Puedes experimentar con diferentes configuraciones sin preocuparte — si algo no funciona bien, simplemente cámbialo. Los valores por defecto preservan el comportamiento estándar de Pando.
 {{< /callout >}}

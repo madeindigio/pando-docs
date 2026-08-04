@@ -5,10 +5,11 @@ weight: 6
 
 Pando proporciona SDKs oficiales listos para producción que permiten integrar de forma programática las funciones de IA locales (enfocadas en desarrollo) en tus propias herramientas, scripts, editores o flujos de trabajo automatizados en segundo plano.
 
-Cada SDK es compatible con los tres modos principales de interacción con Pando:
+Cada SDK es compatible con los cuatro modos de interacción con Pando:
 1. **Subproceso (One-Shot)**: Ejecuta `pando` como un proceso secundario independiente para obtener respuestas rápidas y de un solo turno.
 2. **Sesión ACP (Stdio)**: Se conecta a un servidor JSON-RPC 2.0 persistente de `pando acp` a través de stdio para mantener conversaciones continuas y flujos de datos en tiempo real.
 3. **Cliente HTTP REST**: Se conecta a una instancia activa de `pando serve` o `pando app` mediante la red local.
+4. **AG-UI (Generative UI)**: Se conecta al endpoint AG-UI de Pando para CopilotKit y otros frontends Generative-UI — chat en streaming, estado compartido, herramientas frontend y human-in-the-loop.
 
 ## Lenguajes Soportados
 

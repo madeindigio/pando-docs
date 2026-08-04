@@ -134,6 +134,244 @@ await client.models.setActive('claude-sonnet-4-6');
 
 ---
 
+## 4. Modo AG-UI (`@pando-ai/sdk/agui`)
+
+[AG-UI](https://docs.ag-ui.com) es el protocolo que CopilotKit y otros frontends Generative-UI utilizan para comunicarse con agentes backend. Pando sirve AG-UI a través de `pando agui-serve` — está **deshabilitado por defecto** y requiere un token bearer y una lista de orígenes permitidos, ya que expone un agente que ejecuta código al navegador.
+
+Esta es una **exportación por subpath separada**: importar el punto de entrada principal no incluye nada de esto, y `@ag-ui/client` / `@copilotkit/runtime` son peers opcionales solo de este subpath.
+
+### Cliente Directo (`PandoAguiClient`)
+
+Un cliente sin dependencias para el endpoint AG-UI de Pando. Funciona en Node.js, edge functions o navegadores — sin CopilotKit.
+
+```typescript
+import { PandoAguiClient } from '@pando-ai/sdk/agui';
+
+const client = new PandoAguiClient({
+  baseUrl: 'http://localhost:8090',
+  token: process.env.PANDO_TOKEN,
+  agent: 'coder',
+});
+
+// Descubrir qué agentes existen y sus capacidades
+const info = await client.info();
+console.log(info.agents);        // [{ name: 'coder', url: '...', description: '...' }]
+console.log(info.capabilities);  // { frontendTools, humanInTheLoop, sharedState, interrupts }
+
+// Ejecutar el agente y transmitir eventos
+for await (const event of client.run({ prompt: 'Resumen del repositorio' })) {
+  switch (event.type) {
+    case 'TEXT_MESSAGE_CONTENT':
+      process.stdout.write(event.delta);
+      break;
+    case 'STATE_SNAPSHOT':
+      console.log(event.snapshot.todos, event.snapshot.subAgents);
+      break;
+    case 'RUN_FINISHED':
+      if (event.outcome === 'interrupt') {
+        // El agente llamó a una de tus herramientas frontend — ejecútala, luego
+        // llama a `run` de nuevo en el mismo hilo con un mensaje `tool` con el resultado.
+      }
+      break;
+  }
+}
+
+// Conveniencia: obtener solo la respuesta de texto
+const text = await client.runText('Explica la estructura del proyecto');
+```
+
+### Integración con CopilotKit (`registerPandoCopilotKit`)
+
+El SDK proporciona una línea de código para montar un endpoint de CopilotKit runtime en Next.js que habla AG-UI con Pando:
+
+```typescript
+// app/api/copilotkit/route.ts
+import { registerPandoCopilotKit } from '@pando-ai/sdk/agui';
+
+const route = await registerPandoCopilotKit({
+  baseUrl: process.env.PANDO_URL ?? 'http://localhost:8090',
+  token: process.env.PANDO_TOKEN,
+  endpoint: '/api/copilotkit',
+});
+
+export const { POST, GET, OPTIONS } = route;
+```
+
+`registerPandoCopilotKit` lee `/info` al iniciar y registra cada agente que Pando anuncia — agregar un agente a `[AGUI] Agents` en `.pando.toml` es suficiente, sin cambios en el código.
+
+### Descubrimiento de Agentes
+
+Construye un `HttpAgent` para un agente individual o descubre todos los agentes anunciados:
+
+```typescript
+import { createPandoAgent, discoverPandoAgents } from '@pando-ai/sdk/agui';
+import { HttpAgent } from '@ag-ui/client';
+
+// Agente individual
+const agent = await createPandoAgent({
+  baseUrl: 'http://localhost:8090',
+  token: process.env.PANDO_TOKEN,
+  HttpAgent, // pasar explícitamente bajo un bundler
+});
+
+// Todos los agentes (para la opción `agents` de CopilotRuntime)
+const agents = await discoverPandoAgents({
+  baseUrl: 'http://localhost:8090',
+  token: process.env.PANDO_TOKEN,
+  HttpAgent,
+});
+```
+
+### Panel de Estado Compartido
+
+Pando publica un documento `PandoState` a través de los eventos `STATE_SNAPSHOT` y `STATE_DELTA` de AG-UI. Usa `useCoAgent` en tu componente React para consumirlo:
+
+```tsx
+import { CopilotKit, useCoAgent } from '@copilotkit/react-core';
+import type { PandoState } from '@pando-ai/sdk/agui';
+
+function Panel() {
+  const { state } = useCoAgent<PandoState>({ name: 'coder' });
+
+  return (
+    <div>
+      <h2>Modelo: {state.model?.name}</h2>
+      <p>Tokens: {state.tokenUsage?.promptTokens} / {state.tokenUsage?.contextWindow}</p>
+
+      <h3>Tareas</h3>
+      <ul>
+        {state.todos?.map((todo, i) => (
+          <li key={todo.id ?? i}>[{todo.status}] {todo.content}</li>
+        ))}
+      </ul>
+
+      <h3>Archivos Modificados</h3>
+      <ul>
+        {state.files?.map((file) => (
+          <li key={file.path}>{file.action}: {file.name}</li>
+        ))}
+      </ul>
+
+      <h3>Sub-Agentes</h3>
+      {state.subAgents?.map((task) => (
+        <div key={task.id}>{task.role} — {task.status}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Herramientas Frontend
+
+Define herramientas que el agente puede llamar desde el navegador. El agente que llama a una herramienta frontend suspende la ejecución hasta que el handler devuelve un resultado:
+
+```tsx
+import { useCopilotAction } from '@copilotkit/react-core';
+
+function useFrontendTools() {
+  useCopilotAction({
+    name: 'highlight_in_page',
+    description: 'Desplazar la página a un encabezado y resaltarlo para el usuario.',
+    parameters: [{ name: 'heading', type: 'string', description: 'Texto del encabezado' }],
+    handler: ({ heading }) => {
+      const target = Array.from(document.querySelectorAll('h2')).find((node) =>
+        node.textContent?.toLowerCase().includes(heading.toLowerCase()),
+      );
+      if (!target) return `No se encontró un encabezado con ${heading}`;
+      target.scrollIntoView({ behavior: 'smooth' });
+      target.style.outline = '2px solid orange';
+      return `Resaltado: ${target.textContent}`;
+    },
+  });
+}
+```
+
+### Human-in-the-Loop (Aprobación de Permisos)
+
+Pando presenta solicitudes de permiso como llamadas a herramientas sintéticas `pando_permission_request`. Registra un handler para mostrar diálogos de aprobación en tu interfaz:
+
+```tsx
+import { useCopilotAction } from '@copilotkit/react-core';
+import type { PandoPermissionRequest } from '@pando-ai/sdk/agui';
+
+function usePermissionPrompt() {
+  useCopilotAction({
+    name: 'pando_permission_request',
+    description: 'Aprobar o denegar una herramienta que Pando quiere ejecutar.',
+    available: 'remote',
+    renderAndWaitForResponse: ({ args, respond, status }) => {
+      const request = args as Partial<PandoPermissionRequest>;
+      if (status === 'complete') return <div>Respondido.</div>;
+      return (
+        <div style={{ border: '1px solid #ccc', padding: 12, borderRadius: 8 }}>
+          <p>
+            <strong>{request.toolName}</strong> quiere {request.action}
+            {request.path ? ` ${request.path}` : ''}.
+          </p>
+          {request.description && <pre>{request.description}</pre>}
+          <button onClick={() => respond?.({ approved: true })}>Aprobar</button>
+          <button onClick={() => respond?.({ approved: false })}>Denegar</button>
+        </div>
+      );
+    },
+  });
+}
+```
+
+### Arquitectura
+
+```
+navegador ──HTTP──▶ Ruta Next.js ──AG-UI/SSE──▶ pando agui-serve
+          (CopilotKit)   (mantiene el token)     (ejecuta el agente)
+```
+
+La ruta Next.js existe porque el cliente de CopilotKit habla GraphQL con su propio runtime, que luego habla AG-UI con el agente. Pando implementa AG-UI — el protocolo que implementa todo otro backend — y deliberadamente no implementa el protocolo runtime de CopilotKit. La ruta también es donde vive el token: moverlo al navegador le daría a cualquier visitante un agente que puede ejecutar comandos en tu máquina.
+
+Si no quieres CopilotKit, omite ambos y usa `PandoAguiClient` directamente (ver la sección de Cliente Directo arriba).
+
+### Iniciar el Adaptador AG-UI
+
+El adaptador está deshabilitado por defecto. Inícialo como su propio proceso:
+
+```bash
+# Independiente
+pando agui-serve --port 8090 --allow-origin http://localhost:3000
+
+# O montar en un servidor existente
+pando serve --agui-port 8090
+```
+
+O en `.pando.toml`:
+
+```toml
+[AGUI]
+Enabled = true
+Port = 8090
+AllowedOrigins = ["http://localhost:3000"]
+Agents = ["coder"]
+RequireToken = true
+```
+
+{{< callout type="warning" >}}
+La lista de orígenes permitidos no es opcional. Una lista vacía significa que ningún navegador puede conectarse — este endpoint ejecuta código, por lo que nunca envía `Access-Control-Allow-Origin: *`. El token es requerido a menos que pases `--no-token`.
+{{< /callout >}}
+
+### Exportaciones AG-UI
+
+| Exportación | Propósito |
+|-------------|-----------|
+| `PandoAguiClient` | Cliente de descubrimiento/ejecución sin dependencias (`run`, `runText`, `info`) |
+| `createPandoAgent` | Un `HttpAgent` para un agente de Pando, con token adjunto |
+| `discoverPandoAgents` | Todos los agentes anunciados, por nombre, para `CopilotRuntime` |
+| `registerPandoCopilotKit` | La ruta completa de Next.js en una llamada |
+| `PandoState` | Tipo del documento de estado compartido (`useCoAgent<PandoState>()`) |
+| `PandoPermissionRequest` | Tipo para permisos de human-in-the-loop |
+| `parseSSE` | El parser de streams de eventos, si haces la petición directamente |
+
+Un ejemplo completo con chat, panel de estado compartido, herramientas frontend y aprobaciones en página está en [`examples/copilotkit/`](https://github.com/digiogithub/pando/tree/main/examples/copilotkit).
+
+---
+
 ## Manejo de Errores
 
 Todas las excepciones del SDK para JavaScript heredan de la clase base común `PandoError`:
