@@ -19,6 +19,12 @@ The web interface includes the following features:
 - **Integrated terminal**: Open a real terminal in the web UI powered by xterm.js, supporting full shell interaction including zsh, command history, and ANSI colors.
 - **Chat info sidebar**: A right-hand information panel showing session details, modified files, and repository info — similar to the TUI sidebar.
 - **Basic authentication**: When binding to an external IP, enable basic auth to secure your Pando instance with a username and password.
+- **Design page**: create, preview and iterate design artifacts without leaving the browser, with live reload and a template gallery. See [Design Studio](../design-studio).
+- **External access toggle in the footer**: make the running instance reachable from your phone or another machine without restarting. See [WebUI Access](../webui-access).
+- **Fast session list**: sessions load progressively as you scroll, so a long history no longer slows down opening the app.
+- **Working directory always visible**: the chat info panel shows which directory the session is operating on.
+- **Knowledge base folder browser**: pick the indexed path from a folder browser in the Remembrances settings instead of typing it.
+- **Embeddings model selector**: choose the embeddings model per provider directly in the Remembrances settings.
 - **Simple & advanced views**: Switch between a basic chat/tools view and an advanced view showing all options and panels—ideal for users of all experience levels.
 
 {{< callout >}}

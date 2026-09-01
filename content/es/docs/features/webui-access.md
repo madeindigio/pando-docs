@@ -59,6 +59,20 @@ O en `.pando.json`:
 }
 ```
 
+## Activar el acceso externo sin reiniciar
+
+Ya no hace falta reiniciar Pando con `--host 0.0.0.0` para llegar a él desde otro dispositivo. El **pie de la Web UI tiene un interruptor** que cambia la instancia en marcha entre solo-local y accesible por red, en caliente:
+
+1. Abre la Web UI (o la aplicación de escritorio) y mira el pie.
+2. Activa **Acceso externo**.
+3. El pie muestra la URL que deben usar los demás dispositivos.
+
+Funciona en `pando serve`, `pando app` y la aplicación de escritorio, y pueden conectarse varios clientes a la vez. Al desactivarlo, la instancia vuelve inmediatamente a ser solo local.
+
+{{< callout type="warning" >}}
+La autenticación básica pasa a aplicarse en el mismo instante en que activas el acceso externo — sin reinicio y sin una ventana de tiempo con la instancia abierta y desprotegida. Si aún no has configurado ningún usuario, hazlo antes: el interruptor te lo pedirá.
+{{< /callout >}}
+
 ## Cómo Funciona
 
 ### Protección Automática

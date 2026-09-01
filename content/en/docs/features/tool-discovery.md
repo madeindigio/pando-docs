@@ -37,7 +37,7 @@ DeferredSources = []      # Sources to defer (e.g. "mcp", "lua")
 
 ## Tool Search
 
-The LLM calls `tool_search` with a natural language query:
+`tool_search` both **finds** and **runs** tools. With a query it searches:
 
 ```json
 {
@@ -45,7 +45,28 @@ The LLM calls `tool_search` with a natural language query:
 }
 ```
 
+With a tool name it executes, whether the tool is built into Pando or lives on an MCP server:
+
+```json
+{
+  "tool_name": "github_create_issue",
+  "parameters": { "title": "Fix login redirect" }
+}
+```
+
 Results are ranked using term-frequency scoring over name, aliases, server name, description, and parameter names.
+
+## One switch for MCP tools too
+
+Tool Discovery and the MCP gateway used to be two separate mechanisms with their own tools and their own switches. They are now a single one: `ToolDiscovery.Enabled` is all you need.
+
+With it on and MCP servers configured:
+
+- your **favourite MCP tools stay directly visible**, exactly as before;
+- the rest of the catalog — however many servers you have connected — stays out of the context window and is reached through `tool_search`;
+- once the model has discovered a tool, it stays visible for the rest of the session.
+
+The practical effect: you can connect a dozen MCP servers without paying for their entire tool list on every single message.
 
 ## Source Filtering
 

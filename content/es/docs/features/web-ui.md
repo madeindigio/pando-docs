@@ -19,6 +19,12 @@ La interfaz web de Pando incluye las siguientes características:
 - **Terminal integrado**: La Web-UI de Pando incluye un terminal real potenciado por xterm.js, con soporte completo de interacción de shell incluyendo zsh, historial de comandos y colores ANSI.
 - **Barra lateral de info del chat**: Un panel de información en el lado derecho mostrando detalles de sesión, archivos modificados e info del repositorio — similar a la barra lateral de la TUI.
 - **Autenticación básica**: Al vincular a una IP externa, habilita aut básica para asegurar tu instancia de Pando con usuario y contraseña.
+- **Página Design**: crea, previsualiza e itera artefactos de diseño sin salir del navegador, con recarga en vivo y galería de plantillas. Ver [Design Studio](../design-studio).
+- **Interruptor de acceso externo en el pie**: haz accesible la instancia en marcha desde tu móvil u otra máquina sin reiniciar. Ver [WebUI Access](../webui-access).
+- **Lista de sesiones rápida**: las sesiones se cargan progresivamente al hacer scroll, así que un histórico largo ya no ralentiza la apertura.
+- **Directorio de trabajo siempre visible**: el panel de información del chat muestra sobre qué directorio opera la sesión.
+- **Navegador de carpetas para la base de conocimiento**: elige la ruta indexada desde un explorador en los ajustes de Remembrances en vez de escribirla.
+- **Selector de modelo de embeddings**: elige el modelo de embeddings por proveedor directamente en los ajustes de Remembrances.
 - **Vista simple y vista avanzada**: Puedes cambiar entre una vista simple, con solo el chat y las herramientas básicas, y una vista avanzada que muestra todas las opciones, paneles y funcionalidades de Pando, para adaptarse a diferentes niveles de experiencia y necesidades de los usuarios.
 
 {{< callout >}}

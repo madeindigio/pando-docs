@@ -42,6 +42,33 @@ ContextEnrichmentUseAgentPlanner = false
 ContextEnrichmentPlannerFallbackToCoder = false
 ```
 
+## Enrichment as an agent loop
+
+Instead of a single round of searches, Pando can run enrichment as a **small dedicated agent** that iteratively queries memory, the knowledge base, past events and the code index until it has what it needs. The main agent never sees those searches — it only receives the finished context block.
+
+The loop runs on its own model, independent of the one you chose for coding, so you can use a cheap fast model for it:
+
+```toml
+[Agents.context-enricher]
+Model = 'openrouter.some-cheap-model'
+
+[Remembrances]
+ContextEnrichmentAgentLoopEnabled        = true
+ContextEnrichmentAgentLoopTimeoutSeconds = 60      # bound for one run
+ContextEnrichmentAgentLoopMaxChars       = 6000    # cap on the injected context
+ContextEnrichmentAgentLoopEveryMessage   = false   # true = every turn, not only session start
+```
+
+What you will notice:
+
+- **By default it runs only on the first message of a session**, which is where the value is: it is the moment the agent knows nothing about your project. Set `ContextEnrichmentAgentLoopEveryMessage = true` for per-turn enrichment.
+- **You see it working.** The chat shows `🧠 Context enrichment agent gathering project context...` and then how much context it added, the same way compaction reports itself.
+- **The run appears as a child session** of your chat, so you can open it and read exactly what it searched and found. Its cost is added to the parent session.
+- **It falls back** to the classic single-shot search if it times out or comes back empty, so enabling it cannot leave you with less context than before.
+- **No cold start.** The enrichment agent is prepared in the background while Pando boots, so the first prompt does not wait for it.
+
+Configurable from TOML, from the TUI (Remembrances → Context Enrichment) and from the WebUI settings.
+
 ## Planners
 
 ### Heuristic Planner (Default)

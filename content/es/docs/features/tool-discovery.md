@@ -45,7 +45,28 @@ El LLM llama a `tool_search` con una consulta en lenguaje natural:
 }
 ```
 
+Y con un nombre de herramienta la **ejecuta**, tanto si es interna de Pando como si vive en un servidor MCP:
+
+```json
+{
+  "tool_name": "github_create_issue",
+  "parameters": { "title": "Arreglar la redirección de login" }
+}
+```
+
 Los resultados se clasifican usando puntuación de frecuencia de términos sobre nombre, alias, nombre del servidor, descripción y nombres de parámetros.
+
+## Un único interruptor, también para MCP
+
+Tool Discovery y la pasarela MCP eran antes dos mecanismos paralelos, con sus propias herramientas y sus propios interruptores. Ahora son uno solo: basta con `ToolDiscovery.Enabled`.
+
+Con él activo y servidores MCP configurados:
+
+- tus **herramientas MCP favoritas siguen visibles directamente**, igual que antes;
+- el resto del catálogo —tengas los servidores que tengas conectados— se queda fuera de la ventana de contexto y se alcanza vía `tool_search`;
+- una vez que el modelo ha descubierto una herramienta, permanece visible el resto de la sesión.
+
+El efecto práctico: puedes conectar una docena de servidores MCP sin pagar su catálogo completo en cada mensaje.
 
 ## Filtrado por Fuente
 

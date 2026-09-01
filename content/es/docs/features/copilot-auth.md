@@ -52,7 +52,26 @@ Los modelos de Copilot dependen de tu nivel de suscripción:
 | Gratis | Modelos limitados |
 | Pro | GPT-4, GPT-4o |
 | Pro+ | Acceso extendido a modelos |
-| Business/Enterprise | Modelos de organización |
+| Business/Enterprise | Modelos de organización, incluidos los modelos BYOK |
+
+## Modelos BYOK de organización (Business/Enterprise)
+
+Si tu organización ha añadido sus propios modelos a Copilot mediante BYOK («bring your own key») —OpenRouter, Gemini u otros proveedores enrutados a través de GitHub—, esos modelos aparecen ahora en el selector de modelos de Pando exactamente igual que en VS Code, junto a los alojados por Copilot.
+
+No hay nada que configurar: inicia sesión normalmente y aparecen. En un asiento Business esto suele añadir veinte o más modelos a la lista.
+
+Se usan como cualquier otro modelo de Copilot:
+
+```bash
+pando --model 'copilot.miorg/OpenRouter/algun-modelo' -p "Explica este código"
+```
+
+Si los modelos de tu organización no aparecen:
+
+```bash
+pando auth copilot status     # confirma que se detectan el asiento y la organización
+pando auth copilot logout && pando auth copilot login
+```
 
 ## Configuración
 

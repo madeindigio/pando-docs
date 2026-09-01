@@ -42,6 +42,33 @@ ContextEnrichmentUseAgentPlanner = false
 ContextEnrichmentPlannerFallbackToCoder = false
 ```
 
+## Enriquecimiento como bucle de agente
+
+En lugar de una única ronda de búsquedas, Pando puede ejecutar el enriquecimiento como un **pequeño agente dedicado** que consulta de forma iterativa la memoria, la base de conocimiento, los eventos pasados y el índice de código hasta tener lo que necesita. El agente principal nunca ve esas búsquedas: solo recibe el bloque de contexto ya terminado.
+
+El bucle usa su propio modelo, independiente del que hayas elegido para programar, así que puedes asignarle uno barato y rápido:
+
+```toml
+[Agents.context-enricher]
+Model = 'openrouter.un-modelo-barato'
+
+[Remembrances]
+ContextEnrichmentAgentLoopEnabled        = true
+ContextEnrichmentAgentLoopTimeoutSeconds = 60      # límite de una ejecución
+ContextEnrichmentAgentLoopMaxChars       = 6000    # tope del contexto inyectado
+ContextEnrichmentAgentLoopEveryMessage   = false   # true = cada turno, no solo al iniciar sesión
+```
+
+Lo que vas a notar:
+
+- **Por defecto solo se ejecuta en el primer mensaje de la sesión**, que es donde aporta valor: el momento en que el agente no sabe nada de tu proyecto. Pon `ContextEnrichmentAgentLoopEveryMessage = true` para enriquecer en cada turno.
+- **Lo ves trabajar.** El chat muestra `🧠 Context enrichment agent gathering project context...` y después cuánto contexto ha añadido, igual que hace la compactación.
+- **La ejecución aparece como sesión hija** de tu chat, así que puedes abrirla y leer exactamente qué buscó y qué encontró. Su coste se suma al de la sesión padre.
+- **Tiene respaldo**: si agota el tiempo o vuelve vacío, cae al enriquecimiento clásico de una sola pasada, así que activarlo no puede dejarte con menos contexto que antes.
+- **Sin arranque en frío.** El agente de enriquecimiento se prepara en segundo plano mientras Pando arranca, de modo que el primer prompt no lo espera.
+
+Configurable desde TOML, desde la TUI (Remembrances → Context Enrichment) y desde los ajustes de la WebUI.
+
 ## Planificadores
 
 ### Planificador Heurístico (Predeterminado)

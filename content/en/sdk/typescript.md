@@ -350,7 +350,18 @@ Port = 8090
 AllowedOrigins = ["http://localhost:3000"]
 Agents = ["coder"]
 RequireToken = true
+Persona = "perfumer"
 ```
+
+### Choosing a persona
+
+An AG-UI backend can run with a [persona](../../docs/features/) applied to every run, so your Generative-UI frontend gets a consistently voiced assistant instead of the default coder:
+
+```bash
+pando agui-serve --port 8090 --allow-origin http://localhost:3000 --persona perfumer
+```
+
+The persona must be one Pando has loaded; an unknown name is rejected at startup rather than silently ignored. Set it in `[AGUI].Persona` to make it permanent, or pass the flag to override per process.
 
 {{< callout type="warning" >}}
 The origin allow-list is not optional. An empty list means no browser may connect — this endpoint executes code, so it never sends `Access-Control-Allow-Origin: *`. The token is required unless you pass `--no-token`.

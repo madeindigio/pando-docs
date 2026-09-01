@@ -59,6 +59,20 @@ Or in `.pando.json`:
 }
 ```
 
+## Turning external access on without restarting
+
+You no longer need to restart Pando with `--host 0.0.0.0` to reach it from another device. The **footer of the Web UI has a toggle** that switches the running instance between local-only and network-accessible, live:
+
+1. Open the Web UI (or the desktop app) and look at the footer.
+2. Flip **External access**.
+3. The footer shows the URL other devices should use.
+
+This works in `pando serve`, `pando app` and the desktop application, and several clients can connect at the same time. Turning it back off returns the instance to localhost-only immediately.
+
+{{< callout type="warning" >}}
+Basic auth becomes enforced the moment external access is enabled — no restart, no window where the instance is open and unprotected. If you have not configured a user yet, do that first, or the toggle will tell you to.
+{{< /callout >}}
+
 ## How It Works
 
 ### Automatic Protection
