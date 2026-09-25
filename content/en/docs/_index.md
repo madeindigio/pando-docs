@@ -14,4 +14,5 @@ Welcome to the **Pando** documentation — a powerful terminal-based AI assistan
   {{< card link="acp" title="ACP Protocol" icon="code" subtitle="Editor integration via Agent Client Protocol" >}}
   {{< card link="mcp" title="MCP Server" icon="puzzle" subtitle="Model Context Protocol for external tools" >}}
   {{< card link="sdk" title="SDKs" icon="terminal" subtitle="Programmatic integration in your language" >}}
+  {{< card link="brand" title="Brand & Identity" icon="sparkles" subtitle="Styleguide: symbol, palette, typography and assets" >}}
 {{< /cards >}}

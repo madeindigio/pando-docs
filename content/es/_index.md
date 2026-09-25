@@ -4,35 +4,46 @@ layout: hextra-home
 ---
 
 <div class="hx:mt-10 hx:mb-2 hx:flex hx:items-start hx:justify-between hx:flex-col hx:sm:flex-row hx:w-full">
-<img src="https://raw.githubusercontent.com/madeindigio/pando-docs/refs/heads/main/static/images/pando_mascot.svg" alt="Pando" class="pando-home-logo" width="180" height="203" />
+<img src="/images/brand/pando-logo-dark.svg" alt="Pando" class="pando-home-logo brand-logo-light-only" width="245" height="64" />
+<img src="/images/brand/pando-logo-light.svg" alt="Pando" class="pando-home-logo brand-logo-dark-only" width="245" height="64" />
 <div class="hx:mt-4 hx:sm:mt-0">
 {{< hextra/hero-badge link="https://github.com/digiogithub/pando?tab=MIT-1-ov-file#readme" >}}
-<div class="hx-w-2 hx-h-2 hx-rounded-full hx-bg-primary-400"></div>
+<div class="hx:w-2 hx:h-2 hx:rounded-full hx:bg-primary-400"></div>
 <span>Libre, de código abierto</span>
 {{< icon name="arrow-circle-right" attributes="height=14" >}}
 {{< /hextra/hero-badge >}}
 </div>
 </div>
 
-<div class="hx-mt-6 hx-mb-6">
+<div class="hx:mt-6 hx:mb-6">
 {{< hextra/hero-headline >}}
   Asistente AI multimodal avanzado
 {{< /hextra/hero-headline >}}
 </div>
 <p>&nbsp;</p>
-<div class="hx-mb-10">
+<div class="hx:mb-10">
 {{< hextra/hero-subtitle >}}
-  Potente, extensible y con soporte para múltiples modos de trabajo.&nbsp;<br class="sm:hx-block hx-hidden" />Proporciona máxima flexibilidad para la completa automatización.
+  Potente, extensible y con soporte para múltiples modos de trabajo.&nbsp;<br class="hx:sm:block hx:hidden" />Proporciona máxima flexibilidad para la completa automatización.
 {{< /hextra/hero-subtitle >}}
 </div>
 <p>&nbsp;</p>
-<div class="hx-mb-12 hx-flex hx-flex-wrap hx-gap-4">
+<div class="hx:mb-12 hx:flex hx:flex-wrap hx:gap-4">
 {{< hextra/hero-button text="Comenzar" link="docs/getting-started" >}}
 {{< hextra/hero-button text="GitHub" link="https://github.com/digiogithub/pando" style="outline" >}}
 </div>
 
+<div class="hx:mt-16 hx:mb-16">
+<h3 class="hx:text-lg hx:font-semibold hx:mb-3">Una raíz, muchos troncos</h3>
+<p class="hx:text-sm hx:opacity-80 hx:mb-4">Pando 木 comparte su sistema visual con dos marcas hermanas: <strong>Remembrances</strong> 本, la memoria persistente y base de conocimiento, y <strong>Mesnada</strong> 众, el orquestador multiagente. Consulta la guía de <a class="hx:text-primary-600 hx:underline" href="/es/docs/brand">Marca e identidad</a>.</p>
+<div class="brand-family">
+  <figure><img src="/images/brand/pando-icon.svg" alt="Pando" width="48" height="48" /><figcaption>Pando 木</figcaption></figure>
+  <figure><img src="/images/brand/remembrances-icon.svg" alt="Remembrances" width="48" height="48" /><figcaption>Remembrances 本</figcaption></figure>
+  <figure><img src="/images/brand/mesnada-icon.svg" alt="Mesnada" width="48" height="48" /><figcaption>Mesnada 众</figcaption></figure>
+</div>
+</div>
+
 <p>&nbsp;</p>
-<div class="hx-mt-20">
+<div class="hx:mt-8">
 {{< hextra/feature-grid >}}
   {{< hextra/feature-card
     title="TUI Interactiva"

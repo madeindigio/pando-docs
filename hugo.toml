@@ -71,7 +71,8 @@ defaultContentLanguageInSubdir = false
     displayTitle = true
     displayLogo = true
     [params.navbar.logo]
-      path = "images/logo.svg"
+      path = "images/brand/pando-mark-dark.svg"
+      dark = "images/brand/pando-mark-light.svg"
       width  = "28"
       height = "28"
 
