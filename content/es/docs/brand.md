@@ -35,14 +35,14 @@ La marca de Pando es la raíz de una pequeña familia. Cada sección mantiene el
 
 | Sección | Carácter | Idea | Marca (fondo claro / fondo oscuro) |
 |---|---|---|---|
-| **Pando** | 木 — árbol | Una raíz, muchos troncos | <img src="/images/brand/pando-mark-dark.svg" alt="Marca Pando" class="brand-logo-light-only" width="28" height="30" /><img src="/images/brand/pando-mark-light.svg" alt="Marca Pando" class="brand-logo-dark-only" width="28" height="30" /> |
-| **Remembrances** | 本 — raíz / libro | El trazo dorado en la raíz es la memoria guardada | <img src="/images/brand/remembrances-mark-dark.svg" alt="Marca Remembrances" class="brand-logo-light-only" width="28" height="28" /><img src="/images/brand/remembrances-mark-light.svg" alt="Marca Remembrances" class="brand-logo-dark-only" width="28" height="28" /> |
-| **Mesnada** | 众 — multitud / séquito | El señor como nodo macizo, su mesnada como el anillo a su alrededor | <img src="/images/brand/mesnada-mark-dark.svg" alt="Marca Mesnada" class="brand-logo-light-only" width="28" height="28" /><img src="/images/brand/mesnada-mark-light.svg" alt="Marca Mesnada" class="brand-logo-dark-only" width="28" height="28" /> |
+| **Pando** | 木 — árbol | Una raíz, muchos troncos | <img src="{{< asset-url "images/brand/pando-mark-dark.svg" >}}" alt="Marca Pando" class="brand-logo-light-only" width="28" height="30" /><img src="{{< asset-url "images/brand/pando-mark-light.svg" >}}" alt="Marca Pando" class="brand-logo-dark-only" width="28" height="30" /> |
+| **Remembrances** | 本 — raíz / libro | El trazo dorado en la raíz es la memoria guardada | <img src="{{< asset-url "images/brand/remembrances-mark-dark.svg" >}}" alt="Marca Remembrances" class="brand-logo-light-only" width="28" height="28" /><img src="{{< asset-url "images/brand/remembrances-mark-light.svg" >}}" alt="Marca Remembrances" class="brand-logo-dark-only" width="28" height="28" /> |
+| **Mesnada** | 众 — multitud / séquito | El señor como nodo macizo, su mesnada como el anillo a su alrededor | <img src="{{< asset-url "images/brand/mesnada-mark-dark.svg" >}}" alt="Marca Mesnada" class="brand-logo-light-only" width="28" height="28" /><img src="{{< asset-url "images/brand/mesnada-mark-light.svg" >}}" alt="Marca Mesnada" class="brand-logo-dark-only" width="28" height="28" /> |
 
 <div class="brand-family">
-  <figure><img src="/images/brand/pando-icon.svg" alt="Icono Pando" width="56" height="56" /><figcaption>Pando 木</figcaption></figure>
-  <figure><img src="/images/brand/remembrances-icon.svg" alt="Icono Remembrances" width="56" height="56" /><figcaption>Remembrances 本</figcaption></figure>
-  <figure><img src="/images/brand/mesnada-icon.svg" alt="Icono Mesnada" width="56" height="56" /><figcaption>Mesnada 众</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/pando-icon.svg" >}}" alt="Icono Pando" width="56" height="56" /><figcaption>Pando 木</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/remembrances-icon.svg" >}}" alt="Icono Remembrances" width="56" height="56" /><figcaption>Remembrances 本</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/mesnada-icon.svg" >}}" alt="Icono Mesnada" width="56" height="56" /><figcaption>Mesnada 众</figcaption></figure>
 </div>
 
 ## Logotipos
@@ -50,8 +50,8 @@ La marca de Pando es la raíz de una pequeña familia. Cada sección mantiene el
 El logotipo completo combina la marca con el logotipo en Space Grotesk. Hay dos variantes de color — elige la que corresponda al color del **fondo**, no de la marca en sí:
 
 <p>
-<img src="/images/brand/pando-logo-dark.svg" alt="Logo Pando, tinta oscura" class="brand-logo-light-only" width="220" height="58" />
-<img src="/images/brand/pando-logo-light.svg" alt="Logo Pando, tinta clara" class="brand-logo-dark-only" width="220" height="58" />
+<img src="{{< asset-url "images/brand/pando-logo-dark.svg" >}}" alt="Logo Pando, tinta oscura" class="brand-logo-light-only" width="220" height="58" />
+<img src="{{< asset-url "images/brand/pando-logo-light.svg" >}}" alt="Logo Pando, tinta clara" class="brand-logo-dark-only" width="220" height="58" />
 </p>
 
 - `pando-logo-dark.svg` — trazos color Bosque, para **fondos claros**.

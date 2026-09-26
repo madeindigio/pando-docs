@@ -1,0 +1,6 @@
+{{- /* Base-path-aware URL for a static asset, for raw HTML in content
+       (e.g. <img src="{{< asset-url "images/brand/pando-icon.svg" >}}">).
+       Raw HTML skips hextra's link/image render hooks, so a literal
+       "/images/..." would break when the site is served from a subpath
+       such as https://madeindigio.github.io/pando-docs/. */ -}}
+{{- .Get 0 | strings.TrimPrefix "/" | relURL -}}

@@ -4,8 +4,8 @@ layout: hextra-home
 ---
 
 <div class="hx:mt-10 hx:mb-2 hx:flex hx:items-start hx:justify-between hx:flex-col hx:sm:flex-row hx:w-full">
-<img src="/images/brand/pando-logo-dark.svg" alt="Pando" class="pando-home-logo brand-logo-light-only" width="245" height="64" />
-<img src="/images/brand/pando-logo-light.svg" alt="Pando" class="pando-home-logo brand-logo-dark-only" width="245" height="64" />
+<img src="{{< asset-url "images/brand/pando-logo-dark.svg" >}}" alt="Pando" class="pando-home-logo brand-logo-light-only" width="245" height="64" />
+<img src="{{< asset-url "images/brand/pando-logo-light.svg" >}}" alt="Pando" class="pando-home-logo brand-logo-dark-only" width="245" height="64" />
 <div class="hx:mt-4 hx:sm:mt-0">
 {{< hextra/hero-badge link="https://github.com/digiogithub/pando?tab=MIT-1-ov-file#readme" >}}
 <div class="hx:w-2 hx:h-2 hx:rounded-full hx:bg-primary-400"></div>
@@ -34,11 +34,11 @@ layout: hextra-home
 
 <div class="hx:mt-16 hx:mb-16">
 <h3 class="hx:text-lg hx:font-semibold hx:mb-3">Una raíz, muchos troncos</h3>
-<p class="hx:text-sm hx:opacity-80 hx:mb-4">Pando 木 comparte su sistema visual con dos marcas hermanas: <strong>Remembrances</strong> 本, la memoria persistente y base de conocimiento, y <strong>Mesnada</strong> 众, el orquestador multiagente. Consulta la guía de <a class="hx:text-primary-600 hx:underline" href="/es/docs/brand">Marca e identidad</a>.</p>
+<p class="hx:text-sm hx:opacity-80 hx:mb-4">Pando 木 comparte su sistema visual con dos marcas hermanas: <strong>Remembrances</strong> 本, la memoria persistente y base de conocimiento, y <strong>Mesnada</strong> 众, el orquestador multiagente. Consulta la guía de <a class="hx:text-primary-600 hx:underline" href="{{< relref "/docs/brand" >}}">Marca e identidad</a>.</p>
 <div class="brand-family">
-  <figure><img src="/images/brand/pando-icon.svg" alt="Pando" width="48" height="48" /><figcaption>Pando 木</figcaption></figure>
-  <figure><img src="/images/brand/remembrances-icon.svg" alt="Remembrances" width="48" height="48" /><figcaption>Remembrances 本</figcaption></figure>
-  <figure><img src="/images/brand/mesnada-icon.svg" alt="Mesnada" width="48" height="48" /><figcaption>Mesnada 众</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/pando-icon.svg" >}}" alt="Pando" width="48" height="48" /><figcaption>Pando 木</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/remembrances-icon.svg" >}}" alt="Remembrances" width="48" height="48" /><figcaption>Remembrances 本</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/mesnada-icon.svg" >}}" alt="Mesnada" width="48" height="48" /><figcaption>Mesnada 众</figcaption></figure>
 </div>
 </div>
 

@@ -35,14 +35,14 @@ Pando's mark is the root of a small family. Every section keeps the same system 
 
 | Section | Character | Idea | Mark (light bg / dark bg) |
 |---|---|---|---|
-| **Pando** | 木 — tree | One root, many trunks | <img src="/images/brand/pando-mark-dark.svg" alt="Pando mark" class="brand-logo-light-only" width="28" height="30" /><img src="/images/brand/pando-mark-light.svg" alt="Pando mark" class="brand-logo-dark-only" width="28" height="30" /> |
-| **Remembrances** | 本 — root / book | The gold stroke at the root is stored memory | <img src="/images/brand/remembrances-mark-dark.svg" alt="Remembrances mark" class="brand-logo-light-only" width="28" height="28" /><img src="/images/brand/remembrances-mark-light.svg" alt="Remembrances mark" class="brand-logo-dark-only" width="28" height="28" /> |
-| **Mesnada** | 众 — crowd / retinue | The lord as a solid node, his mesnada as the ring around him | <img src="/images/brand/mesnada-mark-dark.svg" alt="Mesnada mark" class="brand-logo-light-only" width="28" height="28" /><img src="/images/brand/mesnada-mark-light.svg" alt="Mesnada mark" class="brand-logo-dark-only" width="28" height="28" /> |
+| **Pando** | 木 — tree | One root, many trunks | <img src="{{< asset-url "images/brand/pando-mark-dark.svg" >}}" alt="Pando mark" class="brand-logo-light-only" width="28" height="30" /><img src="{{< asset-url "images/brand/pando-mark-light.svg" >}}" alt="Pando mark" class="brand-logo-dark-only" width="28" height="30" /> |
+| **Remembrances** | 本 — root / book | The gold stroke at the root is stored memory | <img src="{{< asset-url "images/brand/remembrances-mark-dark.svg" >}}" alt="Remembrances mark" class="brand-logo-light-only" width="28" height="28" /><img src="{{< asset-url "images/brand/remembrances-mark-light.svg" >}}" alt="Remembrances mark" class="brand-logo-dark-only" width="28" height="28" /> |
+| **Mesnada** | 众 — crowd / retinue | The lord as a solid node, his mesnada as the ring around him | <img src="{{< asset-url "images/brand/mesnada-mark-dark.svg" >}}" alt="Mesnada mark" class="brand-logo-light-only" width="28" height="28" /><img src="{{< asset-url "images/brand/mesnada-mark-light.svg" >}}" alt="Mesnada mark" class="brand-logo-dark-only" width="28" height="28" /> |
 
 <div class="brand-family">
-  <figure><img src="/images/brand/pando-icon.svg" alt="Pando icon" width="56" height="56" /><figcaption>Pando 木</figcaption></figure>
-  <figure><img src="/images/brand/remembrances-icon.svg" alt="Remembrances icon" width="56" height="56" /><figcaption>Remembrances 本</figcaption></figure>
-  <figure><img src="/images/brand/mesnada-icon.svg" alt="Mesnada icon" width="56" height="56" /><figcaption>Mesnada 众</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/pando-icon.svg" >}}" alt="Pando icon" width="56" height="56" /><figcaption>Pando 木</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/remembrances-icon.svg" >}}" alt="Remembrances icon" width="56" height="56" /><figcaption>Remembrances 本</figcaption></figure>
+  <figure><img src="{{< asset-url "images/brand/mesnada-icon.svg" >}}" alt="Mesnada icon" width="56" height="56" /><figcaption>Mesnada 众</figcaption></figure>
 </div>
 
 ## Logo lockups
@@ -50,8 +50,8 @@ Pando's mark is the root of a small family. Every section keeps the same system 
 The full logo pairs the mark with the Space Grotesk wordmark. There are two color variants — pick the one that matches the color of the **background**, not the mark itself:
 
 <p>
-<img src="/images/brand/pando-logo-dark.svg" alt="Pando logo, dark ink" class="brand-logo-light-only" width="220" height="58" />
-<img src="/images/brand/pando-logo-light.svg" alt="Pando logo, light ink" class="brand-logo-dark-only" width="220" height="58" />
+<img src="{{< asset-url "images/brand/pando-logo-dark.svg" >}}" alt="Pando logo, dark ink" class="brand-logo-light-only" width="220" height="58" />
+<img src="{{< asset-url "images/brand/pando-logo-light.svg" >}}" alt="Pando logo, light ink" class="brand-logo-dark-only" width="220" height="58" />
 </p>
 
 - `pando-logo-dark.svg` — Bosque-colored strokes, for **light backgrounds**.
