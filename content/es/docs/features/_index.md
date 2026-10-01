@@ -16,6 +16,8 @@ Pando está construido con [Bubble Tea](https://github.com/charmbracelet/bubblet
 
 Pando está disponible como una **Aplicación de Escritorio Nativa** premium para macOS y Windows, así como una **interfaz web y PWA** totalmente responsiva. Esto te permite interactuar con tus proyectos en una ventana independiente libre de distracciones, con notificaciones del sistema y multitarea, o acceder a él desde cualquier navegador en escritorio y móvil. Todos tus datos y tu base de datos privada permanecen seguros en tu máquina local.
 
+- **Espacios de trabajo de proyecto** amplían la WebUI unificada con pestañas inferiores que alojan un espacio de trabajo completo por proyecto. Ver [Espacios de trabajo de proyecto](project-workspaces).
+
 ## Proxy de Modelos Local
 
 Pando puede transformar tu ordenador en una pasarela centralizada de Inteligencia Artificial. Al iniciar el servidor proxy local, Pando unifica todos tus proveedores de IA configurados (incluidos los modelos de tu suscripción de GitHub Copilot) y los expone a través de un único endpoint local compatible con otras herramientas de desarrollo de tu ecosistema.

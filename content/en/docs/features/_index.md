@@ -16,6 +16,8 @@ Pando is built with [Bubble Tea](https://github.com/charmbracelet/bubbletea), a 
 
 Pando is available as a premium **Native Desktop Application** for macOS and Windows, as well as a fully responsive **Web interface and PWA**. This allows you to interact with your projects in a distraction-free, native window with system notifications and multitasking, or access it from any browser on desktop and mobile. All your data and private database remain safely on your local machine.
 
+- **Project workspaces** extend the unified WebUI with bottom tabs that host a full child workspace per project. See [Project workspaces](project-workspaces).
+
 ## Local LLM Proxy
 
 Pando can turn your computer into a centralized AI gateway. By launching the local proxy server, Pando unifies all your configured AI providers (including GitHub Copilot subscription models) and serves them through a single local endpoint compatible with other developer tools in your ecosystem.

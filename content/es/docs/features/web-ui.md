@@ -19,6 +19,7 @@ La interfaz web de Pando incluye las siguientes características:
 - **Terminal integrado**: La Web-UI de Pando incluye un terminal real potenciado por xterm.js, con soporte completo de interacción de shell incluyendo zsh, historial de comandos y colores ANSI.
 - **Barra lateral de info del chat**: Un panel de información en el lado derecho mostrando detalles de sesión, archivos modificados e info del repositorio — similar a la barra lateral de la TUI.
 - **Autenticación básica**: Al vincular a una IP externa, habilita aut básica para asegurar tu instancia de Pando con usuario y contraseña.
+- **Espacios de trabajo de proyecto**: abre proyectos registrados como pestañas inferiores que alojan una WebUI hija completa, con restauración keep-alive y terminales locales del proyecto. Ver [Espacios de trabajo de proyecto](../project-workspaces).
 - **Página Design**: crea, previsualiza e itera artefactos de diseño sin salir del navegador, con recarga en vivo y galería de plantillas. Ver [Design Studio](../design-studio).
 - **Interruptor de acceso externo en el pie**: haz accesible la instancia en marcha desde tu móvil u otra máquina sin reiniciar. Ver [WebUI Access](../webui-access).
 - **Lista de sesiones rápida**: las sesiones se cargan progresivamente al hacer scroll, así que un histórico largo ya no ralentiza la apertura.
@@ -30,5 +31,30 @@ La interfaz web de Pando incluye las siguientes características:
 {{< callout >}}
   La Web-UI de Pando es completamente responsiva, lo que significa que se adapta automáticamente al tamaño de la pantalla del dispositivo que estés utilizando, proporcionando una experiencia óptima tanto en ordenadores de escritorio como en dispositivos móviles. Además, cuenta con un **sistema de reconexión resiliente**, que reintenta y restablece tu sesión de chat de forma automática si experimentas cortes temporales en tu conexión de red.
 {{< /callout >}}
+
+## Espacios de trabajo de proyecto
+
+El shell unificado puede abrir un proyecto registrado como su propia pestaña de espacio de trabajo embebida, reutilizando un hijo `pando serve` en segundo plano para ese proyecto. La barra de pestañas soporta restauración keep-alive, terminales locales del proyecto y navegación por teclado sin salir de la WebUI padre.
+
+Para el flujo completo, los atajos, el modelo de seguridad y la configuración `[Projects]`, consulta [Espacios de trabajo de proyecto](../project-workspaces).
+
+## API de espacios de trabajo de proyectos
+
+Cuando la vista de Projects abre un proyecto dentro de la Web-UI unificada, usa la API REST del servidor padre en lugar de exponer directamente el servidor hijo:
+
+| Endpoint | Propósito |
+|---|---|
+| `POST /api/v1/projects/{id}/web/open` | Inicia o reutiliza el hijo `pando serve` en segundo plano del proyecto. Devuelve `status` (`opened` o `already_open`), `project_id`, `web_url` relativa (`/api/v1/projects/{id}/web/`) y `web_port`. |
+| `POST /api/v1/projects/{id}/web/close` | Detiene solo el hijo WebUI en segundo plano y devuelve `cancelled_delegations`. |
+| `GET /api/v1/projects/web` | Lista los hijos WebUI de proyecto en ejecución como `instances[]` con `project_id`, `name`, `path`, `web_port`, `web_url`, `pid`, `state`, `started_at` y `delegations`. |
+| `GET /api/v1/projects/events` | Emite eventos SSE `web_started`, `web_stopped` y `web_error` (además de los eventos de proyecto existentes) para que la barra de pestañas se actualice en vivo. |
+
+`GET /api/v1/projects` y `GET /api/v1/projects/{id}` también incluyen ahora `web_state`, `web_port` y `web_url`, para que el navegador pueda restaurar las pestañas de proyecto después de recargar la página.
+
+La semántica de los endpoints de control relacionados sigue separada por tipo de hijo:
+
+- `activate` inicia o enfoca el **hijo ACP de delegación** de un proyecto.
+- `stop` detiene tanto el hijo ACP como el hijo WebUI en segundo plano cuando el servidor actual es su propietario.
+- `open-desktop` sigue abriendo una ventana nativa de escritorio separada y no sustituye a `web/open`.
 
 {{< youtube 6ETefyLsaOM >}}
