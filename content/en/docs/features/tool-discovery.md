@@ -3,85 +3,32 @@ title: Tool Discovery
 weight: 14
 ---
 
-When Pando accumulates many tools (from MCP servers, Lua hooks, and built-in tools), the Tool Discovery system manages complexity by showing only a visible subset and providing on-demand search for the rest.
+Every tool Pando can use comes with a little instruction leaflet, and the model reads all the leaflets on every message. With five tools that is nothing. With a hundred, it is like starting each conversation by reading the manuals of every appliance in the house. Tool Discovery keeps the everyday tools on the workbench and the rest in a labelled drawer the model can search.
 
-## How It Works
+## What it does for you
 
-Inspired by VS Code Copilot's approach:
+- **Cheaper, faster messages.** The model stops paying to read leaflets for tools it will not use.
+- **Connect as much as you like.** A dozen extra tool servers no longer weigh on every message.
+- **Nothing gets lost.** When the model needs a tool from the drawer, it describes what it wants in plain words, finds it and uses it.
+- **Your favourites stay out.** The tools you use most remain directly at hand.
 
-1. **Core tools** (bash, edit, view, glob, grep, write) are always visible
-2. **MCP and Lua tools** are deferred by default
-3. When the total tool count exceeds `MaxDirectTools`, the `tool_search` tool activates
-4. The LLM searches the full registry by natural language
-5. Discovered tools remain visible for the rest of the session
+## How it feels in practice
 
-## Configuration
+You do not see it. The everyday tools (reading, editing and searching files, running commands) are always on the workbench. When a task needs something unusual, such as creating an issue in your tracker, the model looks in the drawer first and then uses the tool. Once found, the tool stays on the workbench for the rest of the conversation.
 
-{{< shot src="images/webui/pando-webui-settings-general-tool-discovery-workspaces.jpg" alt="Tool discovery and project workspace settings" >}}
+It is one switch for everything: built-in tools, tools from extra servers and tools from scripts all follow the same rule.
 
-```toml
-[ToolDiscovery]
-Enabled = true
-Mode = 'auto'            # 'auto', 'always', or 'off'
-MaxDirectTools = 64       # Threshold for auto mode
-SearchLimit = 8           # Default results from tool_search
-NonDeferredTools = []     # Tools always visible
-DeferredSources = []      # Sources to defer (e.g. "mcp", "lua")
-```
+## When to use it
 
-## Modes
+Leave it on its automatic setting. With few tools it does nothing; it wakes up by itself once you pass a certain number (64 by default). Force it on if you want the leanest possible conversations, or off if you suspect the model is not finding a tool.
 
-| Mode | Behavior |
-|------|----------|
-| `auto` | Activates when tools exceed `MaxDirectTools` |
-| `always` | Always defers non-core tools |
-| `off` | All tools visible (default for small setups) |
+## Good to know
 
-## Tool Search
+- It only changes what the model has in front of it at the start. Every tool remains available.
+- The search matches the words of the request against each tool's name and description, so tools with clear descriptions are found more easily.
 
-`tool_search` both **finds** and **runs** tools. With a query it searches:
+## Next steps
 
-```json
-{
-  "query": "search code in repository"
-}
-```
-
-With a tool name it executes, whether the tool is built into Pando or lives on an MCP server:
-
-```json
-{
-  "tool_name": "github_create_issue",
-  "parameters": { "title": "Fix login redirect" }
-}
-```
-
-Results are ranked using term-frequency scoring over name, aliases, server name, description, and parameter names.
-
-## One switch for MCP tools too
-
-Tool Discovery and the MCP gateway used to be two separate mechanisms with their own tools and their own switches. They are now a single one: `ToolDiscovery.Enabled` is all you need.
-
-With it on and MCP servers configured:
-
-- your **favourite MCP tools stay directly visible**, exactly as before;
-- the rest of the catalog — however many servers you have connected — stays out of the context window and is reached through `tool_search`;
-- once the model has discovered a tool, it stays visible for the rest of the session.
-
-The practical effect: you can connect a dozen MCP servers without paying for their entire tool list on every single message.
-
-## Source Filtering
-
-Tools are categorized by source:
-
-- `core` - Built-in tools (always visible)
-- `internal` - Pando internal tools
-- `mcp` - External MCP server tools
-- `lua` - Lua hook tools
-- `mesnada` - Orchestration tools
-- `rag` - Knowledge base and code index tools
-- `gateway` - MCP gateway re-exports
-
-{{< callout >}}
-For most users with fewer than 64 tools, Tool Discovery stays inactive. It only activates when the tool count grows large enough to impact context window usage.
-{{< /callout >}}
+- Set the mode and the threshold: [Save tokens]({{< relref "/guides/save-tokens" >}})
+- Option names, sources and how the search tool is called: [Token optimization reference]({{< relref "/docs/configuration/token-optimization" >}})
+- Add more tools: [Connect MCP servers]({{< relref "/guides/mcp-servers" >}})

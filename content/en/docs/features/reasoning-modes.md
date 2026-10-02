@@ -3,46 +3,37 @@ title: Thinking & Reasoning Effort
 weight: 37
 ---
 
-Modern models expose a "how hard should I think" dial: extended thinking on Claude, reasoning effort on GPT and Copilot models. Pando now resolves that dial **per model**, so you never send a value a model rejects.
+Modern models have a "how hard should I think" dial. It is the difference between answering off the top of your head and sitting down with pen and paper. Pando lets you turn that dial, and takes care of a detail that used to hurt: every model has different steps on it.
 
-## Why this matters
+## What it does for you
 
-The values are not the same everywhere. Some models only accept `high`. Others accept only `low` and `high`. Some accept nothing at all. Sending the wrong one used to be an error from the provider in the middle of your work.
+- **Only shows what your model accepts.** Some models only know "high", others "low" and "high", some have no dial at all. Pando offers just the steps that exist for the model you chose.
+- **Never fails on a wrong value.** If a setting does not fit the model, Pando moves it to the nearest valid step instead of stopping your work with an error.
+- **Picks a sensible default.** Medium when it exists, otherwise the closest thing.
 
-Pando now knows the accepted values for the model you have selected, and:
+## How it feels in practice
 
-- offers you only the values that model actually supports,
-- clamps anything out of range instead of failing,
-- picks a sensible default (`medium` when available, otherwise the closest thing).
-
-The full range across providers is `none`, `minimal`, `low`, `medium`, `high`, `xhigh` and `max` — but what you see depends on the model.
-
-## Changing it
-
-- **TUI and WebUI**: the model selector shows the effort options available for the selected model.
-- **Zed / VS Code / JetBrains (ACP)**: the session settings menu lists the same options, rebuilt whenever you switch models.
-- **Configuration**, per agent:
-
-```toml
-[Agents.coder]
-Model           = 'anthropic.claude-sonnet-5'
-ReasoningEffort = 'high'
-ThinkingMode    = ''
-```
-
-Leave `ReasoningEffort` empty to let Pando choose the model's default.
-
-## Practical guidance
+Across all providers the dial can go through none, minimal, low, medium, high, extra high and max. What you see depends on the model. Switch model and the list of steps changes with it.
 
 | Effort | Good for |
 |--------|----------|
-| `none` / `minimal` | Mechanical edits, formatting, translations, bulk work where speed and cost matter |
-| `low` | Everyday coding on a well-understood codebase |
-| `medium` | The default. Most tasks. |
-| `high` / `xhigh` / `max` | Architecture decisions, debugging something you do not understand, planning a multi-step change |
+| None, minimal | Mechanical edits, formatting, translations, bulk work where speed and cost matter |
+| Low | Everyday coding in code you know well |
+| Medium | The default. Most tasks |
+| High and above | Design decisions, a bug you do not understand, planning a change in several steps |
 
-Higher effort costs more tokens and takes longer. Since Pando lets you switch models and effort mid-session, a common pattern is planning at high effort, then dropping to low for the mechanical part.
+## When to use it
 
-{{< callout >}}
-Model capabilities are also enriched from [models.dev](https://models.dev), so pricing, context window and reasoning support show up in the model picker without any configuration.
-{{< /callout >}}
+More thinking costs more and takes longer, so do not leave the dial on high out of habit. Because you can change model and effort in the middle of a session, a common pattern is to plan at high effort and then drop to low for the mechanical part.
+
+## Good to know
+
+- The dial is set per agent: the one that codes, the one that summarises and so on can each have their own.
+- Some models use a slightly different dial, a share of the answer reserved for thinking. Pando shows it as "thinking mode" next to the effort.
+- Price, memory size and thinking support of each model are filled in from the public [models.dev](https://models.dev) catalogue, so they show up in the model list without you configuring anything.
+
+## Next steps
+
+- Guide: [Change how Pando thinks and talks]({{< relref "/guides/working-modes" >}}) shows where the dial is.
+- Reference: [Working modes]({{< relref "/docs/configuration/modes" >}}).
+- Related: [Model Auto Mode]({{< relref "/docs/features/model-auto-mode" >}}) to change model by itself.

@@ -3,71 +3,51 @@ title: AGE Encryption
 weight: 32
 ---
 
-Pando uses [AGE](https://github.com/FiloSottile/age) encryption to protect all secrets in `.pando.toml`—API keys, OAuth tokens, MCP server credentials, and embedding keys.
+Reference for the encryption that protects keys and passwords in your config file. Plain-language introduction: [Config Security with AGE]({{< relref "/docs/configuration/security-age" >}}). Step by step: [Sandbox and permissions]({{< relref "/guides/sandbox-and-permissions" >}}).
 
-## How It Works
+Pando uses [AGE](https://github.com/FiloSottile/age).
 
-- Values prefixed with `age1:` are automatically decrypted at load time
-- Keys stored at `~/.config/pando/keys/<keyset-name>/`
-- Auto-generates X25519 keypair if none exists
-- All decrypted values stay in memory only
+- Values that start with `age1:` are decrypted when the config is loaded.
+- Decrypted values stay in memory only.
+- A key pair (X25519) is created the first time one is needed.
 
-## CLI Usage
+## Commands
 
 ```bash
-# Encrypt a token
-pando secret my-token
-
-# Decrypt an encrypted value
-pando secret 'age1:YWdlLWVu...'
-
-# Use named key set
-pando secret my-token --age-keys mykeys
+pando secret my-token                    # encrypt: prints age1:…
+pando secret 'age1:YWdlLWVu...'          # decrypt: prints the original
+pando secret my-token --age-keys mykeys  # use a named key set
 ```
+
+`pando secret` detects the direction by itself: a plain value is encrypted, an `age1:` value is decrypted. `--age-keys` works on every Pando command.
 
 ## Configuration
 
 ```toml
-# Named key set (default: "default")
-AgeKeys = ''
+AgeKeys = ''    # named key set; empty means "default"
 ```
 
-## What Gets Encrypted
+## What is encrypted
 
 - Provider API keys (`[providers.*].apiKey`)
 - OAuth tokens (`[providers.*].accessToken`, `refreshToken`)
 - MCP server environment variables (`[mcpServers.*].env.*`)
 - Embedding API keys
-- Any value prefixed with `age1:`
+- Web UI passwords
+- Any value you prefix with `age1:`
 
-## Key Management
-
-Keys are stored in:
+## Where the keys are
 
 ```
 ~/.config/pando/keys/
   default/
-    key.txt       # Private key (X25519)
-    public.txt    # Public key
+    key.txt       # private key
+    public.txt    # public key
   mykeys/
     key.txt
     public.txt
 ```
 
-## Auto-Encryption
-
-Use the `TransformSecretString` function to auto-detect direction:
-
-```bash
-# First call encrypts
-pando secret "my-api-key-123"
-# Output: age1:YWdlLWVuY2ly...
-
-# Same value is detected as already encrypted
-pando secret "age1:YWdlLWVuY2ly..."
-# Output: my-api-key-123
-```
-
 {{< callout >}}
-Never commit `.pando.toml` with unencrypted secrets. Use `age1:` prefix for all sensitive values. The private key stays on your machine and is never shared.
+The private key never leaves your machine. A config file with `age1:` values can only be opened where that key is, so a teammate or another computer needs their own keys or a copy of yours.
 {{< /callout >}}

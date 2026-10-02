@@ -3,80 +3,34 @@ title: Autenticación con GitHub Copilot
 weight: 34
 ---
 
-Pando se integra con GitHub Copilot, permitiéndote usar modelos de Copilot a través del LLM Proxy y el sistema de agentes.
+Si tienes una suscripción de GitHub Copilot, Pando puede usar sus modelos. Inicias sesión con tu cuenta de GitHub y ahí acaba la configuración: no hay clave que crear, copiar ni renovar. Es como usar tu carné del gimnasio en otro local de la misma cadena.
 
-## Iniciar Sesión
+## Qué hace por ti
 
-```bash
-# Login con device flow (abre navegador)
-pando auth copilot login
+- **Sin factura nueva.** Usas lo que tu plan de Copilot ya incluye.
+- **Sin claves que cuidar.** Das permiso a Pando una vez, en la propia página de GitHub.
+- **También los modelos de tu empresa.** Si tu organización ha añadido modelos propios a Copilot (lo que GitHub llama BYOK, «trae tu propia clave»), aparecen en la lista de modelos de Pando igual que en VS Code. Con una licencia Business suelen ser veinte modelos o más.
+- **Se usan en todo Pando.** En el chat, en los subagentes y, a través del [proxy local]({{< relref "/docs/features/llm-proxy" >}}), en tus otras herramientas.
 
-# Para GitHub Enterprise
-pando auth copilot login --enterprise-url https://github.mycompany.com
+## Cómo se nota en el día a día
 
-# Imprimir URL/código sin abrir navegador
-pando auth copilot login --no-browser
-```
+Pulsas **Login with GitHub**, GitHub te enseña una página, escribes un código corto y aceptas. De vuelta en Pando, el selector de modelos tiene entradas que empiezan por `copilot.`. Eliges una y trabajas como siempre.
 
-## Estado
+## Cuándo usarlo
 
-```bash
-pando auth copilot status
-```
+Úsalo si tú o tu empresa ya pagáis Copilot. Es la forma más rápida de tener buenos modelos en Pando.
 
-## Cerrar Sesión
+Los modelos que ves dependen de tu plan: el gratuito tiene un conjunto pequeño, Pro y Pro+ tienen más, y las licencias Business o Enterprise añaden los de la organización.
 
-```bash
-pando auth copilot logout
-```
+## Conviene saber
 
-## Usar Modelos de Copilot
+- El inicio de sesión usa el flujo estándar de GitHub para dispositivos. Tu contraseña de GitHub no pasa por Pando.
+- El pase que devuelve GitHub se guarda en tu máquina, en tu perfil de Pando.
+- GitHub Enterprise (la dirección de GitHub propia de tu empresa) está soportado.
+- Si no aparecen los modelos de tu organización, cerrar sesión y volver a iniciarla suele arreglarlo.
 
-Una vez autenticado, los modelos de Copilot están disponibles como:
+## Siguientes pasos
 
-```bash
-# En modo agente
-pando --model copilot.gpt-4.1 -p "Explica este código"
-
-# En LLM Proxy
-pando llm-proxy
-# Conecta herramientas a http://localhost:8765/v1
-```
-
-## Disponibilidad de Modelos
-
-Los modelos de Copilot dependen de tu nivel de suscripción:
-
-| Nivel | Modelos Disponibles |
-|-------|---------------------|
-| Gratis | Modelos limitados |
-| Pro | GPT-4, GPT-4o |
-| Pro+ | Acceso extendido a modelos |
-| Business/Enterprise | Modelos de organización, incluidos los modelos BYOK |
-
-## Modelos BYOK de organización (Business/Enterprise)
-
-Si tu organización ha añadido sus propios modelos a Copilot mediante BYOK («bring your own key») —OpenRouter, Gemini u otros proveedores enrutados a través de GitHub—, esos modelos aparecen ahora en el selector de modelos de Pando exactamente igual que en VS Code, junto a los alojados por Copilot.
-
-No hay nada que configurar: inicia sesión normalmente y aparecen. En un asiento Business esto suele añadir veinte o más modelos a la lista.
-
-Se usan como cualquier otro modelo de Copilot:
-
-```bash
-pando --model 'copilot.miorg/OpenRouter/algun-modelo' -p "Explica este código"
-```
-
-Si los modelos de tu organización no aparecen:
-
-```bash
-pando auth copilot status     # confirma que se detectan el asiento y la organización
-pando auth copilot logout && pando auth copilot login
-```
-
-## Configuración
-
-La autenticación de Copilot se almacena en tu perfil de Pando. No se necesita configuración adicional después del login.
-
-{{< callout >}}
-El flujo OAuth de Copilot usa el device flow de GitHub. Tus credenciales de Copilot nunca salen de tu máquina—se usan localmente para obtener tokens.
-{{< /callout >}}
+- Guía: [Usa Pando desde tu editor y otras aplicaciones]({{< relref "/guides/editors-and-other-apps" >}}) recorre el inicio de sesión.
+- Referencia: [comandos de inicio de sesión y planes]({{< relref "/docs/configuration/providers" >}}).
+- Relacionado: [Proxy de Modelos Local]({{< relref "/docs/features/llm-proxy" >}}), [Modo automático de modelos]({{< relref "/docs/features/model-auto-mode" >}}).

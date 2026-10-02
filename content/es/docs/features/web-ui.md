@@ -3,140 +3,47 @@ title: Web-UI y PWA
 weight: 3
 ---
 
-Todas las funcionalidades de Pando están disponibles a través de una interfaz web accesible desde cualquier navegador moderno. La Web-UI de Pando proporciona una experiencia de usuario fluida e interactiva, diseñada para ser utilizada en cualquier dispositivo con acceso a un navegador, incluyendo ordenadores de escritorio, portátiles, tabletas y smartphones.
+La Web UI es Pando en una pestaña del navegador. Todo lo que Pando sabe hacer está ahí, con botones en lugar de comandos, en cualquier dispositivo con navegador: el ordenador de sobremesa, un portátil, una tableta, el móvil. Si Pando fuera un coche, esto sería el salpicadero: el motor es el mismo, pero ahora ves los relojes.
 
 {{< shot src="images/webui/pando-webui-chat-light.jpg" dark="images/webui/pando-webui-chat-dark.jpg" alt="Vista de chat de Pando en la Web UI" >}}
 
-La interfaz web de Pando incluye las siguientes características:
+## Qué hace por ti
 
-- **Soporte multi-idioma**: La Web-UI de Pando está disponible en varios idiomas, incluyendo inglés, español, francés, alemán, portugués, chino y japonés, con la posibilidad de añadir más idiomas en el futuro.
-- **Interfaz chat y soporte de carga de sesiones anteriores**: Puedes cargar cualquier sesión anterior a través del menú de sesiones, o iniciar una nueva sesión desde la pantalla principal.
-- **Panel de configuración interactivo**: Accede al panel de configuración desde el menú principal, donde puedes añadir proveedores de IA, configurar herramientas, y personalizar otras opciones de Pando.
-- **Acceso a opciones y comandos**: Accede a un menú de comandos y opciones desde la barra lateral, incluyendo la posibilidad de abrir terminales interactivos, ver paneles de logs, subagentes, etc.
-- **Lanzador de Comandos Actualizado**: Ejecuta cualquier comando del sistema local de forma rápida y segura desde tu navegador utilizando la nueva barra de acciones intuitiva.
-- **Cambio de modelo y proveedor en caliente**: Puedes cambiar el modelo o proveedor de IA que estás utilizando en cualquier momento durante la sesión, sin necesidad de reiniciar.
-- **Navegación de ficheros**: Puedes abrir el panel de ficheros desde la barra lateral, puedes abrir cualquier fichero de texto con resaltado de sintaxis de código, y también editarlos dentro de Pando en la interfaz web, sin necesidad de abrir un editor externo.
-- **Soporte de múltiples ficheros abiertos en pestañas**: Puedes abrir múltiples ficheros a la vez y navegar entre ellos en pestañas dentro de la Web-UI.
-- **Visualización de imágenes y gráficos**: La Web-UI de Pando soporta la visualización de imágenes y gráficos generados por los agentes, directamente en la interfaz.
-- **Terminal integrado**: La Web-UI de Pando incluye un terminal real potenciado por xterm.js, con soporte completo de interacción de shell incluyendo zsh, historial de comandos y colores ANSI.
-- **Barra lateral de info del chat**: Un panel de información en el lado derecho mostrando detalles de sesión, archivos modificados e info del repositorio — similar a la barra lateral de la TUI.
-- **Autenticación básica**: Al vincular a una IP externa, habilita aut básica para asegurar tu instancia de Pando con usuario y contraseña.
-- **Espacios de trabajo de proyecto**: abre proyectos registrados como pestañas inferiores que alojan una WebUI hija completa, con restauración keep-alive y terminales locales del proyecto. Ver [Espacios de trabajo de proyecto](../project-workspaces).
-- **Página Design**: crea, previsualiza e itera artefactos de diseño sin salir del navegador, con recarga en vivo y galería de plantillas. Ver [Design Studio](../design-studio).
-- **Interruptor de acceso externo en el pie**: haz accesible la instancia en marcha desde tu móvil u otra máquina sin reiniciar. Ver [WebUI Access](../webui-access).
-- **Lista de sesiones rápida**: las sesiones se cargan progresivamente al hacer scroll, así que un histórico largo ya no ralentiza la apertura.
-- **Directorio de trabajo siempre visible**: el panel de información del chat muestra sobre qué directorio opera la sesión.
-- **Navegador de carpetas para la base de conocimiento**: elige la ruta indexada desde un explorador en los ajustes de Remembrances en vez de escribirla.
-- **Selector de modelo de embeddings**: elige el modelo de embeddings por proveedor directamente en los ajustes de Remembrances.
-- **Vista simple y vista avanzada**: Puedes cambiar entre una vista simple, con solo el chat y las herramientas básicas, y una vista avanzada que muestra todas las opciones, paneles y funcionalidades de Pando, para adaptarse a diferentes niveles de experiencia y necesidades de los usuarios.
+- **Una conversación con contexto.** El chat va en el centro; tus sesiones anteriores esperan a la izquierda; una ficha a la derecha te dice en qué carpeta trabaja Pando, qué ficheros ha cambiado y qué versión usas.
+- **Tu proyecto a mano.** Abre ficheros con colores para el código en varias pestañas, edítalos y usa una terminal de verdad, todo en la misma ventana.
+- **Ajustes que se ven.** Proveedores, modelos, herramientas, memoria y seguridad son formularios con interruptores, no un fichero de texto.
+- **Habitaciones para las funciones grandes.** Proyectos, el orquestador de agentes ayudantes, la página de Diseño, el historial de cambios, los registros, las instancias en marcha.
+- **Tu idioma y tus colores.** Siete idiomas de interfaz; modo claro, oscuro o automático; cuatro temas de color; tamaño de letra ajustable.
+- **Dos niveles de detalle.** Una vista completa con todos los paneles y un chat simple con solo la conversación.
+- **Se instala como una app.** Tu navegador puede añadirla a la pantalla de inicio o a la lista de aplicaciones con su propio icono. Eso es lo que significa PWA.
 
-{{< callout >}}
-  La Web-UI de Pando es completamente responsiva, lo que significa que se adapta automáticamente al tamaño de la pantalla del dispositivo que estés utilizando, proporcionando una experiencia óptima tanto en ordenadores de escritorio como en dispositivos móviles. Además, cuenta con un **sistema de reconexión resiliente**, que reintenta y restablece tu sesión de chat de forma automática si experimentas cortes temporales en tu conexión de red.
-{{< /callout >}}
+## Cómo se vive
 
-## Apariencia
+Abres la dirección, eliges una sesión o empiezas una, y escribes. Mientras Pando trabaja ves lo que hace, paso a paso. Si necesita una decisión, enseña una tarjeta con opciones. Si quieres otro modelo para esta conversación, lo cambias junto al botón de enviar y sigues, sin recargar.
 
-{{< shot src="images/webui/pando-webui-settings-appearance.jpg" alt="Ajustes de apariencia: modo, tamaño de letra, tema y color de acento" >}}
+Si te quedas sin red un momento, en el tren por ejemplo, la página reconecta sola y deja tu chat como estaba. Si sales de una página de ajustes con cambios sin guardar, Pando pregunta antes de descartarlos.
 
-La Web UI tiene un aspecto limpio y nativo que puedes ajustar en **Ajustes > Apariencia**:
+Las mismas pantallas funcionan en el móvil: las columnas se pliegan en menús y el chat ocupa todo el ancho.
 
-- **Modo**: claro, oscuro o seguir al sistema operativo. El modo Sistema cambia en directo cuando cambia tu sistema.
-- **Tema**: cuatro familias de color, Pando, Paper, Slate y Forest.
-- **Color de acento y tamaño de letra**, que se guardan por navegador.
+## Cuándo usarla
 
-La cabecera tiene un cambio claro/oscuro de un clic.
+- Te gusta ver y hacer clic.
+- Quieres llegar a Pando desde otro dispositivo.
+- Vas a enseñar Pando a alguien que no usa la terminal.
 
-## Chat simple
+La [app de escritorio]({{< relref "/docs/features/desktop-app" >}}) es esta misma interfaz en su propia ventana y con avisos del sistema. La [interfaz de terminal]({{< relref "/docs/features/terminal-interface" >}}) es la hermana que solo usa teclado.
 
-{{< shot src="images/webui/pando-webui-simple-chat.jpg" alt="Vista de chat simple" >}}
+## Conviene saber
 
-La vista simple deja solo la conversación, la lista de sesiones y la búsqueda. Vive dentro de la misma ventana que la vista completa, así que cambiar de una a otra no recarga nada. Pando recuerda qué vista usas, también en la app de escritorio y entre reinicios.
-
-## Versión y actualizaciones
-
-El panel de información del chat y **Ajustes > General > Diagnóstico** muestran la versión de Pando que estás usando y te avisan cuando hay una más nueva. Consulta [Auto-Actualización]({{< relref "/docs/features/self-update" >}}).
-
-## Ajustes que no se pierden
-
-{{< shot src="images/webui/pando-webui-settings-general.jpg" alt="Ajustes generales" >}}
-
-Si sales de una página de ajustes con cambios sin guardar, Pando pregunta antes de descartarlos. Las confirmaciones y preguntas forman parte de la app, así que se ven y se comportan igual en el navegador y en la ventana de escritorio.
-
-## Asistente de configuración inicial
-
-{{< shot src="images/webui/pando-webui-setup-assistant-scope.jpg" dark="images/webui/pando-webui-setup-assistant-scope-dark.jpg" alt="Asistente de configuración: dónde guardar los ajustes" >}}
-
-Si todavía no hay nada configurado, la Web UI abre un [asistente de configuración]({{< relref "/docs/features/setup-assistant" >}}) para proveedor, modelos y memoria.
-
-## Elección automática de modelo
-
-{{< shot src="images/webui/pando-webui-settings-auto-mode.jpg" alt="Ajustes del modo automático" >}}
-
-Selecciona **Auto** en el selector de modelos y Pando elige el modelo de cada mensaje según las rutas que hayas definido. Consulta [Modo automático de modelos]({{< relref "/docs/features/model-auto-mode" >}}).
-
-## Espacios de trabajo de proyecto
-
-{{< shot src="images/webui/pando-webui-projects.jpg" alt="Lista de proyectos en la Web UI" >}}
-
-{{< shot src="images/webui/pando-webui-project-workspace-tab.jpg" alt="Un proyecto abierto en su propia pestaña" >}}
-
-El shell unificado puede abrir un proyecto registrado como su propia pestaña de espacio de trabajo embebida, reutilizando un hijo `pando serve` en segundo plano para ese proyecto. La barra de pestañas soporta restauración keep-alive, terminales locales del proyecto y navegación por teclado sin salir de la WebUI padre.
-
-Para el flujo completo, los atajos, el modelo de seguridad y la configuración `[Projects]`, consulta [Espacios de trabajo de proyecto](../project-workspaces).
-
-## Más pantallas
-
-### Editor de código
-
-{{< shot src="images/webui/pando-webui-code-editor.jpg" alt="Editor de código" >}}
-
-### Terminal
-
-{{< shot src="images/webui/pando-webui-terminal.jpg" alt="Terminal" >}}
-
-### Orquestador
-
-{{< shot src="images/webui/pando-webui-orchestrator-tasks.jpg" alt="Tareas del orquestador Mesnada" >}}
-
-{{< shot src="images/webui/pando-webui-orchestrator-cronjobs.jpg" alt="Tareas programadas (cron)" >}}
-
-### Instancias
-
-{{< shot src="images/webui/pando-webui-instances.jpg" alt="Instancias en ejecución" >}}
-
-### Herramientas integradas
-
-{{< shot src="images/webui/pando-webui-settings-tools-search.jpg" alt="Herramientas integradas: fetch y búsqueda web" >}}
-
-### Comandos de shell
-
-{{< shot src="images/webui/pando-webui-settings-bash.jpg" alt="Comandos de shell prohibidos y permitidos" >}}
-
-### Gateway MCP
-
-{{< shot src="images/webui/pando-webui-settings-mcp-gateway.jpg" alt="Ajustes del gateway MCP" >}}
-
-### Motor Lua
-
-{{< shot src="images/webui/pando-webui-settings-lua-engine.jpg" alt="Ajustes del motor Lua" >}}
-
-## API de espacios de trabajo de proyectos
-
-Cuando la vista de Projects abre un proyecto dentro de la Web-UI unificada, usa la API REST del servidor padre en lugar de exponer directamente el servidor hijo:
-
-| Endpoint | Propósito |
-|---|---|
-| `POST /api/v1/projects/{id}/web/open` | Inicia o reutiliza el hijo `pando serve` en segundo plano del proyecto. Devuelve `status` (`opened` o `already_open`), `project_id`, `web_url` relativa (`/api/v1/projects/{id}/web/`) y `web_port`. |
-| `POST /api/v1/projects/{id}/web/close` | Detiene solo el hijo WebUI en segundo plano y devuelve `cancelled_delegations`. |
-| `GET /api/v1/projects/web` | Lista los hijos WebUI de proyecto en ejecución como `instances[]` con `project_id`, `name`, `path`, `web_port`, `web_url`, `pid`, `state`, `started_at` y `delegations`. |
-| `GET /api/v1/projects/events` | Emite eventos SSE `web_started`, `web_stopped` y `web_error` (además de los eventos de proyecto existentes) para que la barra de pestañas se actualice en vivo. |
-
-`GET /api/v1/projects` y `GET /api/v1/projects/{id}` también incluyen ahora `web_state`, `web_port` y `web_url`, para que el navegador pueda restaurar las pestañas de proyecto después de recargar la página.
-
-La semántica de los endpoints de control relacionados sigue separada por tipo de hijo:
-
-- `activate` inicia o enfoca el **hijo ACP de delegación** de un proyecto.
-- `stop` detiene tanto el hijo ACP como el hijo WebUI en segundo plano cuando el servidor actual es su propietario.
-- `open-desktop` sigue abriendo una ventana nativa de escritorio separada y no sustituye a `web/open`.
+- De fábrica, la Web UI solo responde al ordenador en el que funciona. Abrirla a tu red es un paso deliberado, protegido con usuario y contraseña: mira [Acceso a la WebUI]({{< relref "/docs/features/webui-access" >}}).
+- La conexión va cifrada con un certificado que fabrica el propio Pando, así que la primera visita muestra un aviso del navegador. Lo explica [Certificados HTTPS automáticos]({{< relref "/docs/features/https-auto-cert" >}}).
+- Sin nada configurado, lo primero que ves es el [asistente de configuración]({{< relref "/docs/features/setup-assistant" >}}).
+- Cada proyecto puede abrirse como una pestaña en la parte inferior: [Espacios de proyecto]({{< relref "/docs/features/project-workspaces" >}}).
 
 {{< youtube 6ETefyLsaOM >}}
+
+## Siguientes pasos
+
+- Guías: [Oriéntate en la Web UI]({{< relref "/guides/webui-tour" >}}), [Conecta tus cuentas de IA]({{< relref "/guides/setup-providers-models" >}}), [Acceso remoto]({{< relref "/guides/remote-access" >}}).
+- Referencia: [comandos de arranque, opciones del servidor y API]({{< relref "/docs/configuration/webui" >}}).
+- Relacionado: [Design Studio]({{< relref "/docs/features/design-studio" >}}), [Modo automático de modelos]({{< relref "/docs/features/model-auto-mode" >}}), [Autoactualización]({{< relref "/docs/features/self-update" >}}).

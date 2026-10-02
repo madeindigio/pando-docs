@@ -1,140 +1,41 @@
 ---
-title: Mejoras en la TUI
+title: Mejoras de la TUI
 weight: 26
 ---
 
-La Terminal UI de Pando ha recibido mejoras significativas en productividad y atractivo visual.
+La interfaz de terminal no es una pantalla negra pelada. Con el tiempo ha ido reuniendo las comodidades que esperas de una app de escritorio: pestañas, temas, un panel lateral, un árbol de ficheros, una terminal integrada. Esta página es el recorrido por esas comodidades, como cuando te enseñan los detalles buenos de un piso.
 
-## Pestañas de Espacio de Trabajo
+## Qué hace por ti
 
-Cambia entre tres modos de espacio de trabajo con **Alt+1/2/3** o haz clic en las pestañas:
+- **Tres disposiciones, una tecla cada una.** Solo chat, solo editor o los dos lado a lado, para que la pantalla se ajuste a lo que haces.
+- **Una ficha junto al chat.** Título de la sesión, el plan que sigue Pando con el estado de cada paso, los ficheros que ha cambiado y dónde vive el proyecto. Aparece sola cuando la terminal es lo bastante ancha.
+- **Temas.** Once temas de color (pando, light, dracula, gruvbox, opencode, onedark, tron, flexoki, tokyonight, catppuccin, monokai), cada uno también con fondo transparente.
+- **Menciona un fichero escribiendo `@`.** Un buscador lo encuentra mientras tecleas.
+- **Conoce el modelo antes de elegirlo.** La lista de modelos muestra cuánto puede leer cada uno de una vez, cuánto cuesta, si razona o ve imágenes y hasta cuándo llega su conocimiento.
+- **Un indicador de combustible.** La barra de estado muestra cuánto se ha llenado la memoria de la conversación mientras Pando trabaja, y avisa al pasar del 80 %.
+- **Una terminal de verdad dentro.** Abre un panel de shell, con pestañas, sin salir de Pando.
 
-| Pestaña | Modo | Descripción |
-|---------|------|-------------|
-| 1 | Chat | Interfaz de chat a ancho completo |
-| 2 | Editor | Editor de archivos con barra lateral |
-| 3 | Editor+Chat | Vista dividida con ambos |
+## Cómo se vive
 
-## Barra Lateral de Info del Chat
+Empiezas en el chat. Hay que mirar un fichero, así que pasas a la vista partida: código a un lado, conversación al otro. La barra de abajo te mantiene orientado: qué proyecto, qué modelo, cuánta memoria va usada, cuántos errores ha encontrado el comprobador de código, qué ficheros tocaste por última vez. Todo en ella admite clic.
 
-Un panel de información en el lado derecho mostrando:
+El árbol de ficheros marca los nuevos, los cambiados y los borrados, carga las carpetas solo cuando las abres y filtra mientras escribes. La flecha arriba recupera los mensajes que enviaste antes, como en cualquier shell.
 
-- Título de sesión
-- Configuración LSP
-- Plan (entradas de TodoWrite con estado)
-- Archivos modificados con estadísticas de diff en tiempo real
-- URL del repositorio y CWD
+Hay también un interruptor que deja a Pando usar sus herramientas sin preguntar cada vez. Una etiqueta en la barra de estado te lo recuerda mientras está activo.
 
-Alterna con **Ctrl+Shift+B**. Se muestra automáticamente cuando el ancho de terminal ≥ 120 columnas.
+## Cuándo usarlo
 
-```toml
-[tui]
-chatSidebar = 'auto'           # 'auto' u 'off'
-chatSidebarMinWidth = 120      # ancho mínimo de terminal
-```
+Siempre, si la terminal es tu casa: no son modos que se activan, es la forma de ser de la interfaz de terminal. Prueba los temas y el interruptor de iconos el primer día, y las disposiciones cuando empieces a revisar código.
 
-## Temas
+## Conviene saber
 
-Cambia de temas instantáneamente con **Ctrl+T**:
+- Los iconos necesitan una fuente que los incluya (una «Nerd Font»). Si ves cuadraditos, desactiva los iconos y Pando dibuja caracteres sencillos.
+- Los ficheros ocultos (los que empiezan por punto) no se ven hasta que los pides.
+- Dejar que las herramientas actúen sin preguntar es cómodo y arriesgado a partes iguales. El [sandbox de comandos]({{< relref "/docs/features/sandbox" >}}) es la forma más segura de tener menos preguntas.
+- `/` está reservada a los [comandos slash]({{< relref "/docs/features/slash-commands" >}}); los ficheros se mencionan con `@`.
 
-Temas disponibles: pando, light, dracula, gruvbox, opencode, onedark, tron, flexoki, tokyonight, catppuccin, monokai
+## Siguientes pasos
 
-Cada tema tiene una variante `-nobg` para fondos transparentes.
-
-```toml
-[tui]
-theme = 'pando'
-```
-
-## Selector de Archivos (@)
-
-Escribe **@** en el input del chat para abrir un diálogo de completado de archivos con búsqueda fuzzy. Reemplaza el carácter `/` anterior (ahora reservado para comandos slash).
-
-## Detalles del Modelo
-
-El diálogo de selección de modelo ahora muestra metadatos enriquecidos para cada modelo:
-
-- **Ventana de contexto**: Límite de tokens mostrado de forma compacta (ej., 200K, 1M)
-- **Precios**: Costos por millón de tokens de entrada/salida cuando están disponibles del proveedor o el catálogo de [models.dev](https://models.dev)
-- **Capacidades**: Indicadores de soporte de razonamiento e imágenes
-- **Corte de conocimiento**: Fecha de corte de datos de entrenamiento
-
-Esta información aparece como una línea de pie para la entrada del modelo resaltado, ayudándote a elegir el modelo adecuado para tu tarea.
-
-## Alternar Auto-Aprobar
-
-Presiona **Shift+Tab** para alternar el modo auto-aprobar. Cuando está activo, todos los permisos de herramientas se aprueban automáticamente.
-
-```toml
-[permissions]
-autoApproveTools = false
-```
-
-## Estimación de Tokens en Tiempo Real
-
-La barra de estado muestra el uso de tokens de la ventana de contexto en vivo con prefijo `~` mientras el agente se ejecuta. Muestra advertencia al 80%+ de uso.
-
-## Alternar Archivos Ocultos
-
-Presiona **Ctrl+Shift+H** para mostrar/ocultar archivos ocultos en el árbol de archivos.
-
-```toml
-[tui]
-showHiddenFiles = false
-```
-
-## Nerd Fonts
-
-Alterna entre glifos Nerd Font y ASCII plano:
-
-```toml
-[tui]
-nerdFonts = true
-```
-
-O a través de variable de entorno:
-
-```bash
-PANDO_NERD_FONTS=0
-```
-
-## Barra de Estado Mejorada
-
-- Widget de ayuda (clicable)
-- Rastro de breadcrumbs (archivos editados recientemente)
-- Insignia de proyecto activo
-- Uso de tokens de contexto
-- Insignia de auto-aprobar
-- Conteo de favoritos del gateway MCP
-- Diagnósticos LSP (errores/advertencias)
-- Insignia del modelo
-
-## Soporte de Ratón
-
-Soporte completo de ratón en todos los componentes:
-
-- Árbol de archivos: clic para abrir, scroll para navegar
-- Mensajes de chat: clic en botones de copiar, arrastrar para seleccionar
-- Barra de estado: zonas clicables
-- Diálogo de permisos: clic en Permitir/Denegar
-
-## Mejoras en Árbol de Archivos
-
-- Indicadores de estado Git (+, -, ?, →)
-- Creación de nuevo archivo (**Ctrl+Shift+N**)
-- Carga lazy de directorios
-- Filtro de búsqueda fuzzy
-
-## Historial de Input
-
-Presiona las teclas **Arriba/Abajo** para navegar por mensajes enviados previamente.
-
-## Terminal Integrada
-
-- **Ctrl+U**: Alternar panel de terminal
-- **Ctrl+Y**: Nueva pestaña de terminal
-- **Ctrl+Shift+Y**: Cambiar pestañas de terminal
-
-{{< callout >}}
-Presiona **Ctrl+h** en cualquier vista para ver los atajos de teclado disponibles para ese panel.
-{{< /callout >}}
+- Guía: [Elige tu superficie]({{< relref "/guides/choose-your-surface" >}}).
+- Referencia: [todos los atajos y todas las opciones de `[TUI]`]({{< relref "/docs/configuration/webui" >}}).
+- Relacionado: [Interfaz de terminal]({{< relref "/docs/features/terminal-interface" >}}).

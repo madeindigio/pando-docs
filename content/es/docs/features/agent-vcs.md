@@ -3,78 +3,44 @@ title: Agent-VCS (Control de Versiones para Agentes)
 weight: 15
 ---
 
-Agent-VCS es un sistema ligero de control de versiones que rastrea cambios de archivos entre sesiones del agente. Proporciona commits inmutables, changelogs por sesión, diffs a nivel de archivo y capacidad de revertir—inspirado en jj (Jujutsu).
+Agent-VCS es el diario que lleva Pando de lo que cambia en tus ficheros. Piensa en los puntos de guardado de un videojuego: antes de empezar, Pando guarda la partida; después de cada turno de trabajo, vuelve a guardar. Puedes abrir cualquier punto de guardado para ver qué cambió, y cargarlo para recuperar tus ficheros tal como estaban.
 
-## Comandos CLI
+Es un diario propio de Pando. No toca tu historial de git.
 
-```bash
-# Listar todas las sesiones
-pando agent-vcs sessions
+Viene **desactivado**. Lo enciendes una vez, en la configuración, y desde entonces cada conversación tiene su diario.
 
-# Mostrar log de commits de una sesión
-pando agent-vcs log <session-id>
+## Qué hace por ti
 
-# Mostrar detalles y diff de un commit
-pando agent-vcs show <commit-id>
+- **Recuperas tu código.** Cada conversación guarda su propia cadena de puntos de guardado, que empieza con tus ficheros tal como estaban antes de que Pando tocara nada. Con un clic vuelves a cualquiera.
+- **Ves exactamente qué cambió.** En cada punto de guardado: qué ficheros se añadieron, cambiaron o borraron, y cada cambio línea a línea, lo antiguo a la izquierda y lo nuevo a la derecha.
+- **Un deshacer de cualquier tamaño.** Recupera un fichero, unos cuantos o todo.
+- **Deshacer también es seguro.** Antes de volver atrás, Pando guarda el presente, por si cambias de opinión.
 
-# Revertir a un commit anterior
-pando agent-vcs revert <commit-id>
+## Cómo se nota en el día a día
 
-# Compactar: mantener solo sesiones recientes
-pando agent-vcs compact --keep 20
+{{< shot src="images/webui/pando-webui-agent-vcs-commit.jpg" alt="Agent VCS: una sesión, sus dos puntos de guardado y los ficheros que cambiaron en el último" >}}
 
-# Compactar: eliminar sesiones mayores de N días
-pando agent-vcs compact --days 30
-```
+Abres la vista **Agent VCS** y eliges una conversación. Sus puntos de guardado aparecen del más nuevo al más antiguo; el más antiguo lleva la marca **BASELINE** y es tu proyecto antes de que empezara la conversación. Pulsas en un punto de guardado, ves la lista de ficheros que cambió y pulsas en un fichero para leer el cambio.
 
-## Conceptos Clave
+Mientras chateas no hace falta abrir nada: junto a la conversación hay una lista de los ficheros que Pando ha tocado, con las líneas añadidas y quitadas.
 
-### Commits
+## Cuándo usarlo
 
-Snapshots inmutables en el tiempo con IDs derivados del contenido (SHA-256). Cada commit registra:
-- Adiciones, modificaciones y eliminaciones de archivos
-- Marca de tiempo y asociación a sesión
-- Hash de contenido para integridad
+- Después de una ejecución autónoma larga, para repasar lo que hizo Pando antes de llevarlo a git.
+- Cuando una conversación salió mal y quieres tus ficheros como estaban al empezarla.
+- Cuando te gusta casi todo el trabajo y quieres tirar solo los cambios de un fichero.
+- Cuando te preguntas «¿qué cambió el martes pasado?» y quieres leer las páginas de ese día.
 
-### Árboles
+## Conviene saber
 
-Listados de archivos deduplicados almacenados por separado. Múltiples commits pueden referenciar el mismo árbol si no cambiaron archivos.
+- Pando guarda una vez al empezar la conversación y otra después de cada turno de trabajo, no después de cada edición.
+- Los puntos de guardado no se pueden editar. Lo escrito, escrito está, y eso es lo que hace fiable el diario.
+- Cada punto de guardado solo almacena los ficheros que cambiaron, así que el diario ocupa poco incluso en un proyecto grande.
+- Tú decides cuántos puntos de guardado se conservan, cuánto pueden envejecer y qué carpetas no entran nunca (las pesadas o las privadas).
+- Es una red de seguridad, no un sustituto de git: el diario vive en tu máquina y se va recortando con el tiempo.
+- El diseño está inspirado en el sistema de control de versiones jj (Jujutsu).
 
-### Sesiones
+## Siguientes pasos
 
-Cadenas lineales de commits por sesión del agente. Cada sesión agrupa cambios relacionados hechos durante una única conversación.
-
-### Diffs
-
-Rastreo de cambios a nivel de archivo entre dos commits cualesquiera. Muestra archivos añadidos, modificados y eliminados con sus cambios de contenido.
-
-## Revertir
-
-Restaura tu directorio de trabajo al estado de un commit anterior:
-
-```bash
-pando agent-vcs revert <commit-id>
-```
-
-Se crea un commit de seguridad antes de revertir, siempre puedes deshacer el revert.
-
-## Configuración
-
-```toml
-[Snapshots]
-Enabled = true
-MaxSnapshots = 5
-MaxFileSize = '10MB'
-ExcludePatterns = ['dist', 'node_modules', '.env', '.pando']
-AutoCleanupDays = 5
-```
-
-## Integración con Web UI
-
-{{< shot src="images/webui/pando-webui-agent-vcs.jpg" alt="Vista de Agent VCS" >}}
-
-La Web UI proporciona una ventana de snapshot con visualización de diffs, permitiéndote revisar los cambios hechos por el agente y revertir archivos específicos o sesiones completas.
-
-{{< callout >}}
-Agent-VCS rastrea cambios incrementalmente—solo se almacenan los archivos modificados en cada commit, manteniendo el almacenamiento eficiente incluso en proyectos grandes.
-{{< /callout >}}
+- Guía: [Revisa y deshaz lo que hizo el agente]({{< relref "/guides/review-and-undo" >}}).
+- Referencia: [Snapshots y Agent-VCS]({{< relref "/docs/configuration/modes" >}}).

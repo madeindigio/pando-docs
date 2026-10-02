@@ -3,71 +3,51 @@ title: Cifrado AGE
 weight: 32
 ---
 
-Pando usa [AGE](https://github.com/FiloSottile/age) para cifrar todos los secretos en `.pando.toml`—claves API, tokens OAuth, credenciales de servidores MCP y claves de embedding.
+Referencia del cifrado que protege claves y contraseñas en tu fichero de configuración. Introducción en lenguaje llano: [Seguridad con cifrado AGE]({{< relref "/docs/configuration/security-age" >}}). Paso a paso: [Sandbox y permisos]({{< relref "/guides/sandbox-and-permissions" >}}).
 
-## Cómo Funciona
+Pando usa [AGE](https://github.com/FiloSottile/age).
 
-- Los valores con prefijo `age1:` se descifran automáticamente al cargar
-- Las claves se almacenan en `~/.config/pando/keys/<keyset-name>/`
-- Genera automáticamente un keypair X25519 si no existe ninguno
-- Todos los valores descifrados permanecen solo en memoria
+- Los valores que empiezan por `age1:` se descifran al cargar la configuración.
+- Los valores descifrados solo viven en memoria.
+- La primera vez que hace falta se crea un par de claves (X25519).
 
-## Uso CLI
+## Comandos
 
 ```bash
-# Cifrar un token
-pando secret my-token
-
-# Descifrar un valor cifrado
-pando secret 'age1:YWdlLWVu...'
-
-# Usar conjunto de claves con nombre
-pando secret my-token --age-keys mykeys
+pando secret my-token                    # encrypt: prints age1:…
+pando secret 'age1:YWdlLWVu...'          # decrypt: prints the original
+pando secret my-token --age-keys mykeys  # use a named key set
 ```
+
+`pando secret` detecta el sentido por sí solo: un valor normal se cifra, un valor `age1:` se descifra. `--age-keys` funciona en todos los comandos de Pando.
 
 ## Configuración
 
 ```toml
-# Conjunto de claves con nombre (predeterminado: "default")
-AgeKeys = ''
+AgeKeys = ''    # named key set; empty means "default"
 ```
 
-## Qué Se Cifra
+## Qué se cifra
 
-- Claves API de proveedores (`[providers.*].apiKey`)
+- Claves de API de proveedores (`[providers.*].apiKey`)
 - Tokens OAuth (`[providers.*].accessToken`, `refreshToken`)
 - Variables de entorno de servidores MCP (`[mcpServers.*].env.*`)
-- Claves API de embeddings
-- Cualquier valor con prefijo `age1:`
+- Claves de API de embeddings
+- Contraseñas de la Web UI
+- Cualquier valor al que pongas el prefijo `age1:`
 
-## Gestión de Claves
-
-Las claves se almacenan en:
+## Dónde están las claves
 
 ```
 ~/.config/pando/keys/
   default/
-    key.txt       # Clave privada (X25519)
-    public.txt    # Clave pública
+    key.txt       # private key
+    public.txt    # public key
   mykeys/
     key.txt
     public.txt
 ```
 
-## Cifrado Automático
-
-Usa la función `TransformSecretString` para detectar automáticamente la dirección:
-
-```bash
-# Primera llamada cifra
-pando secret "my-api-key-123"
-# Salida: age1:YWdlLWVuY2ly...
-
-# Mismo valor se detecta como ya cifrado
-pando secret "age1:YWdlLWVuY2ly..."
-# Salida: my-api-key-123
-```
-
 {{< callout >}}
-Nunca hagas commit de `.pando.toml` con secretos sin cifrar. Usa el prefijo `age1:` para todos los valores sensibles. La clave privada permanece en tu máquina y nunca se comparte.
+La clave privada no sale nunca de tu máquina. Un fichero de configuración con valores `age1:` solo se puede abrir donde esté esa clave, así que un compañero u otro ordenador necesita sus propias claves o una copia de las tuyas.
 {{< /callout >}}

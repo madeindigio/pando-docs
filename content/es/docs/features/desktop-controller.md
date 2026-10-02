@@ -3,121 +3,53 @@ title: Controlador de Escritorio
 weight: 35
 ---
 
-El Controlador de Escritorio permite a Pando ver y manejar el escritorio gráfico: listar aplicaciones abiertas, leer lo que hay en pantalla, pulsar botones, rellenar campos, enviar teclas y hacer capturas — en Windows, macOS y Linux (X11 y Wayland).
+El Controlador de Escritorio deja que Pando use las aplicaciones de tu pantalla: ver cuáles hay abiertas, leer lo que dice una ventana, pulsar botones, rellenar campos, pulsar teclas y sacar capturas. Funciona en Windows, macOS y Linux.
 
-**Desactivado por defecto.** Lee la sección de [Seguridad](#seguridad) antes de activarlo.
+**Desactivado por defecto.** Da a Pando la capacidad de actuar en tu escritorio como si fueras tú, así que lee las notas de seguridad de abajo antes de encenderlo.
 
-## Por qué no es el típico «computer use»
+## Por qué es distinto del «computer use»
 
-La mayoría de agentes que controlan un ordenador hacen una captura, piden a un modelo de visión que adivine dónde están las cosas y pulsan coordenadas a ciegas. Pando lee el **árbol de accesibilidad**: la misma descripción semántica de la pantalla que usan los lectores de pantalla. El agente trabaja con elementos reales («el botón Guardar»), no con píxeles.
+La mayoría de asistentes que controlan un ordenador sacan una foto de la pantalla, la miran con los ojos entornados y hacen clic donde creen que está el botón. Pando lee la descripción que la propia ventana da de sí misma, la misma que usan los lectores de pantalla para personas ciegas. Es la diferencia entre encontrar una tienda por una foto borrosa y por su dirección.
 
-Eso significa:
+- **Mucho más barato.** La lista de botones de una ventana son unas líneas de texto. Una captura cuesta lo que varias páginas.
+- **Mucho más fiable.** Un clic no falla porque una ventana se haya movido o un diálogo aún se esté desplegando.
+- **Las fotos, solo como último recurso**, para pantallas que no describen nada de sí mismas (juegos, lienzos de dibujo, escritorios remotos). Cuando Pando actúa a ojo, lo dice.
 
-- **Mucho más barato.** Una lista de elementos son unas pocas líneas; una captura son miles de tokens de visión.
-- **Mucho más fiable.** Las acciones no fallan porque una ventana se haya movido, un diálogo se haya animado o cambie el escalado de pantalla.
-- **Las capturas quedan como último recurso**, solo para interfaces sin estructura aprovechable (aplicaciones de lienzo, juegos, escritorios remotos). Todo resultado obtenido así viene marcado explícitamente como procedente de visión.
+## Qué hace por ti
 
-## Qué puede hacer el agente
+- Trabaja con programas que no tienen otra puerta de entrada: una ventana de ajustes, una herramienta de escritorio antigua, un diálogo «Guardar como» del sistema.
+- Lleva una tarea por varias aplicaciones: copiar de una, pegar en otra.
+- Mirar es gratis; tocar pregunta antes. Pando lista aplicaciones, lee ventanas y busca elementos por su cuenta. Antes de hacer clic, escribir, pulsar una tecla, desplazar o sacar una captura te pregunta, con el mismo aviso de permiso que para editar un fichero.
 
-| Capacidad | ¿Pide permiso? |
-|---|---|
-| Listar aplicaciones y sus ventanas | no |
-| Leer el contenido y la estructura de una ventana | no |
-| Buscar un elemento por nombre o rol | no |
-| Esperar a que algo aparezca, desaparezca, se habilite o reciba el foco | no |
-| Pulsar, enfocar, escribir texto, enviar una tecla o combinación, hacer scroll | **sí** |
-| Capturar la pantalla, una ventana o un elemento | **sí** |
-| Pulsar una coordenada en bruto (recurso de visión) | **sí** |
+## Cuándo usarlo
 
-Leer es gratis; todo lo que toca la pantalla o cambia estado te lo pregunta antes, con el mismo diálogo de permisos que las ediciones de archivos y los comandos de shell.
+Úsalo cuando lo que quieres automatizar vive en una ventana de escritorio y no en un fichero, un comando o una página web.
 
-## Activarlo
+Para páginas web sin más, encajan mejor las [herramientas de navegador]({{< relref "/docs/features/browser-automation" >}}): úsalas cuando conoces la dirección o quieres detalles de consola y de red. Usa las de escritorio cuando el navegador es una parada dentro de un viaje más largo que también pasa por ventanas del sistema, o cuando solo conoces un elemento por lo que pone en pantalla. Si ya hay una sesión de navegador abierta, las herramientas de escritorio la ven como una aplicación más; nunca abren un navegador por su cuenta.
 
-{{< shot src="images/webui/pando-webui-settings-tools-desktop-controller.jpg" alt="Ajustes del controlador de escritorio" >}}
+## Conviene saber
 
-En `.pando.toml`:
+**Lo maduro que está**, con franqueza:
 
-```toml
-[InternalTools]
-DesktopEnabled = true
-```
+- Control de navegadores: verificado del todo.
+- Linux: verificado en un escritorio real.
+- Windows y macOS: hecho y publicado, pero quienes mantienen Pando aún no lo han validado en un escritorio real. Tómalo como soporte temprano y cuéntanos lo que encuentres.
 
-O desde la interfaz:
+**Lo que puede pedirte el sistema.** macOS quiere que des a Pando el permiso de Accesibilidad, y el de Grabación de pantalla para las capturas. Linux con Wayland muestra un diálogo de consentimiento la primera vez. Windows no necesita nada. Si falta un permiso, Pando te dice cuál; nunca finge.
 
-- **TUI**: Ajustes → Internal Tools → Desktop Controller
-- **WebUI**: Ajustes → Internal Tools → «Desktop Controller (Accessibility Automation)»
+**Seguridad.**
 
-## Configuración
-
-```toml
-[InternalTools]
-DesktopEnabled            = false   # interruptor principal
-DesktopBackend            = 'auto'  # auto | atspi | uia | ax | cdp | null
-DesktopAllowPhysicalInput = true    # permitir ratón/teclado sintético como respaldo
-DesktopMaxNodes           = 500     # máximo de elementos por observación
-DesktopDefaultDepth       = 3       # profundidad por defecto dentro de una ventana
-DesktopActionTimeout      = 10      # segundos
-DesktopSnapshotTTL        = 60      # segundos que una observación sigue siendo válida
-DesktopScreenshotScale    = 1.0     # reducir capturas antes de enviarlas al modelo
-DesktopAllowedApps        = []      # si se define, solo estas apps son accesibles
-DesktopDeniedApps         = []      # nunca accesibles; gana sobre la lista de permitidas
-```
-
-| Clave | Para qué sirve |
-|---|---|
-| `DesktopBackend` | Déjalo en `auto`. Pando elige la API de accesibilidad de tu sistema y, si hay una sesión de navegador abierta, lo maneja con las mismas herramientas. Cualquier otro valor fija ese backend. |
-| `DesktopAllowPhysicalInput` | Cuando una aplicación no soporta una acción de accesibilidad decente, Pando puede recurrir a un clic o pulsación reales. Ponlo a `false` para un modo estrictamente semántico. |
-| `DesktopAllowedApps` / `DesktopDeniedApps` | La forma práctica de acotar al agente: permite solo la aplicación con la que trabajas y deniega tu gestor de contraseñas, el correo o la terminal. Denegar siempre gana. |
-| `DesktopScreenshotScale` | Bájalo (por ejemplo `0.5`) para reducir el coste en tokens de las capturas. |
-
-## Ventanas de navegador
-
-Si ya hay una sesión de navegador abierta, aparece como una aplicación más del escritorio y se maneja con las mismas herramientas.
-
-Usa las **herramientas de navegador** (`browser_navigate`, `browser_click`…) cuando ya sabes la URL, el selector CSS o el JavaScript que necesitas, o cuando quieres datos de red y consola. Usa las **herramientas de escritorio** cuando el navegador es parte de un flujo más amplio que también toca ventanas nativas —un selector de archivos, un diálogo «Guardar como», cambiar el foco entre aplicaciones— o cuando solo conoces un elemento por lo que dice en pantalla.
-
-Pando nunca lanza un navegador solo porque hayas usado una herramienta de escritorio.
-
-## Requisitos por plataforma
-
-| Plataforma | Qué necesitas |
-|---|---|
-| **Linux (X11)** | Un bus de accesibilidad activo (`org.a11y.Bus`), habilitado por defecto en GNOME/KDE. |
-| **Linux (Wayland)** | Consentimiento explícito en el diálogo del portal del escritorio la primera vez. Wayland no ofrece API global de entrada ni de captura sin él. El consentimiento se recuerda entre ejecuciones. |
-| **macOS** | Conceder a Pando permiso de **Accesibilidad** (Ajustes del Sistema → Privacidad y seguridad → Accesibilidad). Las capturas requieren además **Grabación de pantalla**. |
-| **Windows** | Nada adicional. |
-
-Si falta un permiso, Pando lo dice explícitamente e indica cuál: nunca finge en silencio que una capacidad existe.
-
-## Madurez
-
-Estado honesto, para que sepas qué esperar:
-
-- **Control de navegador**: verificado de extremo a extremo.
-- **Linux / AT-SPI**: verificado contra un bus de accesibilidad real.
-- **Windows / macOS**: implementado y compilado para esas plataformas, pero aún no validado contra un escritorio real por los mantenedores. Trátalo como soporte temprano y reporta lo que encuentres.
-
-## Usarlo desde otras herramientas
-
-Las herramientas de escritorio también se pueden publicar por el servidor MCP de Pando, para que otro cliente MCP maneje el escritorio a través de Pando:
-
-```bash
-pando mcp-server
-```
-
-La exposición es opcional y sigue el mismo interruptor `DesktopEnabled`.
-
-## Seguridad
-
-Activar esto da al agente la capacidad de actuar en tu escritorio como si fueras tú.
-
-- Está **desactivado por defecto** y requiere un interruptor explícito.
-- Cada acción que modifica algo y cada captura pasan por un diálogo de permiso.
-- Las capturas recogen toda tu pantalla, incluido lo demás que tengas abierto: por eso piden permiso aunque no cambien nada.
-- Los clics a ciegas por coordenada se anuncian como tales en el diálogo, así que siempre sabes cuándo el agente actúa sin certeza semántica.
-- Usa `DesktopAllowedApps` para mantener al agente dentro de la aplicación con la que realmente trabajas.
-- Pon `DesktopAllowPhysicalInput = false` si no quieres que se genere entrada sintética en tu máquina.
+- Cada acción que cambia algo, y cada captura, pasa por un aviso de permiso.
+- Una captura enseña toda tu pantalla, con lo demás que tengas abierto. Por eso pregunta aunque no cambie nada.
+- Un clic «a ojo» se describe así en el aviso, para que siempre sepas cuándo Pando no está del todo seguro.
+- Puedes ponerle una valla: la lista de las únicas aplicaciones que puede tocar, y la de las que no debe tocar nunca (tu gestor de contraseñas, el correo). La lista de «nunca» siempre gana.
+- Puedes prohibir del todo el ratón y el teclado reales.
 
 {{< callout type="warning" >}}
-No actives el Controlador de Escritorio en un montaje desatendido o con auto-aprobación salvo que lo hayas acotado con una lista de permitidas. Un diálogo de permiso solo protege mientras hay una persona leyéndolo.
+No enciendas el Controlador de Escritorio en una instalación donde no mira nadie o donde las acciones se aprueban solas, salvo que le hayas puesto la valla de una lista de aplicaciones permitidas. Un aviso de permiso solo te protege mientras hay una persona leyéndolo.
 {{< /callout >}}
+
+## Siguientes pasos
+
+- Guía: [Dale ojos y manos a Pando]({{< relref "/guides/web-browser-desktop-tools" >}}) lo enciende y pone las vallas.
+- Referencia: [todas las opciones, qué pide permiso y qué necesita cada plataforma]({{< relref "/docs/configuration/tools" >}}).

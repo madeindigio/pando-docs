@@ -3,57 +3,33 @@ title: Compactación de Sesión
 weight: 29
 ---
 
-La compactación de sesión comprime el historial de conversación en un resumen, liberando espacio de contexto para conversaciones largas.
+Un modelo solo puede tener en la cabeza cierta cantidad de conversación. Compactar es lo que haces con veinte páginas de notas de una reunión: escribes una página de conclusiones y guardas el resto. Pando sustituye la parte antigua de una conversación larga por un resumen, y vuelve a haber sitio para seguir trabajando.
 
-## Compactación Manual
+## Qué hace por ti
 
-Usa comandos slash para compactar bajo demanda:
+- **Sesiones largas que no se quedan sin sitio.** Puedes seguir en la misma conversación en lugar de empezar de nuevo.
+- **Respuestas más afinadas.** Una cabeza llena de salidas antiguas de herramientas se distrae. Tras compactar, el modelo ve las decisiones y no el ruido.
+- **Menos coste.** Cada mensaje arrastra consigo la conversación; una conversación más corta sale más barata de arrastrar.
 
-```
-/compact
-/summarize
-```
+## Cómo se nota en el día a día
 
-## Compactación Automática
+Puedes compactar cuando quieras con un comando, o dejar que Pando lo haga solo cuando la conversación está casi llena. En los dos casos el chat muestra que se ha hecho un resumen, y tú continúas como si nada.
 
-Pando compacta automáticamente cuando la ventana de contexto se llena durante la ejecución de un agente:
+El resumen conserva lo que importa: las decisiones tomadas, los ficheros cambiados y en qué punto está el trabajo. Lo que se va es el bulto: las salidas largas de herramientas y los pasos intermedios.
 
-```toml
-AutoCompact = true
-```
+## Cuándo usarlo
 
-Configuración por agente:
+- Una conversación larga se acerca al límite del modelo.
+- Has terminado una tarea y empiezas otra en la misma sesión.
+- Las respuestas se vuelven más vagas y sospechas que la conversación está abarrotada.
 
-```toml
-[Agents.coder]
-AutoCompact = false
-AutoCompactThreshold = 0.0
+## Conviene saber
 
-[Agents.summarizer]
-Model = 'ollama.qwopus:latest'
-```
+- Un resumen guarda conclusiones, no cada detalle. Si más adelante importa un detalle exacto, dilo otra vez o guárdalo en la [memoria]({{< relref "/docs/features/persistent-memory" >}}).
+- El resumen lo escribe un agente propio, y le basta un modelo barato.
+- La compactación automática se puede activar o desactivar para todo, o agente por agente.
 
-## Cómo Funciona
+## Siguientes pasos
 
-1. El método `Summarize` comprime el historial de conversación
-2. Los mensajes antes del resumen se reemplazan por él
-3. El resumen se almacena como un límite especial en el historial
-4. Se libera espacio de contexto para nuevos mensajes
-
-## Configuración
-
-| Parámetro | Descripción |
-|-----------|-------------|
-| `AutoCompact` | Toggle global de auto-compactación |
-| `AutoCompactThreshold` | Umbral de uso de contexto para activar (0.0 = automático) |
-| `[Agents.summarizer].Model` | Modelo usado para el resumen |
-
-## Cuándo Usar
-
-- Conversaciones largas que se acercan a los límites del contexto
-- Después de completar una tarea mayor y comenzar una nueva
-- Cuando la calidad de respuesta se degrada por ruido de contexto
-
-{{< callout >}}
-La compactación preserva la información más importante mientras elimina salidas verbosas de herramientas y pasos intermedios. El resumen captura decisiones clave, cambios de archivos y progreso.
-{{< /callout >}}
+- Guía: [Cambia cómo piensa y cómo habla Pando]({{< relref "/guides/working-modes" >}}) enseña el comando y el interruptor automático.
+- Referencia: [Modos de trabajo y mantenimiento de la sesión]({{< relref "/docs/configuration/modes" >}}).

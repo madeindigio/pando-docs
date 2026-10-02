@@ -3,91 +3,100 @@ title: Configuración del Modo Objetivo
 weight: 31
 ---
 
-Configura el comportamiento del Modo Objetivo (Autopiloto) en `.pando.toml`.
+Límites, estados y comandos de Goal Mode (Autopiloto). Para la idea, lee [Modo Objetivo]({{< relref "/docs/features/goal-mode" >}}); para el paso a paso, la guía [Goal Mode: tareas largas sin supervisión]({{< relref "/guides/goal-mode" >}}).
 
-## Configuración Básica
+## Configuración básica
+
+En `.pando.toml`:
 
 ```toml
 [Goal]
-# Máximas iteraciones antes de timeout (0 = predeterminado 20)
+# Maximum iterations before timeout (0 = default 20)
 MaxIterations = 20
 
-# Duración máxima (cadena de duración Go)
+# Maximum duration (Go duration string)
 MaxDuration = '1h'
 
-# Iteraciones consecutivas sin progreso antes de detenido
+# Consecutive no-progress iterations before stalled
 StallIterations = 3
 
-# Auto-aprobar todas las llamadas a herramientas durante modo objetivo
+# Auto-approve all tool calls during goal mode
 AutoApprove = true
 
-# Patrones a bloquear en modo objetivo (regex)
+# Patterns to block in goal mode (regex)
 DangerousPatterns = []
 ```
 
-## Estados del Objetivo
-
-Los objetivos progresan a través de estos estados:
+## Estados de un objetivo
 
 | Estado | Descripción |
-|--------|-------------|
-| `running` | El objetivo se está persiguiendo activamente |
-| `completed` | Objetivo logrado |
-| `failed` | El objetivo no se puede lograr |
-| `blocked` | El objetivo está bloqueado por factores externos |
-| `cancelled` | El usuario canceló el objetivo |
-| `timeout` | Iteraciones o duración máxima excedida |
-| `stalled` | Sin progreso por N iteraciones |
+|-------|-------------|
+| `running` | El objetivo está en marcha |
+| `completed` | Objetivo conseguido |
+| `failed` | El objetivo no se puede conseguir |
+| `blocked` | Bloqueado por algo externo |
+| `cancelled` | Cancelado por el usuario |
+| `timeout` | Se superó el máximo de iteraciones o de duración |
+| `stalled` | Sin progreso durante N iteraciones |
 
-## Modo Objetivo No Interactivo
+Todos, salvo `running`, son estados finales.
+
+## Comandos
+
+| Comando | Descripción |
+|---------|-------------|
+| `/goal <objetivo>` | Inicia el modo objetivo |
+| `/autopilot <objetivo>` | Alias de `/goal` |
+| `/goal-status` | Muestra el estado del objetivo actual |
+| `/goal-cancel` | Cancela el objetivo en marcha |
+
+Funcionan en la TUI, en la Web UI y en los editores conectados por ACP. En la TUI la entrada del chat se desactiva mientras hay un objetivo en marcha, y **Ctrl+C** cancela el objetivo en lugar de cerrar Pando.
+
+## Componente de estado
+
+Mientras un objetivo está en marcha, la interfaz muestra una etiqueta de estado (running, completed, failed, blocked, timeout, stalled, cancelled), el texto del objetivo, el contador de iteraciones (por ejemplo «Iteración 3/20»), el tiempo transcurrido, el texto de progreso y el siguiente paso.
+
+## Modo objetivo no interactivo
 
 Desde la línea de comandos:
 
 ```bash
-pando --goal "Corregir todos los tests fallidos"
-pando --goal "Refactorizar módulo de auth" --model copilot.gpt-5.4
-pando --goal "Añadir manejo integral de errores" --quiet
+pando --goal "Fix all failing tests"
+pando --goal "Refactor auth module" --model copilot.gpt-5.4
+pando --goal "Add comprehensive error handling" --quiet
 ```
 
-El CLI devuelve un resultado estructurado:
+La CLI devuelve un resultado estructurado:
 
 ```json
 {
   "session_id": "...",
-  "objective": "Corregir todos los tests fallidos",
+  "objective": "Fix all failing tests",
   "status": "completed",
   "iteration": 5,
-  "response": "Todos los 12 tests ahora pasan",
-  "progress": "Corregidos tests de autenticación, base de datos y API",
+  "response": "All 12 tests now pass",
+  "progress": "Fixed authentication, database, and API tests",
   "next_step": null,
   "blocked_reason": null
 }
 ```
 
-## Comandos Slash
+## Cómo funciona el bucle
 
-| Comando | Descripción |
-|---------|-------------|
-| `/goal <objetivo>` | Iniciar modo objetivo |
-| `/autopilot <objetivo>` | Alias para `/goal` |
-| `/goal-status` | Mostrar estado del objetivo actual |
-| `/goal-cancel` | Cancelar objetivo en ejecución |
+1. El `GoalRunner` crea un registro del objetivo en la base de datos.
+2. Cada iteración envía el prompt del objetivo al agente.
+3. El `HeuristicGoalEvaluator` analiza la respuesta.
+4. Se anota el progreso y el bucle continúa hasta llegar a un estado final.
 
-## Evaluación
+El evaluador busca:
 
-El `HeuristicGoalEvaluator` analiza cada iteración en busca de:
-
-- **Señales de completado**: Tests pasando, build exitoso, declaraciones explícitas de completado
-- **Señales de bloqueo**: Mensajes de error, dependencias faltantes, problemas irresolubles
-- **Estancamiento**: Sin progreso significativo por N iteraciones consecutivas
+- **Señales de finalización**: tests que pasan, compilación correcta, declaraciones explícitas de que se ha terminado.
+- **Señales de bloqueo**: mensajes de error, dependencias que faltan, problemas sin solución.
+- **Atasco**: ningún progreso real durante `StallIterations` iteraciones seguidas.
 
 ## Seguridad
 
-- `AutoApprove = true` omite prompts de permiso durante modo objetivo
-- `DangerousPatterns` bloquea comandos que coincidan con patrones regex
-- Ctrl+C cancela el objetivo en ejecución (en lugar de salir de Pando)
-- Las iteraciones y duración máximas proporcionan límites duros
-
-{{< callout >}}
-El modo objetivo es poderoso para tareas autónomas pero debe usarse con precaución. Comienza con objetivos simples y aumenta gradualmente la complejidad a medida que confías en el sistema.
-{{< /callout >}}
+- `AutoApprove = true` omite las peticiones de permiso durante el modo objetivo.
+- `DangerousPatterns` bloquea los comandos que coinciden con los patrones (regex).
+- Ctrl+C cancela el objetivo en marcha (en lugar de cerrar Pando).
+- El máximo de iteraciones y de duración son límites firmes.

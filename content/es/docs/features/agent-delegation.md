@@ -3,149 +3,40 @@ title: Delegación y Orquestación de Agentes
 weight: 11
 ---
 
-Pando incluye **Mesnada**, un poderoso framework de orquestación de agentes que permite delegar tareas a sub-agentes especializados ejecutándose en segundo plano. Los sub-agentes pueden trabajar en diferentes proyectos, usar diferentes motores y reportar resultados al agente padre automáticamente.
+Un agente es un solo par de manos. **Mesnada** le da a Pando una cuadrilla: ayudantes, llamados subagentes, que cogen un encargo cada uno, trabajan en segundo plano a la vez y vuelven con un informe. Pando pasa a ser el capataz: reparte el trabajo, lo entrega y reúne los resultados.
 
-## Lanzar Sub-Agentes
+## Qué hace por ti
 
-La herramienta `mesnada_spawn_agent` lanza tareas en segundo plano:
+- **Trabajo en paralelo.** Tres módulos que revisar son tres ayudantes trabajando a la vez, no uno detrás de otro.
+- **Una conversación principal limpia.** Cada ayudante trabaja en su propia conversación aparte. A la tuya solo llegan las conclusiones.
+- **El ayudante adecuado para cada encargo.** Hay ayudantes que solo pueden mirar y no tocar, ideales para explorar. Un ayudante puede usar otro modelo, o incluso otro asistente que tengas instalado.
+- **Encargos en orden.** Un encargo puede esperar a que terminen otros y partir de sus resultados.
+- **Entre proyectos.** Puedes mandar un ayudante a otro de tus proyectos.
+- **Encargos con horario.** Una tarea puede repetirse sola cada mañana.
 
-```json
-{
-  "prompt": "Analizar el módulo de autenticación y escribir tests",
-  "subagent_type": "general",
-  "description": "Escribir tests de auth",
-  "background": true
-}
-```
+## Cómo se nota en el día a día
 
-### Parámetros Clave
+Muchas veces basta con pedirlo: «usa un subagente por servicio y dame un único resumen». Pando reparte los encargos y sigue con lo suyo. Cuando los ayudantes terminan, sus informes llegan solos a tu conversación, y si Pando ya había parado, se despierta para leerlos y continuar.
 
-| Parámetro | Descripción |
-|-----------|-------------|
-| `prompt` | La instrucción para la tarea lanzada |
-| `subagent_type` | `explore` (solo lectura) o `general` (todas las capacidades) |
-| `background` | `true` para fire-and-forget, `false` para bloquear hasta completar |
-| `project` | Dirigir a un proyecto registrado por id, nombre o ruta |
-| `engine` | Motor CLI: `pando`, `copilot`, `claude`, `gemini`, etc. |
-| `model` | Sobreescribir el modelo para esta tarea |
-| `dependencies` | Lista de IDs de tareas que deben completarse primero |
-| `task_id` | Relanzar una tarea existente in-place |
+{{< shot src="images/webui/pando-webui-orchestrator-tasks.jpg" alt="Vista del orquestador con la lista de tareas de Mesnada" >}}
 
-## Esperar Resultados
+La vista Orquestador es la pizarra del capataz: cada encargo, en marcha o terminado, con su resultado. Desde ahí también puedes crear un encargo a mano o programar uno.
 
-{{< shot src="images/webui/pando-webui-settings-general-subagent-delegation.jpg" alt="Ajustes de delegación a subagentes" >}}
+## Cuándo usarlo
 
-### No Bloqueante (Recomendado)
+Delega el trabajo que se puede partir en trozos que no se pisan: leer zonas distintas del código, escribir tests de módulos separados, investigar varias preguntas. No delegues dos encargos que editan el mismo fichero; son dos personas escribiendo en la misma hoja.
 
-Usa `mesnada_await` después de lanzar tareas en segundo plano:
+## Conviene saber
 
-```json
-{
-  "action": "wait",
-  "actor_id": "explore-1"
-}
-```
+- Los ayudantes empiezan en la carpeta de tu proyecto y con tus ajustes, pero no ven tu conversación. Solo saben lo que dice la descripción del encargo.
+- Más ayudantes es más velocidad y más gasto. Hay un límite de cuántos trabajan a la vez.
+- Unos quitamiedos mantienen el orden: un límite para que los ayudantes no contraten ayudantes sin fin, una comprobación que rebaja un informe que menciona ficheros que no existen y un cortacircuitos que deja de relanzar un encargo que no para de fallar.
+- Si un proyecto ya está abierto en otra ventana de Pando, un ayudante puede usar esa ventana en lugar de arrancar en frío.
+- Los informes se escriben antes de entregarse, así que un reinicio a medias no los pierde.
+- Puedes definir tus propios tipos de ayudante para manejar otros asistentes de línea de comandos.
 
-El agente padre se reanuda automáticamente cuando llegan los resultados.
+## Siguientes pasos
 
-### Bloqueante
-
-Usa `mesnada_wait_task` para bloquear hasta que una tarea específica comple:
-
-```json
-{
-  "task_id": "T1",
-  "timeout": "10m"
-}
-```
-
-## Dependencias de Tareas
-
-Las tareas pueden depender de otras. Una tarea dependiente solo se inicia cuando todas sus dependencias se completan:
-
-```json
-{
-  "prompt": "Escribir tests basados en el análisis",
-  "dependencies": ["T1", "T2"],
-  "include_dependency_logs": true,
-  "dependency_log_lines": 100
-}
-```
-
-## Plantillas de Motores Personalizados
-
-Define motores de agente personalizados colocando archivos `*.template.yaml` en el directorio de motores:
-
-```toml
-[Mesnada.Orchestrator]
-EnginesDir = ''   # por defecto <dirname(LogDir)>/engines
-```
-
-Cada plantilla especifica comando, args (con expresiones Go template), modo de prompt, formato de salida y modelos disponibles. Los motores personalizados aparecen dinámicamente en la herramienta `mesnada_spawn_agent`.
-
-## Delegación Multi-Proyecto
-
-Delega tareas a otras instancias de Pando en ejecución en diferentes proyectos:
-
-```toml
-[Mesnada.Delegation]
-Enabled = true
-ReuseWarmInstances = true
-AutoStartWarmInstance = true
-```
-
-El parámetro `project` enruta la tarea a la instancia activa del proyecto correcto.
-
-## Reutilización de Instancias Activas
-
-{{< shot src="images/webui/pando-webui-settings-general-delegation-warm-instances.jpg" alt="Ajustes de instancias en caliente, verificación de conclusiones y circuit breaker" >}}
-
-Cuando está habilitado, las tareas delegadas se enrutan a instancias ACP ya en ejecución ("calientes") en lugar de lanzar nuevos procesos CLI:
-
-```toml
-[Mesnada.Delegation]
-ReuseWarmInstances = true
-WarmInstanceIdleTimeout = '10m'
-MaxConcurrent = 8
-```
-
-## Supervisor de Delegación
-
-{{< shot src="images/webui/pando-webui-settings-general-delegation-event-log.jpg" alt="Ajustes del registro de eventos y del reparto de tareas" >}}
-
-El supervisor maneja la finalización automática de tareas delegadas:
-
-- **Inyectar en bucle activo**: Cuando una tarea se completa mientras el padre está ejecutándose, los resultados se inyectan automáticamente
-- **Resucitar bucle inactivo**: Cuando las tareas se completan mientras el padre está inactivo, se despierta al padre con resultados combinados
-
-```toml
-[Mesnada.Delegation]
-Enabled = true
-InjectIntoLiveLoop = true
-ResurrectIdleLoop = true
-MaxResurrections = 4
-MaxDepth = 3
-```
-
-## Delegación Hot-Peer (IPC)
-
-Las instancias pueden delegar tareas a instancias pares externas a través de ZeroMQ IPC:
-
-```toml
-[Mesnada.Delegation]
-AllowExternalWarmTargets = true   # lado del llamador
-AcceptDelegations = true           # lado del objetivo
-```
-
-## Gestión de Sesiones
-
-Administra tareas Mesnada con herramientas dedicadas:
-
-- `mesnada_get_task` - Obtener detalles de tarea
-- `mesnada_list_tasks` - Listar tareas con filtros
-- `mesnada_cancel_task` - Cancelar una tarea
-- `mesnada_get_task_output` - Obtener stdout/stderr
-
-{{< callout >}}
-Los sub-agentes se ejecutan en sesiones aisladas con su propio contexto. Heredan el directorio de trabajo y configuración del proyecto pero operan independientemente.
-{{< /callout >}}
+- Guía: [Delega en subagentes con Mesnada]({{< relref "/guides/mesnada" >}}).
+- Referencia: [Configuración de delegación y Mesnada]({{< relref "/docs/configuration/delegation" >}}), que incluye las herramientas con las que el agente delega.
+- Relacionado: [Espacios de proyecto]({{< relref "/docs/features/project-workspaces" >}}), [Comunicación entre procesos]({{< relref "/docs/features/ipc" >}}).

@@ -3,158 +3,133 @@ title: Features
 weight: 3
 ---
 
-## Interactive TUI
+Pando is named after a forest in Utah that looks like thousands of trees and is really one single plant, joined underground by its roots. The assistant works the same way: on top you see one chat; underneath, memory, helpers and tools share the same roots.
 
-Pando is built with [Bubble Tea](https://github.com/charmbracelet/bubbletea), a framework for building terminal user interfaces. It provides a smooth and responsive experience directly in your terminal.
+This section **explains** each part: what it is, what it does for you and when it is worth using. When you want to set something up, each page sends you to the [guide]({{< relref "/guides" >}}) that walks you through it click by click, and to the [reference]({{< relref "/docs/configuration" >}}) with the exact option names.
 
-## Vim-like Editor & Editor Integration
+## 表 Surface: what you touch
 
-- **Built-in Editor**: Includes an editor with Vim-style keybindings for composing messages and editing code without leaving the TUI.
-- **External Editor**: Support for opening your preferred editor (Neovim, Emacs, VS Code, etc.) for complex editing tasks.
+The trunks above ground. Different doors into the same assistant: pick the one that suits the moment, your conversations follow you.
 
-## Native Desktop App & WebUI
+| Feature | In one line |
+|---|---|
+| [Web UI & PWA]({{< relref "/docs/features/web-ui" >}}) | Pando in a browser tab, on your computer or your phone. |
+| [Native Desktop App]({{< relref "/docs/features/desktop-app" >}}) | The same screens in a window of their own, with a tray icon. |
+| [Setup Assistant]({{< relref "/docs/features/setup-assistant" >}}) | A short welcome tour that gets you ready to chat in five steps. |
+| [Project Workspaces]({{< relref "/docs/features/project-workspaces" >}}) | Several projects open at once, each in its own tab. |
+| [WebUI Access]({{< relref "/docs/features/webui-access" >}}) | A lock on the door when you open Pando to other devices. |
+| [Design Studio]({{< relref "/docs/features/design-studio" >}}) | Ask for a landing page or a slide deck and watch it take shape. |
+| [Terminal UI]({{< relref "/docs/features/terminal-interface" >}}) | The keyboard-first version, for people who live in a terminal. |
+| [TUI Enhancements]({{< relref "/docs/features/tui-enhancements" >}}) | The comforts of the terminal version: tabs, themes, file picker. |
+| [Command Line Interface]({{< relref "/docs/features/cli" >}}) | One question, one answer, no window. Handy for scripts. |
+| [Slash Commands]({{< relref "/docs/features/slash-commands" >}}) | Shortcuts you type with `/` to ask for common jobs. |
+| [Interactive User Questions]({{< relref "/docs/features/ask-user-question" >}}) | When Pando is unsure, it asks you with buttons instead of guessing. |
+| [Fast User Feedback]({{< relref "/docs/features/steering" >}}) | Correct the course while Pando is still working. |
+| [Learning Mode]({{< relref "/docs/features/learning-mode" >}}) | Pando explains as it goes, like a patient colleague. |
+| [Caveman Mode]({{< relref "/docs/features/caveman-mode" >}}) | Short answers, no filler. Cheaper and faster to read. |
 
-Pando is available as a premium **Native Desktop Application** for macOS and Windows, as well as a fully responsive **Web interface and PWA**. This allows you to interact with your projects in a distraction-free, native window with system notifications and multitasking, or access it from any browser on desktop and mobile. All your data and private database remain safely on your local machine.
+## 根 Roots: what works unseen
 
-- **Project workspaces** extend the unified WebUI with bottom tabs that host a full child workspace per project. See [Project workspaces](project-workspaces).
+Under the surface, three things keep the grove alive: how Pando thinks, what it remembers and who it hands work to.
 
-## Local LLM Proxy
+### 木 Pando: how it thinks
 
-Pando can turn your computer into a centralized AI gateway. By launching the local proxy server, Pando unifies all your configured AI providers (including GitHub Copilot subscription models) and serves them through a single local endpoint compatible with other developer tools in your ecosystem.
+| Feature | In one line |
+|---|---|
+| [Goal Mode]({{< relref "/docs/features/goal-mode" >}}) | Give it a destination and let it drive until it gets there. |
+| [Model Auto Mode]({{< relref "/docs/features/model-auto-mode" >}}) | A receptionist that sends each question to the right AI model. |
+| [Decision Model]({{< relref "/docs/features/decision-model" >}}) | Pando's reflexes: a tiny model for the quick choices. |
+| [Thinking & Reasoning Effort]({{< relref "/docs/features/reasoning-modes" >}}) | Decide how long Pando thinks before it answers. |
+| [Superpowers Mode]({{< relref "/docs/features/superpowers-mode" >}}) | Plan first, build second: a written plan before any code. |
+| [Tool Discovery]({{< relref "/docs/features/tool-discovery" >}}) | Pando keeps most tools in the drawer and takes out only what it needs. |
 
+### 本 Remembrances: what it remembers
 
-## Session Management & Persistence
+| Feature | In one line |
+|---|---|
+| [Persistent Memory]({{< relref "/docs/features/persistent-memory" >}}) | A notebook Pando keeps between conversations. |
+| [Context Enrichment]({{< relref "/docs/features/context-enrichment" >}}) | Before answering, Pando looks up what it already knows about your project. |
+| [Code Search by Meaning]({{< relref "/docs/features/code-embeddings" >}}) | A librarian trained on code, so Pando finds functions by what they do. |
+| [Session Compaction]({{< relref "/docs/features/session-compaction" >}}) | A long conversation folded into a summary so it can keep going. |
+| [Agent VCS]({{< relref "/docs/features/agent-vcs" >}}) | A diary of what each conversation changed, to read it and get your code back. |
 
-- Save and restore previous conversations automatically.
-- Support for multiple simultaneous sessions.
-- All data is stored locally in a SQLite database for maximum privacy and performance.
+### 众 Mesnada: who it works with
 
-## Tool Integration
+| Feature | In one line |
+|---|---|
+| [Agent Delegation & Orchestration]({{< relref "/docs/features/agent-delegation" >}}) | A crew of helpers that take jobs in parallel. |
+| [Agent Self-Service]({{< relref "/docs/features/pando-setup-tool" >}}) | Ask Pando to change its own settings instead of opening menus. |
+| [Self-Improvement]({{< relref "/docs/features/self-improvement" >}}) | Pando reviews its finished work and learns from your corrections. |
 
-The AI can execute tools directly in your project to enhance your workflow:
+## 土 Soil: what it grows from
 
-- **Run commands**: Integrated shell for building, testing, or running scripts.
-- **File manipulation**: Read, write, and search files with user confirmation.
-- **Atomic Patches**: Apply coordinated changes across multiple files simultaneously.
-- **Web Search**: Integration with Google, Brave, Perplexity, and Exa for real-time, up-to-date information.
+The ground everything feeds on: the AI models, the tools Pando can pick up, and the fences that keep it safe.
 
-## Interactive Web Navigation
+### AI models
 
-Pando can interact with the web in advanced ways:
+Pando works with Anthropic (Claude), OpenAI, Google Gemini, AWS Bedrock, Azure, Groq, xAI, Ollama, OpenRouter, GitHub Copilot and any service that speaks the OpenAI format. You can keep several accounts and switch model mid-conversation.
 
-- **Browser Automation**: Navigate, click, fill forms, and execute JavaScript.
-- **Content Capture**: Extract clean text from complex sites and generate screenshots or PDFs of web pages.
-- **Network & Console Analysis**: Access console logs and network traffic for web application debugging.
+| Feature | In one line |
+|---|---|
+| [GitHub Copilot Auth]({{< relref "/docs/features/copilot-auth" >}}) | Use the Copilot subscription you already pay for. |
+| [Local LLM Proxy]({{< relref "/docs/features/llm-proxy" >}}) | Lend your AI accounts to your other tools through one local address. |
 
-## Model Context Protocol (MCP)
+### Connections
 
-- **MCP Client**: Connect to any MCP server to extend Pando's capabilities with third-party tools.
-- **MCP Server**: Pando can act as an MCP server (`pando mcp-server`), exposing its internal tools (filesystem, terminal, browser, search) to other agents or applications via `stdio` and `HTTP` transports.
+| Feature | In one line |
+|---|---|
+| [MCP]({{< relref "/docs/mcp" >}}) | Power strips for extra tools: plug in a server, get new abilities. |
+| [MCP Server Authentication]({{< relref "/docs/features/mcp-authentication" >}}) | How Pando shows its ID to tool servers that ask for it. |
+| [ACP]({{< relref "/docs/acp" >}}) | Pando inside your code editor: Zed, VS Code, JetBrains, Xcode. |
+| [AG-UI for Web Apps]({{< relref "/docs/features/agui" >}}) | Put a Pando chat inside your own web page. |
+| [LSP Auto-Activation]({{< relref "/docs/features/lsp-auto-activation" >}}) | Pando borrows your editor's spell-checker for code. |
+| [Inter-Process Communication]({{< relref "/docs/features/ipc" >}}) | Several Pando windows that talk to each other and stay in sync. |
 
-## Isolation & Containers
+### Hands
 
-Pando supports multiple execution environments for enhanced security and reproducibility:
+| Feature | In one line |
+|---|---|
+| [Browser Automation]({{< relref "/docs/features/browser-automation" >}}) | Pando opens web pages, clicks and reads them for you. |
+| [Desktop Controller]({{< relref "/docs/features/desktop-controller" >}}) | Pando can see and use the apps on your desktop. |
+| [Document Conversion]({{< relref "/docs/features/markitdown" >}}) | PDFs, Word and Excel files turned into text Pando can read. |
 
-- **Isolated Execution**: Native support for running commands and tools inside **Docker** or **Podman** containers.
-- **Devcontainers**: Integration with standardized development environments.
-- **Embedded Runtime**: Controlled execution to minimize side effects on the host system.
-- **Command Sandbox**: on Linux and macOS, the commands the agent runs on your machine are confined to your project by default. See [Command Sandbox](sandbox).
+Web search through Google, Brave, Perplexity and Exa is built in: add a key and Pando can look things up.
 
-## Multi-Provider & Multi-Account
+### Extend
 
-- **Broad Support**: Compatible with Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, xAI, Ollama, OpenRouter, GitHub Copilot and any OpenAI-compatible service.
-- **Account Management**: Configure multiple accounts for the same provider and switch between them or between different models instantly.
-- **Model Auto Mode**: let Pando pick the model for each prompt from routes you define. See [Model Auto Mode](model-auto-mode).
-- **Sign-in**: Anthropic and Gemini use an API key. GitHub Copilot uses your GitHub login.
+| Feature | In one line |
+|---|---|
+| [Extensions]({{< relref "/docs/features/extensions" >}}) | Add-ons for teams that need Pando to do something of their own. |
+| [Ponytail Skill]({{< relref "/docs/features/ponytail" >}}) | A rule set that keeps Pando from building more than you asked for. |
 
-## Automatic Indexing & RAG
+Skills (recipe cards Pando follows for a kind of job), custom commands and Lua scripts also live here. See the guide [Write your first skill]({{< relref "/guides/first-skill" >}}).
 
-Pando understands your code and documentation through Retrieval-Augmented Generation (RAG):
+### Trust
 
-- **Automatic Context Injection**: The enrichment engine searches in parallel across the knowledge base, code index, and past session events to inject relevant information into every prompt.
-- **Code Indexing**: Uses tree-sitter and embeddings to create a semantic map of your project.
-- **Knowledge Base (KB)**: Sync Markdown documentation for intelligent retrieval.
+| Feature | In one line |
+|---|---|
+| [Command Sandbox]({{< relref "/docs/features/sandbox" >}}) | A playpen: the agent's commands cannot leave your project. |
+| [AGE encryption]({{< relref "/docs/configuration/age-encryption" >}}) | Your keys and passwords stored in a locked box. |
+| [Auto HTTPS Certificates]({{< relref "/docs/features/https-auto-cert" >}}) | The padlock in the address bar, set up for you. |
 
-## Personas & Customization
+Docker and Podman containers are supported for people who want the agent in a room of its own. See [Isolate work in dev containers]({{< relref "/guides/dev-containers" >}}).
 
-- **Persona Support**: Define different AI "personas" with specific system instructions. Pando can switch between them to adapt to different tasks (coding, review, doc, etc.).
-- **Self-Improvement**: Built-in tools for evaluating and self-improving prompts based on performance metrics and task success rates.
+### Day to day
 
-## Agent Orchestration (Mesnada)
+| Feature | In one line |
+|---|---|
+| [Cross-Platform Installers]({{< relref "/docs/features/installers" >}}) | One download for macOS, Linux and Windows. |
+| [Self-Update]({{< relref "/docs/features/self-update" >}}) | Pando updates itself with one command. |
+| [Remote Diagnostics]({{< relref "/docs/features/remote-diagnostics" >}}) | A black box you can switch on when you report a problem. |
+| [Database Compact]({{< relref "/docs/features/db-compact" >}}) | A spring clean for Pando's storage. |
+| [Config File Discovery]({{< relref "/docs/features/config-discovery" >}}) | How Pando finds your settings, wherever you start it. |
 
-Pando includes **Mesnada**, a powerful agent delegation framework that allows you to spawn specialized sub-agents to tackle complex programming tasks:
+## Also part of every session
 
-- **Seamless Background Work**: Sub-agents work concurrently in the background while you focus on your code. Pando manages multiple running instances without conflicts or resource locking.
-- **Auto-Relaunch Resilience**: If a sub-agent experiences a connection loss or minor failure, Pando automatically recovers and restarts the agent to complete the task.
-- **Simplified Agent Spawning**: Launch and orchestrate agents with a single command or sidebar toggle in the interface.
+- **Your conversations are kept.** Every session is saved on your computer and you can pick it up later, from any of the surfaces.
+- **Personas.** Pando can wear different hats (assistant, software engineer, QA…) and switch between them, by hand or on its own.
+- **It asks before it acts.** Running a command or changing a file needs your OK, unless the sandbox makes it safe or you have allowed it.
+- **You see every change.** Files the agent touched are listed next to the chat, with the before and after.
+- **Everything stays local.** Conversations, memory and settings live on your machine.
 
-## Contextual Intelligence & LSP
-
-- **LSP Integration**: Real-time code intelligence with diagnostics, errors, and autocompletion informed by the Language Server Protocol.
-- **Event Memory**: Record important decisions and observations for later recall.
-- **Change Tracking**: Real-time diff visualization of all changes made by the AI.
-
-## Automation & Hooks
-
-- **Custom Commands**: Define your own reusable prompts with argument support via Markdown files.
-- **Lua Hooks**: Customize Pando's behavior with Lua scripts to automate specific workflows.
-- **REST API & SSE**: Pando is fully API-fied, allowing integration into other workflows via its programmatic API.
-
-## Vulnerability Hunter
-
-Adversarial security audit workflow ported from [Capital One's VulnHunter](https://github.com/capitalone/VulnHunter). Three slash commands provide a complete security workflow:
-
-- **`/vulnhunt`**: Full security audit — recon, parallel vulnerability hunting, exploitability verification, and adversarial disproof.
-- **`/vulnhunter-fix`**: Test-driven remediation — exploit proof, failing security test, fix, and regression-free verification.
-- **`/vulnhunt-fix-verify`**: Read-only independent verification of claimed fixes with per-finding verdicts.
-
-Findings are persisted to the knowledge base and can be referenced across sessions.
-
-## Internal Tool Optimizations
-
-### Tool Response Caching & Pagination
-
-When a tool returns a large response (above configurable byte or line thresholds), Pando automatically intercepts the response before returning it to the LLM and stores it in a **per-session LRU cache**. Instead of sending the full content to the model — consuming precious tokens — a compact summary is returned with the cache ID, size metadata, and an inline preview with **line numbering**. The agent can then use the `cache_read` tool to retrieve specific pages of cached content as needed. This dramatically reduces token consumption for large tool responses such as extensive searches or file reads.
-
-### Lua Filters in the MCP Gateway (pre/post tool hooks)
-
-Pando exposes an **MCP Gateway** that centralizes tool calls to external MCP servers. This gateway supports **Lua-written filters** that run at two strategic points:
-
-- **Input filter (`<server-name>-input`)**: Runs just before calling the tool, allowing modification, sanitization, or enrichment of invocation parameters.
-- **Output filter (`<server-name>-output`)**: Runs immediately after receiving the tool response, allowing transformation or cleaning of the result before returning it to the agent.
-
-If no server-specific filter exists, a global fallback filter is used (`global-input` / `global-output`). Filters run in a Lua sandbox with configurable timeout, and shell/OS modules are explicitly excluded for security.
-
-### Lua Hook Engine in the Prompt System
-
-In addition to tool filters, Pando has a **complete Lua hook system** that fires at every stage of system prompt composition:
-
-- `hook_system_prompt` — Final modification of the complete prompt.
-- `hook_session_start` / `hook_session_restore` — Session lifecycle events.
-- `hook_user_prompt` — Sanitize the user message before storing it.
-- `hook_agent_response_finish` — Notification when model generation completes.
-- `hook_template_section` — Modify or remove individual template sections.
-- `hook_capability_check` — Override automatic capability detection.
-- `hook_provider_select` — Dynamic provider template selection.
-- `hook_prompt_compose` — Reorder, add, or remove entire prompt sections.
-
-Hooks are written in `.lua` files and support hot reloading (`HotReload`), ideal for iterative development. They include helper functions such as `pando_get_config`, `pando_load_file`, and `pando_list_mcp_servers`.
-
-### Line Numbering When Reading Files
-
-The `view` tool renders file contents with **automatic line numbering** (6-digit padded), making it easy for the agent to reference specific lines in its edits or explanations. When content exceeds the display limit, a note is appended indicating how many additional lines exist and how to use the `offset` parameter to continue reading.
-
-### High-Speed Search Engine
-
-Pando includes a **custom search engine** (`internal/search`) optimized for walking directory trees with multiple concurrent workers (4 by default). Features include:
-
-- **Concurrent scanning**: Producer-consumer pattern with parallel workers processing files simultaneously.
-- **Skip binaries**: Heuristic binary file detection (same heuristic as ripgrep) to avoid false positives.
-- **File ignores**: Native support for `.gitignore` and `.pandoignore`, walking the directory hierarchy up to the root.
-- **Type filters**: Search restricted to specific language extensions (`type: go`, `type: ts`, etc.).
-- **Match context**: `before` and `after` parameters for context lines, with a circular buffer for efficiency.
-- **Regex caching**: Regular expressions are compiled once and reused across the entire session via `sync.Map`.
-- **Multiline**: Support for patterns spanning multiple lines by loading the full file.
-- **Native pagination**: Results are sorted by modification time (newest first) and support `offset` and `head_limit` for navigating result pages.
-
-This internal search layer is entirely separate from web search tools, operating exclusively on the local filesystem for maximum speed and privacy.
+Curious about the machinery? [Under the Hood]({{< relref "/docs/configuration/under-the-hood" >}}) has the technical notes.

@@ -3,71 +3,38 @@ title: AG-UI for Web Apps
 weight: 42
 ---
 
-Pando can be the agent behind your own web application. It speaks [AG-UI](https://docs.ag-ui.com), the protocol used by [CopilotKit](https://www.copilotkit.ai) and similar React toolkits, so a chat panel inside your product can talk to a Pando agent that reads files, runs tools and delegates work.
+Pando can be the brain behind a chat box in your own web application. Your page is the shop counter; Pando is the workshop at the back, reading files, running tools and handing work to its crew. The two talk in [AG-UI](https://docs.ag-ui.com), the shared language used by [CopilotKit](https://www.copilotkit.ai) and similar toolkits.
 
 It is **off by default**, because it puts an agent that can run code within reach of a browser.
 
-## Start it
+## What it does for you
 
-```bash
-# Only AG-UI, on its own port (recommended)
-pando agui-serve --port 8090 --allow-origin http://localhost:3000
+- **A real agent in your product.** Not a chat that only talks: one that works on a project.
+- **Answers that arrive as they are written**, with the agent's activity shown alongside.
+- **Approvals and questions inside your page.** When the agent needs permission or wants to ask something, your interface shows it.
+- **Your page's own actions.** Buttons and functions you define can be used by the agent.
+- **Live status to draw.** The model in use, the budget left, the to-do list, the files touched and the sub-agents at work arrive as data, ready to show as cards.
+- **Several characters from one Pando.** A profile is a named agent with its own model, persona and tools. You can offer a careful "reviewer" and a hands-on "coder", each at its own address.
 
-# Or next to the Web UI
-pando serve --agui-port 8090
-```
+## How it feels in practice
 
-Pando prints an access token on startup. Point your frontend at `http://localhost:8090/api/v1/agui/coder` and send the token as `Authorization: Bearer <token>`. The token is kept between restarts, so you configure it once.
+A visitor types in your page. The answer streams in, with a small panel showing what the agent is doing. If they reload, the conversation is still there. If their connection drops, the work continues for two minutes; when they come back they get what they missed and then the live stream again. Even restarting Pando does not lose the thread.
 
-## What your page gets
+## When to use it
 
-- **Streaming chat** with the agent, including its tool activity.
-- **Approvals and questions in the page**: when the agent needs permission or asks something, your interface shows it.
-- **Your own frontend tools**: actions you define in the page can be called by the agent.
-- **Live state**: the model in use, the token budget, the to-do list, the files touched and the sub-agents at work, ready to render as cards instead of parsing chat text.
-- **Conversations that survive**: reload the page, or restart Pando, and the same thread continues.
-- **Runs that keep going**: if the browser disconnects, the run waits for two minutes. Reconnect and you get what you missed, then the live stream.
+Use it when you are building a web app and want an assistant in it that can really do things with a codebase or a set of files.
 
-## Agent profiles
+It is not meant for chatting with Pando yourself: for that there is the Web UI.
 
-A profile is a named agent with its own model, persona and set of tools. Use profiles to offer, for example, a read-only "reviewer" and a full "coder" from the same Pando, each on its own address.
+## Good to know
 
-```toml
-[AGUI.Profiles.reviewer]
-Base    = 'coder'
-Model   = 'anthropic.claude-sonnet-4'
-Persona = 'code-reviewer'
-```
+- Only the web addresses you list may connect, and every request needs an access token.
+- The token stays the same between restarts, so you set it once in your page.
+- Keep it listening on your own machine unless you put it behind your own gateway.
+- Running it as its own process, apart from the Web UI, is the recommended way.
 
-## Configuration
+## Next steps
 
-```toml
-[AGUI]
-Enabled        = true
-Port           = 8090
-Host           = 'localhost'
-Agents         = ['coder']
-AllowedOrigins = ['http://localhost:3000']   # empty means no browser may connect
-RequireToken   = true
-FrontendTools  = true
-HumanInTheLoop = true
-```
-
-{{< callout type="warning" >}}
-Only the origins you list can connect from a browser, and every request needs the token. Keep `Host` on `localhost` unless you put Pando behind your own reverse proxy.
-{{< /callout >}}
-
-## Client libraries
-
-The TypeScript SDK includes a client and a CopilotKit helper:
-
-```typescript
-import { PandoAguiClient } from '@pando-ai/sdk/agui';
-
-const client = new PandoAguiClient({ baseUrl: 'http://localhost:8090', token });
-for await (const event of client.run({ prompt: 'Summarise the repo' })) {
-  if (event.type === 'TEXT_MESSAGE_CONTENT') process.stdout.write(event.delta);
-}
-```
-
-A complete Next.js example with chat, a state dashboard, a frontend tool and in-page approvals is in the Pando repository under [`examples/copilotkit`](https://github.com/digiogithub/pando/tree/main/examples/copilotkit).
+- Guide: [Use Pando from your editor and other apps]({{< relref "/guides/editors-and-other-apps" >}}) starts the server and connects a page.
+- Reference: [commands, config keys, profiles and the client library]({{< relref "/docs/configuration/providers" >}}).
+- Example: a complete Next.js app in [`examples/copilotkit`](https://github.com/digiogithub/pando/tree/main/examples/copilotkit).

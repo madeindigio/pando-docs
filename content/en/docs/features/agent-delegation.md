@@ -3,149 +3,40 @@ title: Agent Delegation & Orchestration
 weight: 11
 ---
 
-Pando includes **Mesnada**, a powerful agent orchestration framework that allows you to delegate tasks to specialized sub-agents running in the background. Sub-agents can work on different projects, use different engines, and report results back to the parent agent automatically.
+One agent is a single pair of hands. **Mesnada** gives Pando a crew: helpers, called subagents, that each take a job, work in the background at the same time and come back with a report. Pando becomes the foreman: it splits the work, hands it out and gathers the results.
 
-## Spawning Sub-Agents
+## What it does for you
 
-The `mesnada_spawn_agent` tool launches background tasks:
+- **Work in parallel.** Three modules to review are three helpers working at once, not one after another.
+- **A clean main conversation.** Each helper works in its own separate conversation. Yours only receives the conclusions.
+- **The right helper for each job.** Some helpers may only look and not touch, which is ideal for exploring. A helper can use a different model, or even a different assistant you have installed.
+- **Jobs in order.** A job can wait for others to finish and start from their results.
+- **Across projects.** A helper can be sent to another of your projects.
+- **Jobs on a schedule.** A task can repeat every morning by itself.
 
-```json
-{
-  "prompt": "Analyze the authentication module and write tests",
-  "subagent_type": "general",
-  "description": "Write auth tests",
-  "background": true
-}
-```
+## How it feels in practice
 
-### Key Parameters
+Often you just ask: "use one subagent per service and give me one summary". Pando hands out the jobs and carries on. When the helpers finish, their reports arrive in your conversation by themselves, and if Pando had already stopped, it wakes up to read them and continue.
 
-| Parameter | Description |
-|-----------|-------------|
-| `prompt` | The instruction for the spawned task |
-| `subagent_type` | `explore` (read-only) or `general` (full capabilities) |
-| `background` | `true` for fire-and-forget, `false` to block until completion |
-| `project` | Target a registered project by id, name, or path |
-| `engine` | CLI engine: `pando`, `copilot`, `claude`, `gemini`, etc. |
-| `model` | Override the model for this task |
-| `dependencies` | List of task IDs that must complete first |
-| `task_id` | Relaunch an existing task in-place |
+{{< shot src="images/webui/pando-webui-orchestrator-tasks.jpg" alt="Orchestrator view with the list of Mesnada tasks" >}}
 
-## Waiting for Results
+The Orchestrator view is the foreman's board: every job, running or finished, with its result. You can also create a job there by hand, or schedule one.
 
-{{< shot src="images/webui/pando-webui-settings-general-subagent-delegation.jpg" alt="Subagent delegation settings" >}}
+## When to use it
 
-### Non-Blocking (Recommended)
+Delegate work that can be split into parts that do not step on each other: reading different areas of the code, writing tests for separate modules, researching several questions. Do not delegate two jobs that edit the same file; that is two people writing on the same sheet.
 
-Use `mesnada_await` after spawning background tasks:
+## Good to know
 
-```json
-{
-  "action": "wait",
-  "actor_id": "explore-1"
-}
-```
+- Helpers start in your project folder with your settings, but they do not see your conversation. They only know what the job description says.
+- More helpers means more speed and more spending. There is a limit on how many work at once.
+- Guard rails keep things sane: a limit on helpers hiring their own helpers, a fact-check that downgrades a report mentioning files that do not exist, and a breaker that stops relaunching a job that keeps failing.
+- If a project is already open in another Pando window, a helper can use that window instead of starting from cold.
+- Reports are written down before they are delivered, so a restart in the middle does not lose them.
+- You can define your own kinds of helper to drive other command-line assistants.
 
-The parent agent is automatically resumed when results arrive.
+## Next steps
 
-### Blocking
-
-Use `mesnada_wait_task` to block until a specific task completes:
-
-```json
-{
-  "task_id": "T1",
-  "timeout": "10m"
-}
-```
-
-## Task Dependencies
-
-Tasks can depend on other tasks. A dependent task starts only when all its dependencies complete:
-
-```json
-{
-  "prompt": "Write tests based on the analysis",
-  "dependencies": ["T1", "T2"],
-  "include_dependency_logs": true,
-  "dependency_log_lines": 100
-}
-```
-
-## Custom Engine Templates
-
-Define custom agent engines by placing `*.template.yaml` files in the engines directory:
-
-```toml
-[Mesnada.Orchestrator]
-EnginesDir = ''   # defaults to <dirname(LogDir)>/engines
-```
-
-Each template specifies command, args (with Go template expressions), prompt mode, output format, and available models. Custom engines appear dynamically in the `mesnada_spawn_agent` tool.
-
-## Multi-Project Delegation
-
-Delegate tasks to other running Pando instances across different projects:
-
-```toml
-[Mesnada.Delegation]
-Enabled = true
-ReuseWarmInstances = true
-AutoStartWarmInstance = true
-```
-
-The `project` parameter routes the task to the correct project's warm instance.
-
-## Warm Instance Reuse
-
-{{< shot src="images/webui/pando-webui-settings-general-delegation-warm-instances.jpg" alt="Warm instance, integrity gate and circuit breaker settings" >}}
-
-When enabled, delegated tasks are routed to already-running ("warm") ACP instances instead of spawning new CLI processes:
-
-```toml
-[Mesnada.Delegation]
-ReuseWarmInstances = true
-WarmInstanceIdleTimeout = '10m'
-MaxConcurrent = 8
-```
-
-## Delegation Supervisor
-
-{{< shot src="images/webui/pando-webui-settings-general-delegation-event-log.jpg" alt="Durable event log and dispatch settings" >}}
-
-The supervisor handles automatic finalization of delegated tasks:
-
-- **Inject into live loop**: When a task completes while the parent is running, results are injected automatically
-- **Resurrect idle loop**: When tasks complete while the parent is idle, the parent is woken up with combined results
-
-```toml
-[Mesnada.Delegation]
-Enabled = true
-InjectIntoLiveLoop = true
-ResurrectIdleLoop = true
-MaxResurrections = 4
-MaxDepth = 3
-```
-
-## Hot-Peer Delegation (IPC)
-
-Instances can delegate tasks to external peer instances over ZeroMQ IPC:
-
-```toml
-[Mesnada.Delegation]
-AllowExternalWarmTargets = true   # caller-side
-AcceptDelegations = true           # target-side
-```
-
-## Session Management
-
-Manage Mesnada tasks with dedicated tools:
-
-- `mesnada_get_task` - Get task details
-- `mesnada_list_tasks` - List tasks with filters
-- `mesnada_cancel_task` - Cancel a task
-- `mesnada_get_task_output` - Get stdout/stderr
-
-{{< callout >}}
-Sub-agents run in isolated sessions with their own context. They inherit the working directory and project configuration but operate independently.
-{{< /callout >}}
+- Guide: [Delegate to subagents with Mesnada]({{< relref "/guides/mesnada" >}}).
+- Reference: [Delegation and Mesnada configuration]({{< relref "/docs/configuration/delegation" >}}), including the tools the agent uses to delegate.
+- Related: [Project workspaces]({{< relref "/docs/features/project-workspaces" >}}), [Inter-process communication]({{< relref "/docs/features/ipc" >}}).

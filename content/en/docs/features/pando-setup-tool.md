@@ -3,97 +3,36 @@ title: Agent Self-Service (pando_setup)
 weight: 31
 ---
 
-The `pando_setup` tool lets the AI agent inspect Pando's configuration, discover available models, check session usage, and activate slash commands — all without leaving the conversation. It's like giving the agent its own control panel.
+Pando's agent has its own control panel. Like a new employee with access to the company handbook, it can look up how Pando is set up, which models are available and how much the session has cost, without stopping to ask you. The panel is a built-in tool called `pando_setup`.
 
-This tool is always available to the agent and requires no configuration. It's read-only for configuration and providers, and can activate certain slash commands when appropriate.
+You never call it yourself. The agent uses it when it needs to.
 
-## How It Works
+## What it does for you
 
-The agent uses `pando_setup` automatically during conversations. You don't call it directly — the AI decides when it needs to check settings, find available models, or run a command.
+- **Answers about your own setup.** Ask "which models can I use?" or "what has this session cost?" and Pando checks instead of guessing.
+- **Better choices.** Before suggesting a model, the agent can see its price, how much it can keep in its head and what it is able to do.
+- **Modes on request.** Say "be briefer" and the agent can switch on [Caveman]({{< relref "/docs/features/caveman-mode" >}}) for the session by itself.
+- **Nothing to configure.** It is always there.
 
-### What the Agent Can Do
+## How it feels in practice
 
-| Command | Purpose |
-|---------|---------|
-| `help` | List available commands or get usage for a specific one |
-| `config` | Read the active configuration (read-only, same view as TUI/WebUI settings) |
-| `providers` | List configured provider accounts with types, credentials, and model counts |
-| `models` | Browse available models with context window, pricing, and capabilities |
-| `session` | Check last turn's token usage and accumulated session cost |
-| `commands` | List available slash commands |
-| `run <command>` | Activate a slash command for the current session |
+In the middle of a conversation you ask "is my Copilot account set up?". The agent looks at the list of accounts and answers. You ask it to compare two models; it reads their details from the live list, which is enriched with the public [models.dev](https://models.dev) catalogue. You never see a settings screen.
 
-## Examples
+What the agent can look up: the active settings, your provider accounts, the available models, the usage and cost of the session, and the list of commands. It can also switch on the working modes (Caveman, Ponytail, Superpowers, Learning) and run your custom commands.
 
-The agent might use these commands during a conversation:
+## When to use it
 
-- **Checking models**: `pando_setup models --provider copilot --detail` — shows available Copilot models with pricing and context windows
-- **Listing providers**: `pando_setup providers` — shows all configured provider accounts
-- **Viewing config**: `pando_setup config --search auth` — searches configuration for auth-related settings
-- **Running a command**: `pando_setup run /caveman lite` — enables caveman mode for the session
-- **Session stats**: `pando_setup session` — shows token usage and cost for the current session
+There is nothing to switch on. Just remember you can ask Pando about itself in plain words.
 
-## Model Discovery
+## Good to know
 
-The `models` command uses the live model registry, enriched with data from [models.dev](https://models.dev). It shows:
+- **Look, don't touch.** The agent can read the settings but cannot change them. There is no way for it to write to your configuration through this tool.
+- **Secrets stay secret.** Keys and passwords are masked; the agent sees only that one exists and its last four characters.
+- **Some commands are not for the agent.** Starting or cancelling a goal, compacting the session and closing a mode need you at the controls.
+- It is designed to cost very few tokens: it carries a tiny description and fetches details only when needed.
 
-- **Canonical ID**: e.g., `copilot.gpt-5.4`, `anthropic.claude-sonnet-4-5`
-- **Context window**: Token limit (e.g., 200K, 1M)
-- **Pricing**: Per-million-token input/output costs
-- **Capabilities**: Reasoning, image support, etc.
-- **Knowledge cutoff**: Training data cutoff date
+## Next steps
 
-Filter by provider, search by name, or limit results:
-
-```bash
-pando_setup models --provider anthropic --detail --limit 5
-```
-
-## Configuration Access
-
-The `config` command reads the same configuration that TUI and WebUI settings panels show. Secrets are masked (only last 4 characters visible) so the agent can tell "configured" from "unset" without seeing actual values.
-
-```bash
-pando_setup config                           # show all config
-pando_setup config --search token            # search for token-related settings
-pando_setup config TokenOptimization         # show a specific section
-```
-
-## Slash Commands
-
-The agent can activate certain slash commands via `pando_setup run`:
-
-**Mode commands** (mutate session state):
-- `/caveman`, `/caveman-finish`
-- `/ponytail`, `/ponytail-finish`
-- `/superpowers`, `/superpowers-finish`
-- `/learning`, `/learning-finish`
-
-**Instruction commands** (return instructions for the current turn):
-- `/improve-agents-md`
-- `/vulnhunt`, `/vulnhunter-fix`, `/vulnhunt-fix-verify`
-- Custom `user:` and `project:` commands
-
-Some commands are **blocked** because they require surface-level interaction:
-- `/goal*` commands
-- `/compact`, `/db-compact`
-- All `-finish` closing commands
-
-## Security
-
-- Configuration is strictly **read-only** — no write path exists
-- Secrets are masked by key suffix (`apikey`, `token`, `password`, `secret`, etc.)
-- The tool description stays under 600 characters to keep token cost low
-- The tool is always included in the agent's toolset (cannot be trimmed by context optimization)
-
-## Configuration Reference
-
-The `pando_setup` tool requires no configuration. It is always available.
-
-| Setting | Description |
-|---------|-------------|
-| None | The tool is built-in and always active |
-
-{{< callout type="info" >}}
-The `pando_setup` tool is designed to be cheap in tokens. Its description is minimal, and it discovers detail on demand through `help` and `--help` rather than enumerating everything upfront.
-{{< /callout >}}
+- Reference: the full list of what the tool can do is in [Delegation and Mesnada configuration]({{< relref "/docs/configuration/delegation" >}}#agent-self-service-pando_setup).
+- Guide: [Change how Pando thinks and talks]({{< relref "/guides/working-modes" >}}) for the modes it can switch on.
+- Related: [Slash commands]({{< relref "/docs/features/slash-commands" >}}).

@@ -3,46 +3,37 @@ title: Razonamiento y esfuerzo de pensamiento
 weight: 37
 ---
 
-Los modelos modernos exponen un dial de «cuánto debo pensar»: pensamiento extendido en Claude, esfuerzo de razonamiento en modelos GPT y Copilot. Pando resuelve ahora ese dial **por modelo**, así que nunca envías un valor que el modelo rechace.
+Los modelos actuales tienen un mando de «cuánto me lo pienso». Es la diferencia entre contestar de memoria y sentarse con papel y lápiz. Pando te deja girar ese mando y se ocupa de un detalle que antes dolía: cada modelo tiene escalones distintos.
 
-## Por qué importa
+## Qué hace por ti
 
-Los valores no son los mismos en todas partes. Algunos modelos solo aceptan `high`. Otros solo `low` y `high`. Otros no aceptan nada. Enviar el valor equivocado provocaba antes un error del proveedor en mitad de tu trabajo.
+- **Solo enseña lo que tu modelo acepta.** Unos modelos solo conocen «alto», otros «bajo» y «alto», y algunos no tienen mando. Pando ofrece únicamente los escalones que existen para el modelo que has elegido.
+- **Nunca falla por un valor equivocado.** Si un ajuste no le vale al modelo, Pando lo lleva al escalón válido más cercano en lugar de pararte el trabajo con un error.
+- **Elige un valor sensato por defecto.** Medio cuando existe; si no, lo más parecido.
 
-Ahora Pando conoce los valores aceptados por el modelo seleccionado y:
+## Cómo se nota en el día a día
 
-- te ofrece solo los valores que ese modelo soporta de verdad,
-- ajusta al rango válido en lugar de fallar,
-- elige un valor por defecto sensato (`medium` si está disponible; si no, lo más parecido).
+Sumando todos los proveedores, el mando puede pasar por ninguno, mínimo, bajo, medio, alto, extra alto y máximo. Lo que ves depende del modelo. Cambias de modelo y la lista de escalones cambia con él.
 
-El rango completo entre proveedores es `none`, `minimal`, `low`, `medium`, `high`, `xhigh` y `max`, pero lo que ves depende del modelo.
+| Esfuerzo | Va bien para |
+|--------|----------|
+| Ninguno, mínimo | Ediciones mecánicas, formateo, traducciones, trabajo en masa donde importan la velocidad y el coste |
+| Bajo | El día a día en un código que conoces bien |
+| Medio | El valor por defecto. La mayoría de las tareas |
+| Alto y superiores | Decisiones de diseño, un fallo que no entiendes, planificar un cambio en varios pasos |
 
-## Cómo cambiarlo
+## Cuándo usarlo
 
-- **TUI y WebUI**: el selector de modelo muestra las opciones de esfuerzo disponibles para el modelo elegido.
-- **Zed / VS Code / JetBrains (ACP)**: el menú de ajustes de sesión lista las mismas opciones, reconstruidas cada vez que cambias de modelo.
-- **Configuración**, por agente:
+Pensar más cuesta más y tarda más, así que no dejes el mando en alto por costumbre. Como puedes cambiar de modelo y de esfuerzo a mitad de sesión, un patrón habitual es planificar con esfuerzo alto y bajar a bajo para la parte mecánica.
 
-```toml
-[Agents.coder]
-Model           = 'anthropic.claude-sonnet-5'
-ReasoningEffort = 'high'
-ThinkingMode    = ''
-```
+## Conviene saber
 
-Deja `ReasoningEffort` vacío para que Pando elija el valor por defecto del modelo.
+- El mando se ajusta por agente: el que programa, el que resume y los demás pueden tener cada uno el suyo.
+- Algunos modelos usan un mando algo distinto, una parte de la respuesta reservada para pensar. Pando lo muestra como «thinking mode» junto al esfuerzo.
+- El precio, el tamaño de memoria y el soporte de razonamiento de cada modelo se completan con el catálogo público [models.dev](https://models.dev), así que aparecen en la lista de modelos sin configurar nada.
 
-## Guía práctica
+## Siguientes pasos
 
-| Esfuerzo | Bueno para |
-|----------|------------|
-| `none` / `minimal` | Ediciones mecánicas, formateo, traducciones, trabajo en volumen donde importan velocidad y coste |
-| `low` | Programación diaria en una base de código bien conocida |
-| `medium` | El valor por defecto. La mayoría de tareas. |
-| `high` / `xhigh` / `max` | Decisiones de arquitectura, depurar algo que no entiendes, planificar un cambio de varios pasos |
-
-Más esfuerzo cuesta más tokens y tarda más. Como Pando permite cambiar de modelo y de esfuerzo a mitad de sesión, un patrón habitual es planificar con esfuerzo alto y bajar a bajo para la parte mecánica.
-
-{{< callout >}}
-Las capacidades de los modelos también se enriquecen desde [models.dev](https://models.dev), así que el precio, la ventana de contexto y el soporte de razonamiento aparecen en el selector sin configurar nada.
-{{< /callout >}}
+- Guía: [Cambia cómo piensa y cómo habla Pando]({{< relref "/guides/working-modes" >}}) enseña dónde está el mando.
+- Referencia: [Modos de trabajo]({{< relref "/docs/configuration/modes" >}}).
+- Relacionado: [Modo automático de modelos]({{< relref "/docs/features/model-auto-mode" >}}) para que cambie de modelo él solo.

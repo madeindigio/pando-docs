@@ -3,13 +3,42 @@ title: Configuración
 weight: 2
 ---
 
-Pando busca su configuración en los siguientes ubicaciones (en orden de prioridad):
+Esta sección es la estantería de consulta: nombres exactos de las opciones, valores por defecto y comandos. Si lo que quieres es aprender a configurar algo, las [guías]({{< relref "/guides" >}}) te llevan de la mano por la Web UI, y casi todas las opciones de aquí tienen su interruptor en **Configuración**.
 
-1. `./.pando.json` o `./.pando.toml` (directorio local del proyecto)
-2. `$XDG_CONFIG_HOME/pando/.pando.json` o `$XDG_CONFIG_HOME/pando/.pando.toml`
-3. `$HOME/.pando.json` o `$HOME/.pando.toml`
+## Dónde vive el fichero de configuración
 
-Se soportan ambos formatos **JSON** y **TOML**. Pando detecta el formato automáticamente por la extensión.
+Pando lee el primer fichero que encuentra, en este orden:
+
+1. `./.pando.toml` o `./.pando.json` en la carpeta donde lo arrancas
+2. El mismo fichero en cualquier carpeta de encima, subiendo hasta tu carpeta personal
+3. `$XDG_CONFIG_HOME/pando/.pando.toml` (normalmente `~/.config/pando/`)
+4. `$HOME/.pando.toml` o `$HOME/.pando.json`
+
+Valen **TOML** y **JSON**; Pando los distingue por la extensión. Cualquier valor se puede cambiar para una sola ejecución con una variable de entorno con el prefijo `PANDO_`, por ejemplo `PANDO_DEBUG=true`. Más en [Descubrimiento del fichero de configuración]({{< relref "/docs/features/config-discovery" >}}).
+
+## Páginas de referencia
+
+| Tema | Página |
+|---|---|
+| Web UI, acceso remoto, espacios de proyecto | [Web UI]({{< relref "/docs/configuration/webui" >}}) |
+| Cuentas de IA y modelos | [Proveedores]({{< relref "/docs/configuration/providers" >}}) |
+| Elección automática de modelo | [Modo automático]({{< relref "/docs/configuration/auto-mode" >}}) |
+| Modos de trabajo (razonamiento, caveman, aprendizaje…) | [Modos]({{< relref "/docs/configuration/modes" >}}) |
+| Modo objetivo | [Goal]({{< relref "/docs/configuration/goal" >}}) |
+| Memoria, base de conocimiento, índice de código | [Remembrances]({{< relref "/docs/configuration/remembrances" >}}) |
+| Modelos para la búsqueda de código | [Modelos de embeddings para código]({{< relref "/docs/configuration/embedding-models" >}}) |
+| Subagentes y orquestación | [Delegación]({{< relref "/docs/configuration/delegation" >}}) |
+| Aprender de sesiones pasadas | [Automejora]({{< relref "/docs/configuration/self-improvement" >}}) |
+| Servidores MCP | [MCP]({{< relref "/docs/configuration/mcp" >}}) |
+| Búsqueda web, navegador, control del escritorio | [Herramientas]({{< relref "/docs/configuration/tools" >}}) |
+| Servidores de lenguaje | [LSP]({{< relref "/docs/configuration/lsp" >}}) |
+| Editores (ACP) | [ACP avanzado]({{< relref "/docs/configuration/acp-advanced" >}}) |
+| Sandbox y permisos de comandos | [Sandbox]({{< relref "/docs/configuration/sandbox" >}}) |
+| Docker y Podman | [Contenedores]({{< relref "/docs/configuration/containers" >}}) |
+| Skills, Lua, extensiones | [Skills y extensiones]({{< relref "/docs/configuration/skills-and-extensions" >}}) |
+| Gastar menos tokens | [Optimización de tokens]({{< relref "/docs/configuration/token-optimization" >}}) |
+| Actualizaciones, diagnóstico, base de datos, HTTPS | [Diagnóstico y mantenimiento]({{< relref "/docs/configuration/diagnostics" >}}) |
+| Cifrar claves | [Seguridad de la configuración]({{< relref "/docs/configuration/security-age" >}}) · [Cifrado AGE]({{< relref "/docs/configuration/age-encryption" >}}) |
 
 ## Configuración básica
 
@@ -86,23 +115,7 @@ autoCompact = true
 
 ## Proveedores de IA
 
-{{< shot src="images/webui/pando-webui-settings-providers.jpg" alt="Cuentas de proveedor en Ajustes" >}}
-
-{{< shot src="images/webui/pando-webui-settings-providers-add-account.jpg" alt="Diálogo para añadir una cuenta de proveedor" >}}
-
-{{< shot src="images/webui/pando-webui-settings-agents.jpg" alt="Modelo de cada agente integrado en Ajustes" >}}
-
-Pando soporta los siguientes proveedores de IA:
-
-- **Anthropic** (Claude 3.5 Sonnet, Claude 3.7 Sonnet, etc.)
-- **OpenAI** (GPT-4o, GPT-4 Turbo, etc.)
-- **Google Gemini** (Gemini 1.5 Pro, Gemini 2.0, etc.)
-- **AWS Bedrock** (Claude en AWS)
-- **Groq** (Llama, Mixtral, etc.)
-- **Azure OpenAI**
-- **GitHub Copilot**
-- **OpenRouter** (acceso a múltiples modelos)
-- **Modelos locales** (via endpoint personalizado)
+Pando funciona con Anthropic, OpenAI, Google Gemini, AWS Bedrock, Groq, Azure OpenAI, GitHub Copilot, OpenRouter y modelos locales a través de un endpoint propio. Las cuentas y las claves se explican en [Proveedores]({{< relref "/docs/configuration/providers" >}}).
 
 ## Configuración avanzada
 
@@ -219,24 +232,11 @@ file = ".pando/pando.log"
 - hooks.path: Ruta para hooks personalizados (Lua, scripts) que Pando ejecuta en eventos.
 - storage.type/path: Tipo y ruta de almacenamiento (SQLite recomendado para persistencia).
 - ui.theme/editor: Preferencias para UI/web-ui y editor externo.
-- telemetry.*: Configuración para telemetría (desactivada por defecto).
+- telemetry.*: Diagnóstico remoto (desactivado por defecto). Mira [Diagnóstico y mantenimiento]({{< relref "/docs/configuration/diagnostics" >}}).
 - logging.*: Nivel y archivo de logs.
 
-## Opciones de Seguridad y Comodidad Premium
+## Primera configuración
 
-Pando incorpora varias características de última generación destinadas a simplificar tu configuración y proteger tus claves:
-
-- **Cifrado Local de Parámetros (AGE)**: Puedes cifrar cualquier cadena de texto sensible (como claves API de proveedores o datos de conexión a bases de datos) en tu archivo `.pando.toml` mediante `pando encrypt`. Esto mantiene a salvo tus credenciales, permitiéndote subir tus archivos de configuración a repositorios públicos de Git sin riesgos.
-- **Selector Visual de Modelos en la TUI**: Al utilizar el panel interactivo de configuración (`Ctrl+g` en la terminal), dispondrás de un selector visual de modelos con autocompletado en tiempo real, evitando errores tipográficos al introducir los nombres.
-- **HTTPS Seguro Local Automático**: Pando genera y gestiona automáticamente certificados SSL locales en el arranque para garantizar que todas las conexiones de red del Web-UI y la aplicación de escritorio se realicen bajo el protocolo HTTPS cifrado.
-- **Control de Snapshots (Instantáneas)**: Decide si deseas que Pando cree instantáneas automáticas de tus sesiones de trabajo. Puedes desactivarlas en el archivo `.pando.toml` para reducir el uso de espacio en disco en proyectos con bases de código masivas.
-
-Esta configuración flexible permite adaptar Pando a una amplia variedad de entornos y casos de uso, desde desarrollo local hasta integración en pipelines CI/CD o entornos de producción.
-
-## Configuración a través de asistente TUI
-
-Una de las formas más sencillas de configurar Pando es a través de su asistente TUI interactivo, que se lanza automáticamente si no se encuentra un archivo de configuración. Se abrirá el panel de configuración, generará el fichero de configuración por defecto y podrás añadir los proveedores de IA que quieras usar, así como personalizar otras opciones. El asistente TUI es ideal para usuarios nuevos o para quienes prefieren una configuración guiada paso a paso.
-
-La configuración de proveedores y tools también se guarda en tu perfil de usuario, lo que permite mantener tus claves API y preferencias incluso si mueves tu proyecto a otro directorio, cuando arrancas Pando sobre una nueva carpeta, el asistente autocompleta con los proveedores y herramientas que ya tienes configurados en tu perfil, para que puedas empezar a usarlos sin necesidad de configurar todo desde cero.
+Cuando Pando no encuentra ninguna configuración se ofrece a crearla: el [asistente de configuración]({{< relref "/docs/features/setup-assistant" >}}) en la Web UI y la app de escritorio, o el panel de configuración en la interfaz de terminal. Las cuentas y las herramientas se guardan además en tu perfil de usuario, así que una carpeta de proyecto nueva empieza con lo que ya tenías configurado.
 
 {{< asciinema file="https://asciinema.org/a/DgVZRnUHU0GEBKjW.cast" >}}

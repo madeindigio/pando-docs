@@ -30,11 +30,13 @@ roots:
     - { slug: goal-mode, en: "Goal Mode" }
     - { slug: tool-discovery, en: "Tool Discovery", es: "Descubrimiento de herramientas" }
     - { slug: model-auto-mode, en: "Model Auto Mode", es: "Modo automático de modelos" }
+    - { slug: decision-model, en: "Decision Model", es: "Modelo de decisión" }
     - { slug: reasoning-modes, en: "Thinking & Reasoning Effort", es: "Pensamiento y esfuerzo de razonamiento" }
     - { slug: superpowers-mode, en: "Superpowers Mode", es: "Modo Superpowers" }
   remembrances:
     - { slug: persistent-memory, en: "Persistent Memory System", es: "Memoria persistente" }
     - { slug: context-enrichment, en: "Context Enrichment", es: "Enriquecimiento de contexto" }
+    - { slug: code-embeddings, en: "Code Search by Meaning", es: "Búsqueda de código por significado" }
     - { slug: session-compaction, en: "Session Compaction", es: "Compactación de sesión" }
     - { slug: agent-vcs, en: "Agent‑VCS" }
   mesnada:

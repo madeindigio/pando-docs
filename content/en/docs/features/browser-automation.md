@@ -3,94 +3,39 @@ title: Browser Automation
 weight: 24
 ---
 
-Pando includes a full browser automation suite using chromedp, with support for multiple browser types including the lightweight Lightpanda browser.
+Pando can use a web browser the way you do: open a page, click, fill in a form, scroll, and look at what comes back. It is the difference between reading a restaurant's menu from a leaflet and walking in and ordering.
 
-## Browser Types
+## What it does for you
 
-| Type | Description |
-|------|-------------|
-| `chrome` | Google Chrome (default) |
-| `msedge` | Microsoft Edge |
-| `chromium` | Chromium |
-| `opera` | Opera |
-| `firefox` | Firefox (via fetch tool) |
-| `lightpanda` | Lightweight headless browser |
-| `obscura` | Fast headless browser written in Rust |
+- **Reads pages that need a real browser.** Many sites show nothing until their scripts run. Pando waits and reads the finished page.
+- **Does the clicking for you.** Navigate, press buttons, fill fields, scroll.
+- **Shows its work.** It can take a screenshot of a page or of one element, or save the page as a PDF.
+- **Helps you debug your own site.** It reads the page's console messages and the requests it made, which is where web bugs usually hide.
 
-## Available Tools
+## How it feels in practice
 
-### Navigation & Content
+You say: "open our staging site, log in with the test user and tell me if the dashboard loads". If you left the window visible, you watch the browser open and move by itself. Then Pando reports what it saw, with a screenshot if you asked for one.
 
-- `browser_navigate` - Navigate to URL
-- `browser_get_content` - Extract HTML, text, or title
-- `browser_screenshot` - Capture page or element screenshot
+When you only give Pando a link to read, it tries the quick way first and falls back to a browser only if the page needs one.
 
-### Interaction
+## When to use it
 
-- `browser_click` - Click on elements
-- `browser_fill` - Fill form inputs
-- `browser_scroll` - Scroll the page
-- `browser_evaluate` - Execute JavaScript
+- Testing a web app you are building.
+- Getting information from a site that has no simpler way in.
+- Capturing how a page looks.
 
-### Analysis
+For plain articles and documentation, the lighter fetch tool is enough and Pando picks it by itself.
 
-- `browser_console_logs` - Get JavaScript console messages
-- `browser_network` - Get network requests
-- `browser_pdf` - Generate PDF of page
+## Good to know
 
-## Lightpanda Support
+- It works with the browsers you probably have: Chrome, Edge, Chromium, Opera.
+- Two very light browsers with no window, Lightpanda and [Obscura](https://github.com/h4ckf0r0day/obscura), are supported too. They start fast and use little memory, which suits servers and automated checks where installing Chrome is heavy.
+- You choose whether the window is visible. Visible is good for trust; hidden is good for servers.
+- If your everyday browser is open, Pando uses a temporary profile instead of fighting for yours.
+- Only a few browser windows are kept open at once, so it does not eat your memory.
 
-Lightpanda is a lightweight, headless browser designed for automation:
+## Next steps
 
-```toml
-[InternalTools]
-BrowserType = 'lightpanda'
-```
-
-Unlike local browsers, Lightpanda is launched as a CDP server process and connected via WebSocket. No user profile or headless flags apply.
-
-## Obscura Support
-
-[Obscura](https://github.com/h4ckf0r0day/obscura) is a small headless browser that starts quickly and uses little memory. It is a good fit for servers, containers and CI, where installing Chrome is heavy.
-
-Install Obscura so that the `obscura` command is in your `PATH`, then select it:
-
-```toml
-[InternalTools]
-BrowserType = 'obscura'
-```
-
-All the browser tools work with it: navigating, reading content, clicking, filling forms, running JavaScript and taking screenshots. Like Lightpanda, it has no window and no user profile.
-
-## Configuration
-
-{{< shot src="images/webui/pando-webui-settings-tools-browser.jpg" alt="Browser tool settings" >}}
-
-```toml
-[InternalTools]
-BrowserEnabled = true
-BrowserType = 'chrome'
-BrowserExecutable = ''         # Auto-detect
-BrowserHeadless = false
-BrowserTimeout = 30            # seconds
-BrowserUserDataDir = ''
-BrowserMaxSessions = 3
-```
-
-## Fetch Tool Integration
-
-The fetch tool supports browser backends for JavaScript-heavy pages:
-
-```json
-{
-  "url": "https://example.com",
-  "format": "markdown",
-  "browser": "auto"
-}
-```
-
-Browser backends: `auto`, `chrome`, `firefox`, `curl`, `http`
-
-{{< callout >}}
-Browser sessions are pooled with configurable limits. Profile lock detection automatically falls back to temp profiles when the default profile is in use.
-{{< /callout >}}
+- Guide: [Give Pando eyes and hands]({{< relref "/guides/web-browser-desktop-tools" >}}) turns it on and picks a browser.
+- Reference: [browser options and the list of browser tools]({{< relref "/docs/configuration/tools" >}}).
+- Related: [Desktop Controller]({{< relref "/docs/features/desktop-controller" >}}), for apps that are not web pages.

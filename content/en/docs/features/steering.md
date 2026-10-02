@@ -3,53 +3,41 @@ title: Fast User Feedback (Steering)
 weight: 20
 ---
 
-Fast user feedback allows you to provide real-time course corrections while the agent is running, without cancelling the current operation. Messages are injected at the next safe boundary.
+Steering is talking to the driver without stopping the car. While Pando is in the middle of a job you can send a new message, "only the login part, please", and it adjusts course at the next safe moment instead of making you cancel and start again.
 
-## How It Works
+## What it does for you
 
-1. The agent is processing a task (running tools, generating code, etc.)
-2. You type a message and submit it
-3. The message is queued as "steering feedback"
-4. At the next safe boundary (after current tool results), the feedback is injected
-5. The agent receives it as a new user turn and adjusts
+- **No lost work.** Whatever Pando has already finished stays finished. Your message changes what comes next.
+- **No need to wait.** You do not have to sit until it finishes to say "not like that".
+- **Cheaper than starting over.** Cancelling throws away the progress and the cost of getting there; steering keeps both.
+- **Safe timing.** Pando does not drop what it is holding. It finishes the step in hand, then reads your message.
+- **Patient.** If you reload the page, a message you queued is still delivered.
 
-## Usage by Interface
+## How it feels in practice
 
-### TUI
+1. Pando starts tidying up the whole project.
+2. You realise that is far too much.
+3. You type "Focus only on the login module" and send it.
+4. Pando finishes the file it was on, reads your message and narrows down.
 
-Type your message while the agent is running and press **Ctrl+S** to queue it. A status indicator shows the number of queued feedback messages.
+In the Web UI and desktop app you simply write in the chat while Pando works; the message is queued by itself. In the terminal interface you type it and press `Ctrl+S`, and a counter shows how many messages are waiting. In an editor's assistant panel, sending a message to a busy session does the same.
 
-### Web UI
+## When to use it
 
-Submit feedback through the chat interface during an active run. The message is queued automatically.
+- Pando misunderstood and is heading the wrong way.
+- You remembered a detail that matters.
+- The job is turning out bigger than you wanted.
 
-### ACP (Editor)
+If what it is doing is harmful or plainly wrong, stop it instead. Steering is a nudge on the wheel; the stop button is the brake.
 
-Send a prompt to an active session. It's queued as feedback.
+## Good to know
 
-### API
+- Your message is delivered between steps, never in the middle of one, so there can be a short wait if the current step is slow.
+- If the conversation has grown too long, Pando summarises the older part by itself to make room.
+- Other programs can steer a session too, through the API.
 
-```bash
-curl -X POST http://localhost:8766/api/v1/sessions/:id/steer \
-  -H "Content-Type: text/plain" \
-  -d "Focus on the authentication module instead"
-```
+## Next steps
 
-## Key Characteristics
-
-- **Non-destructive**: The current operation completes before feedback is processed
-- **Safe boundary injection**: Feedback is injected after tool results are persisted
-- **Loop continuation**: If feedback arrives between turns, the agent continues with the new direction
-- **Auto-compaction**: Context is automatically compacted if history exceeds the provider budget
-- **Reconnect-safe**: Pending feedback survives reconnection in Web UI
-
-## Example Workflow
-
-1. Agent starts refactoring the entire codebase
-2. You realize the scope is too broad
-3. Type: "Focus only on the auth module" + Ctrl+S
-4. Agent finishes current tool call, receives feedback, narrows scope
-
-{{< callout >}}
-Steering is more efficient than cancelling and restarting. Use it when you want to redirect the agent without losing progress on completed work.
-{{< /callout >}}
+- Guide: [Your first session]({{< relref "/guides/first-session" >}}) shows it in context.
+- Reference: [the steering API call]({{< relref "/docs/configuration/webui" >}}).
+- Related: [Interactive User Questions]({{< relref "/docs/features/ask-user-question" >}}), [Session Compaction]({{< relref "/docs/features/session-compaction" >}}).

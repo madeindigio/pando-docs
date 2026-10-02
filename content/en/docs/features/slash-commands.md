@@ -3,179 +3,93 @@ title: Slash Commands
 weight: 18
 ---
 
-Slash commands provide quick access to Pando features without leaving the chat interface. Type `/` at the start of an empty input to see available commands.
+Slash commands are the buttons on Pando's remote control. Instead of explaining what you want in a long sentence, you type `/` and a word, and Pando switches mode or starts a whole routine. Type `/` in an empty message box to see them all.
 
-## How to Use Slash Commands
+{{< shot src="images/webui/pando-webui-chat-slash-commands.jpg" alt="Slash command menu in the chat" >}}
 
-### TUI (Terminal User Interface)
+## What it does for you
 
-Type `/` in the chat input. A fuzzy-searchable dialog appears showing all available commands organized by category. Use arrow keys or type to filter, then press Enter to select.
+- **One word instead of a paragraph.** `/compact` says "summarise this conversation so we have room to go on".
+- **The same everywhere.** Web UI, desktop app, terminal interface and the assistant panel of your editor (Zed, VS Code, JetBrains) all understand them.
+- **Easy to find.** The menu filters as you type, so you only need to remember the first letters.
+- **Yours to extend.** A text file in the right folder becomes a new command.
 
-### Web UI
+## The commands, by what you want to do
 
-Type `/` in the chat input. Commands appear in an autocomplete dropdown that filters as you type.
+### Let Pando work on its own
 
-### ACP (Editor Integration)
+| Command | What happens |
+|---|---|
+| `/goal <objective>` | Pando keeps working towards that objective, turn after turn, without waiting for you after each step |
+| `/autopilot <objective>` | The same as `/goal` |
+| `/goal-status` | Shows how the goal is going: progress, rounds, time spent |
+| `/goal-cancel` | Stops the goal |
 
-Type `/` in the editor chat panel. Commands are available in VS Code, Zed, and JetBrains through the Agent Client Protocol.
+More in [Goal Mode]({{< relref "/docs/features/goal-mode" >}}).
 
-### CLI (Non-Interactive)
+### Keep a long conversation light
 
-Use flags instead of slash commands:
+| Command | What happens |
+|---|---|
+| `/compact` | Replaces the conversation so far with a summary, freeing room to continue. Use it when a session gets long and you do not want to start over |
+| `/summarize` | The same as `/compact` |
+| `/db-compact` | Tidies Pando's storage on disk and gives back the space left by deleted sessions |
 
-```bash
-pando --goal "Fix tests"           # equivalent to /goal
-pando --goal "Refactor auth" --model copilot.gpt-5.4
-```
+More in [Session Compaction]({{< relref "/docs/features/session-compaction" >}}) and [Database Compact]({{< relref "/docs/features/db-compact" >}}).
 
----
+### Change how Pando talks
 
-## Goal Mode Commands
+| Command | What happens |
+|---|---|
+| `/caveman lite` | Drops filler. Normal sentences, fewer of them |
+| `/caveman full` | Short by default: conclusions, no explanation you did not ask for |
+| `/caveman ultra` | The answer and nothing around it |
+| `/caveman-finish` | Back to normal |
 
-| Command | Description |
-|---------|-------------|
-| `/goal <objective>` | Start autonomous goal mode with a persistent objective |
-| `/autopilot <objective>` | Alias for `/goal` |
-| `/goal-status` | Show the status of the current goal (progress, iterations, elapsed time) |
-| `/goal-cancel` | Cancel the running goal |
+Caveman only shortens the words. Pando thinks, tests and checks exactly as much as before, and gives you the full detail whenever you ask. More in [Caveman Mode]({{< relref "/docs/features/caveman-mode" >}}).
 
-Goal mode lets Pando work autonomously across multiple turns without requiring user input after each step. See [Goal Mode](/docs/features/goal-mode) for full details.
+### Change how Pando works
 
----
+| Command | What happens |
+|---|---|
+| `/ponytail lite` · `full` · `ultra` | The "lazy senior developer": Pando prefers the simplest solution and resists building things you will not need, more firmly at each level |
+| `/ponytail off` | Back to normal |
+| `/superpowers [objective]` | A disciplined routine: understand, design and get your approval, plan, build in small tested steps, prove it works, review |
+| `/superpowers-finish` | Checks, reports and returns to normal |
+| `/learning [focus]` | Pando behaves like a careful apprentice: reads the project notes first, asks instead of guessing and writes down what it discovers |
+| `/learning-finish` | Files what it learned into the project notes and returns to normal |
 
-## Session Management Commands
+More in [Ponytail]({{< relref "/docs/features/ponytail" >}}), [Superpowers Mode]({{< relref "/docs/features/superpowers-mode" >}}) and [Learning Mode]({{< relref "/docs/features/learning-mode" >}}).
 
-| Command | Description |
-|---------|-------------|
-| `/compact` | Create a manual compact summary for the current session (frees tokens) |
-| `/summarize` | Alias for `/compact` |
-| `/db-compact` | Compact the database (SQLite VACUUM) to reclaim free space |
+### Look after the project and teach Pando
 
-**`/compact`** summarizes the conversation history to free up context window tokens. Use this when the session is getting long and you want to continue working without starting a new session.
+| Command | What happens |
+|---|---|
+| `/improve-agents-md [guidance]` | Creates or strengthens `AGENTS.md`, the house rules every AI agent must follow in this project |
+| `/evaluate` | Scores a session with the self-improvement evaluator (the current one unless you name another) |
+| `/feedback good` · `/feedback bad` | Tells Pando how the session went, overriding its own score |
 
-**`/db-compact`** runs SQLite VACUUM on Pando's database to reclaim disk space from deleted records. This is useful after长时间使用 or after cleaning up old sessions.
+### Hunt for security holes
 
----
+A security audit routine adapted from [Capital One's VulnHunter](https://github.com/capitalone/VulnHunter). Each run is a one-off job, not a mode that stays on, and its findings are saved in the project notes so the next command can pick them up.
 
-## Code Quality Commands
+| Command | What happens |
+|---|---|
+| `/vulnhunt [scope]` | Plays the attacker: follows untrusted input through the code, tries to prove each weakness is real, tries to disprove it, and reports what survives. Give it a folder or a focus to narrow the search |
+| `/vulnhunter-fix [finding]` | Fixes a confirmed weakness the careful way: reproduce the attack, write a test that fails, fix, check the attack no longer works |
+| `/vulnhunt-fix-verify [findings]` | A second opinion that changes nothing: checks claimed fixes against the code and gives each a verdict (FIXED, PARTIAL, NOT_FIXED or INCONCLUSIVE) |
 
-### Ponytail Mode
+## Your own commands
 
-Ponytail is a "lazy senior developer" mode that applies YAGNI (You Aren't Gonna Need It) principles to code suggestions.
+Write the instructions in a Markdown file and drop it in a commands folder. It shows up in the menu next to the built-in ones, labelled `project:` if it lives with the project or `user:` if it lives in your home folder. Folder names are in the [reference]({{< relref "/docs/configuration/webui" >}}).
 
-| Command | Description |
-|---------|-------------|
-| `/ponytail lite` | Enable lite YAGNI mode - suggests simpler alternatives |
-| `/ponytail full` | Enable full YAGNI mode - more aggressive about simplicity |
-| `/ponytail ultra` | Enable ultra YAGNI mode - maximum simplicity enforcement |
-| `/ponytail off` | Disable ponytail mode |
+## Good to know
 
-### Caveman Mode
+- In the terminal interface the menu is a searchable list grouped by category (General, Code Quality, Workflow, Project, Security); in the Web UI it is a drop-down above the message box.
+- Outside a chat, in one-line mode, flags do the job: `pando --goal "Fix tests"` is the same as `/goal`.
+- `/` only opens the menu at the start of an empty message. To mention a file, use `@`.
 
-Caveman reduces output verbosity to save output tokens while keeping code, commands, and errors exact.
+## Next steps
 
-| Command | Description |
-|---------|-------------|
-| `/caveman lite` | Drop filler and restatement. Normal sentences, fewer of them |
-| `/caveman full` | Terse by default. Conclusions and fragments, no unrequested explanation |
-| `/caveman ultra` | Maximum brevity. The answer and nothing around it |
-| `/caveman-finish` | Disable caveman and return to normal output |
-
-{{< callout type="info" >}}
-Caveman only constrains expression. It never reduces reasoning, tool use, testing, or verification requirements. Ask for detail anytime and you get it in full.
-{{< /callout >}}
-
----
-
-## Workflow Commands
-
-### Superpowers Mode
-
-Superpowers enforces a disciplined development workflow: plan-first, verify-always.
-
-| Command | Description |
-|---------|-------------|
-| `/superpowers [objective]` | Enable the disciplined development workflow |
-| `/superpowers-finish` | Verify, report, and return to normal mode |
-
-When active, work follows this lifecycle:
-1. Understand before designing
-2. Design, then get approval
-3. Plan long work explicitly
-4. Implement test-first, in small increments
-5. Verify with evidence, not claims
-6. Review before declaring ready
-
-### Learning Mode
-
-Learning mode makes Pando work as a deliberate learner and documentarian.
-
-| Command | Description |
-|---------|-------------|
-| `/learning [focus]` | Enable learner mode: read KB more, document discoveries, ask questions |
-| `/learning-finish` | Consolidate learnings into KB/memory and return to normal mode |
-
-When active, Pando:
-- Searches the knowledge base before acting
-- Asks the user instead of guessing
-- Captures non-trivial discoveries as documentation
-- Keeps existing docs honest (updates stale, marks superseded)
-
----
-
-## Project Management Commands
-
-| Command | Description |
-|---------|-------------|
-| `/improve-agents-md [guidance]` | Create or reinforce AGENTS.md with mandatory AI-agent operating rules |
-
----
-
-## Security Commands
-
-### Vulnerability Hunter
-
-Adversarial security audit workflow ported from [Capital One's VulnHunter](https://github.com/capitalone/VulnHunter). These commands run self-contained security workflows as normal agent turns — they stream, steer, and persist like any other message.
-
-| Command | Description |
-|---------|-------------|
-| `/vulnhunt [scope]` | Trace attacker input to sinks and report exploitable vulnerabilities |
-| `/vulnhunter-fix [finding]` | Test-driven remediation: exploit → failing test → fix → verify |
-| `/vulnhunt-fix-verify [findings]` | Read-only independent verification of claimed security fixes |
-
-**`/vulnhunt`** runs a full security audit: recon → parallel class-group hunt → exploitability verify → adversarial disprove → capability-filtered report. Findings are persisted to the knowledge base. Pass an optional scope (subdirectory, package, or emphasis) to narrow the audit.
-
-**`/vulnhunter-fix`** performs test-driven remediation of confirmed vulnerabilities: creates an exploit proof, writes a failing security test (RED), implements the fix (GREEN), and verifies the exploit is blocked without regressions.
-
-**`/vulnhunt-fix-verify`** is a read-only verification that checks claimed fixes against the actual code, emitting a per-finding verdict: FIXED, PARTIAL, NOT_FIXED, or INCONCLUSIVE.
-
-{{< callout type="info" >}}
-Security commands are not persistent modes — each run is a self-contained workflow. Findings are stored in the knowledge base and can be referenced by subsequent fix or verify runs.
-{{< /callout >}}
-
----
-
-## Custom Commands
-
-Pando supports custom slash commands via markdown files. Place `.md` files in:
-
-- **Project commands**: `<data-dir>/commands/` (shown as `project:command-name`)
-- **User commands**: `~/.config/pando/commands/` or `~/.pando/commands/` (shown as `user:command-name`)
-
-Custom commands appear in the command palette alongside built-in commands.
-
----
-
-## Command Categories
-
-Commands are organized into categories in the command palette:
-
-- **General**: Goal, compact, db-compact
-- **Code Quality**: Ponytail and Caveman modes
-- **Workflow**: Superpowers and Learning modes
-- **Project**: AGENTS.md management
-- **Security**: Vulnerability Hunter (vulnhunt, vulnhunter-fix, vulnhunt-fix-verify)
-
-{{< callout >}}
-Slash commands work across all Pando interfaces (TUI, Web UI, ACP). The command palette provides fuzzy search to quickly find the command you need.
-{{< /callout >}}
+- Guides: [Find your way around the Web UI]({{< relref "/guides/webui-tour" >}}), [Goal Mode]({{< relref "/guides/goal-mode" >}}), [Change how Pando thinks and talks]({{< relref "/guides/working-modes" >}}).
+- Reference: [custom command folders]({{< relref "/docs/configuration/webui" >}}).

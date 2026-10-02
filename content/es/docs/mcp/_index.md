@@ -3,7 +3,9 @@ title: Servidor MCP
 weight: 5
 ---
 
-Pando incluye un servidor **Model Context Protocol (MCP)** integrado que permite a herramientas externas, agentes e IDEs conectarse a Pando como proveedor de contexto y herramientas de IA.
+MCP es un enchufe común con el que los programas de IA comparten herramientas. Pando puede estar a los dos lados. Esta página trata de uno: **ofrecer las herramientas de Pando a otros programas** (otro asistente, un editor), para que usen su búsqueda web, su navegador, su memoria y sus herramientas de ficheros. Es material de referencia: comandos y ajustes.
+
+¿Buscas el otro lado, enchufar herramientas extra *a* Pando? Sigue la guía [Conecta servidores MCP]({{< relref "/guides/mcp-servers" >}}) y consulta la [referencia de MCP]({{< relref "/docs/configuration/mcp" >}}).
 
 ## Iniciar el servidor MCP
 
@@ -39,12 +41,12 @@ El servidor MCP de Pando expone herramientas que permiten a los clientes:
 
 - Ejecutar comandos en el contexto del proyecto
 - Leer, modificar y buscar archivos (con visualización optimizada y paginación)
-- Navegar por internet mediante el navegador de alta velocidad integrado, incluyendo compatibilidad con el navegador ligero **Lightpanda**
+- Navegar por internet con las herramientas de navegador integradas, incluido el navegador ligero **Lightpanda**
 - Interactuar con el historial de sesiones y recordar datos contextuales de interés
 
 ## Configuración de servidores MCP externos
 
-Pando también puede **consumir** servidores MCP externos como fuente de herramientas adicionales para la IA. Configúralos en `.pando.toml`:
+Pando también puede **usar** servidores MCP hechos por otros como herramientas extra. Lo más cómodo es la Web UI, como enseña la guía [Conecta servidores MCP]({{< relref "/guides/mcp-servers" >}}). En `.pando.toml` queda así (todas las claves están en la [referencia de MCP]({{< relref "/docs/configuration/mcp" >}})):
 
 ```toml
 [mcpServers.mi-servidor]

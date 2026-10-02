@@ -3,7 +3,9 @@ title: MCP Server
 weight: 5
 ---
 
-Pando includes a built-in **Model Context Protocol (MCP)** server that allows external tools, agents, and IDEs to connect to Pando as an AI context and tools provider.
+MCP is a common plug that lets AI programs share tools. Pando can sit on both sides of it. This page is about one side: **offering Pando's own tools to other programs** (another assistant, an editor), so they can use its web search, browser, memory and file tools. It is reference material: commands and settings.
+
+Looking for the other side, plugging extra tools *into* Pando? Follow the guide [Connect MCP servers]({{< relref "/guides/mcp-servers" >}}) and see the [MCP reference]({{< relref "/docs/configuration/mcp" >}}).
 
 ## Starting the MCP server
 
@@ -39,12 +41,12 @@ Pando's MCP server exposes tools that allow clients to:
 
 - Execute commands in the project context
 - Read, modify, and search files (with page-by-page reading optimizations and pagination)
-- Browse the web using an integrated high-speed browser, including lightweight **Lightpanda** browser support
+- Browse the web with the built-in browser tools, including the light **Lightpanda** browser
 - Interact with session history and recall memory
 
 ## Consuming external MCP servers
 
-Pando can also **consume** external MCP servers as a source of additional tools for the AI. Configure them in `.pando.toml`:
+Pando can also **use** MCP servers made by others as extra tools. The easy way is the Web UI, as shown in the guide [Connect MCP servers]({{< relref "/guides/mcp-servers" >}}). In `.pando.toml` it looks like this (all keys are in the [MCP reference]({{< relref "/docs/configuration/mcp" >}})):
 
 ```toml
 [mcpServers.my-server]

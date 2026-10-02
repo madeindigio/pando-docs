@@ -3,94 +3,34 @@ title: Persistent Memory System
 weight: 12
 ---
 
-Pando includes a persistent memory system built on top of the Knowledge Base (KB) backend. Memories survive across sessions, are automatically injected into context when relevant, and support importance-weighted ranking with TTL expiration.
+Without memory, every conversation with an assistant starts like the first day of a new job. Pando keeps a notebook between visits: short facts about you and your project that it writes down, reads again when they are useful and forgets when nobody needs them any more.
 
-## Core Tools
+## What it does for you
 
-### Store a Memory
+- **You stop repeating yourself.** "We use pnpm", "tests run with `make test`", "I prefer TypeScript": said once, remembered afterwards.
+- **It reads the notebook by itself.** Before answering, Pando glances at the notes that have to do with what you are asking.
+- **The important things float to the top.** Recent notes, notes it uses often and notes marked as important are read first.
+- **It tidies up alone.** A note nobody has looked at in months fades away; a note that keeps being useful stays.
 
-Use the `remember` tool to store or update a memory:
+## How it feels in practice
 
-```json
-{
-  "content": "The user prefers TypeScript over JavaScript for new projects",
-  "key": "user.preferred_lang",
-  "scope": "user/",
-  "importance": 0.8
-}
-```
+You say "remember that we deploy on Fridays". Days later, in another session, you ask when the next deployment is, and Pando already knows. You did not open any settings or write any file. If something stops being true, say "forget that" and the note is gone.
 
-| Parameter | Description |
-|-----------|-------------|
-| `content` | The fact or preference to remember |
-| `key` | Optional upsert key (same key replaces previous memory) |
-| `scope` | Optional prefix: `user/`, `project/`, `session/` |
-| `importance` | Weight for injection ranking, 0.0–1.0 (default 0.5) |
-| `ttl_days` | Override default TTL (default 180 days) |
+Notes can be filed under a heading, such as things about you, things about this project or things about this session, which makes them easier to find later.
 
-### Recall Memories
+## When to use it
 
-Search stored memories with the `recall` tool:
+Memory is for short, lasting facts: preferences, conventions, decisions. For long material such as a design document or meeting notes, use the knowledge base, which is the library next to the notebook. Both are part of Remembrances.
 
-```json
-{
-  "query": "user language preference",
-  "scope": "user/",
-  "limit": 5
-}
-```
+## Good to know
 
-Memories are ranked by relevance, recency, and access frequency. Each recall automatically increments the hit counter and extends TTL.
+- Everything is stored on your machine.
+- A note lives about half a year if it is never read again. Each time Pando uses it, its life is extended. You can change that, and you can protect whole headings from the clean-up.
+- You decide how many notes Pando may read before each answer, so the notebook never crowds out your question.
+- Other tools can use the same notebook when Pando is connected to them as an [MCP server]({{< relref "/docs/mcp" >}}).
 
-### Delete a Memory
+## Next steps
 
-Use the `forget` tool to remove a memory:
-
-```json
-{
-  "key": "user.preferred_lang"
-}
-```
-
-## Automatic Context Injection
-
-Memories are automatically injected into the system prompt as a `<memories>` XML block when relevant to the current conversation. The injection is ranked by:
-
-1. **Recency** - newer memories score higher
-2. **Relevance** - semantic similarity to current context
-3. **Access frequency** - frequently recalled memories are prioritized
-4. **Importance** - configured weight boosts ranking
-
-## Configuration
-
-{{< shot src="images/webui/pando-webui-settings-remembrances-memory.jpg" alt="Memory system settings" >}}
-
-```toml
-[Remembrances]
-MemoryEnabled = true
-MemoryContextEnrichmentEnabled = true
-MemoryContextMaxItems = 3          # Max memories injected per prompt
-MemoryContextMaxChars = 0          # 0 = unlimited
-MemoryDefaultTTLDays = 0           # 0 = default 180 days
-MemoryGCInterval = ''              # Garbage collection interval
-MemoryAutoCapture = false          # Auto-capture conversations
-MemoryPinnedScopes = []            # Scopes exempt from GC
-```
-
-## Exposed as MCP Server
-
-Memory tools (`remember`, `recall`, `forget`) are exposed when running as MCP server:
-
-```bash
-pando mcp-server
-```
-
-External agents can use these tools through the MCP protocol.
-
-## Garbage Collection
-
-A background garbage collector automatically removes expired memories based on TTL. Memories with higher hit counts have their TTL extended on each recall.
-
-{{< callout >}}
-Use descriptive keys like `user/preferences/language` or `project/architecture/decisions` to organize memories. Scoped memories (prefixed with `user/`, `project/`) allow targeted searches.
-{{< /callout >}}
+- Guide: [Teach Pando your project with Remembrances]({{< relref "/guides/remembrances" >}}).
+- Reference: [Remembrances configuration]({{< relref "/docs/configuration/remembrances" >}}), including the tools the agent uses to write and read notes.
+- Related: [Context enrichment]({{< relref "/docs/features/context-enrichment" >}}), [Learning mode]({{< relref "/docs/features/learning-mode" >}}).

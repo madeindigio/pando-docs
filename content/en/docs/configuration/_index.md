@@ -3,13 +3,42 @@ title: Configuration
 weight: 2
 ---
 
-Pando looks for its configuration in the following locations (in priority order):
+This section is the reference shelf: exact option names, defaults and commands. If you want to learn how to set something up, the [guides]({{< relref "/guides" >}}) walk you through it in the Web UI, and almost every option here has a switch in **Settings**.
 
-1. `./.pando.json` or `./.pando.toml` (local project directory)
-2. `$XDG_CONFIG_HOME/pando/.pando.json` or `$XDG_CONFIG_HOME/pando/.pando.toml`
-3. `$HOME/.pando.json` or `$HOME/.pando.toml`
+## Where the config file lives
 
-Both **JSON** and **TOML** formats are supported. Pando auto-detects the format based on file extension.
+Pando reads the first file it finds, in this order:
+
+1. `./.pando.toml` or `./.pando.json` in the folder where you start it
+2. The same file in any folder above it, walking up and stopping at your home folder
+3. `$XDG_CONFIG_HOME/pando/.pando.toml` (usually `~/.config/pando/`)
+4. `$HOME/.pando.toml` or `$HOME/.pando.json`
+
+Both **TOML** and **JSON** work; Pando tells them apart by the file extension. Any value can be overridden for one run with an environment variable prefixed with `PANDO_`, for example `PANDO_DEBUG=true`. More in [Configuration File Discovery]({{< relref "/docs/features/config-discovery" >}}).
+
+## Reference pages
+
+| Topic | Page |
+|---|---|
+| Web UI, remote access, project workspaces | [Web UI]({{< relref "/docs/configuration/webui" >}}) |
+| AI accounts and models | [Providers]({{< relref "/docs/configuration/providers" >}}) |
+| Automatic model choice | [Auto mode]({{< relref "/docs/configuration/auto-mode" >}}) |
+| Working modes (reasoning, caveman, learning…) | [Modes]({{< relref "/docs/configuration/modes" >}}) |
+| Goal mode | [Goal]({{< relref "/docs/configuration/goal" >}}) |
+| Memory, knowledge base, code index | [Remembrances]({{< relref "/docs/configuration/remembrances" >}}) |
+| Models for code search | [Embedding models for code]({{< relref "/docs/configuration/embedding-models" >}}) |
+| Subagents and orchestration | [Delegation]({{< relref "/docs/configuration/delegation" >}}) |
+| Learning from past sessions | [Self-improvement]({{< relref "/docs/configuration/self-improvement" >}}) |
+| MCP servers | [MCP]({{< relref "/docs/configuration/mcp" >}}) |
+| Web search, browser, desktop control | [Tools]({{< relref "/docs/configuration/tools" >}}) |
+| Language servers | [LSP]({{< relref "/docs/configuration/lsp" >}}) |
+| Editors (ACP) | [ACP advanced]({{< relref "/docs/configuration/acp-advanced" >}}) |
+| Sandbox and command permissions | [Sandbox]({{< relref "/docs/configuration/sandbox" >}}) |
+| Docker and Podman | [Containers]({{< relref "/docs/configuration/containers" >}}) |
+| Skills, Lua, extensions | [Skills and extensions]({{< relref "/docs/configuration/skills-and-extensions" >}}) |
+| Spending fewer tokens | [Token optimization]({{< relref "/docs/configuration/token-optimization" >}}) |
+| Updates, diagnostics, database, HTTPS | [Diagnostics and maintenance]({{< relref "/docs/configuration/diagnostics" >}}) |
+| Encrypting keys | [Config security]({{< relref "/docs/configuration/security-age" >}}) · [AGE encryption]({{< relref "/docs/configuration/age-encryption" >}}) |
 
 ## Basic configuration
 
@@ -86,24 +115,7 @@ autoCompact = true
 
 ## AI Providers
 
-{{< shot src="images/webui/pando-webui-settings-providers.jpg" alt="Provider accounts in Settings" >}}
-
-{{< shot src="images/webui/pando-webui-settings-providers-add-account.jpg" alt="Add provider account dialog" >}}
-
-{{< shot src="images/webui/pando-webui-settings-agents.jpg" alt="Model per built-in agent in Settings" >}}
-
-Pando supports the following AI providers:
-
-- **Anthropic** (Claude 3.5 Sonnet, Claude 3.7 Sonnet, etc.)
-- **OpenAI** (GPT-4o, GPT-4 Turbo, etc.)
-- **Google Gemini** (Gemini 1.5 Pro, Gemini 2.0, etc.)
-- **AWS Bedrock** (Claude on AWS)
-- **Groq** (Llama, Mixtral, etc.)
-- **Azure OpenAI**
-- **GitHub Copilot**
-- **OpenRouter** (access to multiple models)
-- **Local models** (via custom endpoint)
-- **Local models** (via custom endpoint)
+Pando works with Anthropic, OpenAI, Google Gemini, AWS Bedrock, Groq, Azure OpenAI, GitHub Copilot, OpenRouter and local models through a custom endpoint. Accounts and keys are covered in [Providers]({{< relref "/docs/configuration/providers" >}}).
 
 ## Advanced configuration
 
@@ -220,24 +232,11 @@ file = ".pando/pando.log"
 - hooks.path: Path for custom hooks (Lua, scripts) executed on events.
 - storage.type/path: Storage type and path (SQLite recommended for persistence).
 - ui.theme/editor: Preferences for UI/web-ui and external editor.
-- telemetry.*: Telemetry configuration (disabled by default).
+- telemetry.*: Remote diagnostics (disabled by default). See [Diagnostics and maintenance]({{< relref "/docs/configuration/diagnostics" >}}).
 - logging.*: Log level and file.
 
-## Premium Security & Convenience Settings
+## First-time setup
 
-Pando includes several modern features to streamline your configuration and keep your keys protected:
-
-- **Local Parameter Encryption (AGE)**: You can encrypt any sensitive value (such as API keys or database connection strings) in `.pando.toml` using `pando encrypt`. This keeps your credentials secure, allowing you to safely upload your configuration files to shared Git repositories.
-- **Visual Model Switching in TUI**: When using the interactive configuration panel (`Ctrl+g` in terminal), Pando provides a dynamic visual model selector with autocompletion, preventing typos when entering model names.
-- **Automatic Local HTTPS**: Pando automatically generates local SSL certificates during startup to secure all network communication for the desktop app and the browser-based Web-UI over HTTPS.
-- **Snapshot Toggle**: Control whether Pando automatically saves incremental session snapshots. You can disable snapshots in `.pando.toml` to save disk space on very large codebases.
-
-This flexible configuration allows adapting Pando to many environments and use cases, from local development to CI/CD pipelines or production deployments.
-
-## Configuration via TUI assistant
-
-One of the easiest ways to configure Pando is via its interactive TUI assistant, which runs automatically if no configuration file is found. It will open the configuration panel, generate a default configuration file and let you add the AI providers you want to use and customize other options. The TUI assistant is ideal for new users or those who prefer guided setup.
-
-Provider and tool configuration is also saved in your user profile, so your API keys and preferences are preserved even if you move your project to another directory. When you start Pando in a new folder, the assistant pre-fills providers and tools already configured in your profile so you can start using them without reconfiguring everything.
+When Pando finds no configuration it offers to create one: the [setup assistant]({{< relref "/docs/features/setup-assistant" >}}) in the Web UI and desktop app, or the configuration panel in the terminal interface. Accounts and tools are also saved in your user profile, so a new project folder starts with what you already set up.
 
 {{< asciinema file="https://asciinema.org/a/DgVZRnUHU0GEBKjW.cast" >}}

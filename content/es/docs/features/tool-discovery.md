@@ -3,85 +3,32 @@ title: Descubrimiento de Herramientas
 weight: 14
 ---
 
-Cuando Pando acumula muchas herramientas (de servidores MCP, hooks Lua y herramientas incorporadas), el sistema de Descubrimiento de Herramientas maneja la complejidad mostrando solo un subconjunto visible y proporcionando búsqueda bajo demanda para el resto.
+Cada herramienta que Pando puede usar viene con su folleto de instrucciones, y el modelo se lee todos los folletos en cada mensaje. Con cinco herramientas no es nada. Con cien, es como empezar cada conversación leyendo los manuales de todos los electrodomésticos de la casa. El descubrimiento de herramientas deja las de uso diario en el banco de trabajo y el resto en un cajón etiquetado en el que el modelo puede buscar.
 
-## Cómo Funciona
+## Qué hace por ti
 
-Inspirado en el enfoque de VS Code Copilot:
+- **Mensajes más baratos y rápidos.** El modelo deja de pagar por leer folletos de herramientas que no va a usar.
+- **Conecta todo lo que quieras.** Una docena de servidores de herramientas extra ya no pesa en cada mensaje.
+- **No se pierde nada.** Cuando el modelo necesita una herramienta del cajón, describe con palabras normales lo que busca, la encuentra y la usa.
+- **Tus favoritas se quedan fuera.** Las herramientas que más usas siguen directamente a mano.
 
-1. **Herramientas core** (bash, edit, view, glob, grep, write) siempre visibles
-2. **Herramientas MCP y Lua** se diferencian por defecto
-3. Cuando el conteo total de herramientas excede `MaxDirectTools`, la herramienta `tool_search` se activa
-4. El LLM busca en el registro completo por lenguaje natural
-5. Las herramientas descubiertas permanecen visibles para el resto de la sesión
+## Cómo se nota en el día a día
 
-## Configuración
+No lo ves. Las herramientas de diario (leer, editar y buscar ficheros, ejecutar comandos) están siempre en el banco de trabajo. Cuando una tarea necesita algo poco habitual, como crear una incidencia en tu gestor, el modelo mira primero en el cajón y luego usa la herramienta. Una vez encontrada, se queda en el banco de trabajo el resto de la conversación.
 
-{{< shot src="images/webui/pando-webui-settings-general-tool-discovery-workspaces.jpg" alt="Ajustes de descubrimiento de herramientas y workspaces de proyecto" >}}
+Es un solo interruptor para todo: las herramientas de serie, las de servidores extra y las de scripts siguen la misma regla.
 
-```toml
-[ToolDiscovery]
-Enabled = true
-Mode = 'auto'            # 'auto', 'always', o 'off'
-MaxDirectTools = 64       # Umbral para modo auto
-SearchLimit = 8           # Resultados predeterminados de tool_search
-NonDeferredTools = []     # Herramientas siempre visibles
-DeferredSources = []      # Fuentes a diferir (ej. "mcp", "lua")
-```
+## Cuándo usarlo
 
-## Modos
+Déjalo en automático. Con pocas herramientas no hace nada; se despierta solo cuando pasas de cierto número (64 por defecto). Fuérzalo a encendido si quieres las conversaciones más ligeras posibles, o a apagado si sospechas que el modelo no está encontrando una herramienta.
 
-| Modo | Comportamiento |
-|------|----------------|
-| `auto` | Se activa cuando las herramientas exceden `MaxDirectTools` |
-| `always` | Siempre difiere las herramientas no-core |
-| `off` | Todas las herramientas visibles (predeterminado para configuraciones pequeñas) |
+## Conviene saber
 
-## Búsqueda de Herramientas
+- Solo cambia lo que el modelo tiene delante al empezar. Todas las herramientas siguen disponibles.
+- La búsqueda compara las palabras de la petición con el nombre y la descripción de cada herramienta, así que las que tienen descripciones claras se encuentran mejor.
 
-El LLM llama a `tool_search` con una consulta en lenguaje natural:
+## Siguientes pasos
 
-```json
-{
-  "query": "buscar código en el repositorio"
-}
-```
-
-Y con un nombre de herramienta la **ejecuta**, tanto si es interna de Pando como si vive en un servidor MCP:
-
-```json
-{
-  "tool_name": "github_create_issue",
-  "parameters": { "title": "Arreglar la redirección de login" }
-}
-```
-
-Los resultados se clasifican usando puntuación de frecuencia de términos sobre nombre, alias, nombre del servidor, descripción y nombres de parámetros.
-
-## Un único interruptor, también para MCP
-
-Tool Discovery y la pasarela MCP eran antes dos mecanismos paralelos, con sus propias herramientas y sus propios interruptores. Ahora son uno solo: basta con `ToolDiscovery.Enabled`.
-
-Con él activo y servidores MCP configurados:
-
-- tus **herramientas MCP favoritas siguen visibles directamente**, igual que antes;
-- el resto del catálogo —tengas los servidores que tengas conectados— se queda fuera de la ventana de contexto y se alcanza vía `tool_search`;
-- una vez que el modelo ha descubierto una herramienta, permanece visible el resto de la sesión.
-
-El efecto práctico: puedes conectar una docena de servidores MCP sin pagar su catálogo completo en cada mensaje.
-
-## Filtrado por Fuente
-
-Las herramientas se categorizan por fuente:
-
-- `core` - Herramientas incorporadas (siempre visibles)
-- `internal` - Herramientas internas de Pando
-- `mcp` - Herramientas de servidores MCP externos
-- `lua` - Herramientas de hooks Lua
-- `mesnada` - Herramientas de orquestación
-- `rag` - Herramientas de base de conocimiento e índice de código
-- `gateway` - Re-exportaciones del gateway MCP
-
-{{< callout >}}
-Para la mayoría de usuarios con menos de 64 herramientas, el Descubrimiento de Herramientas permanece inactivo. Solo se activa cuando el conteo de herramientas crece lo suficiente para impactar el uso del contexto.
-{{< /callout >}}
+- Elige el modo y el umbral: [Ahorra tokens]({{< relref "/guides/save-tokens" >}})
+- Nombres de las opciones, orígenes y cómo se llama a la herramienta de búsqueda: [referencia de optimización de tokens]({{< relref "/docs/configuration/token-optimization" >}})
+- Añade más herramientas: [Conecta servidores MCP]({{< relref "/guides/mcp-servers" >}})

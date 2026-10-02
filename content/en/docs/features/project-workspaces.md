@@ -3,70 +3,44 @@ title: Project workspaces
 weight: 4
 ---
 
-Project workspaces let the **Projects** view open a full Pando WebUI for any registered project inside the same parent application. Instead of switching browser tabs or spawning another desktop window, Pando starts or reuses a background project-local `pando serve` and mounts it as a bottom tab in the unified shell.
-
-## Opening a project tab
-
-{{< shot src="images/webui/pando-webui-projects.jpg" alt="Projects list in the Web UI" >}}
+Project workspaces let you keep several projects open inside one Pando, each in its own tab at the bottom of the window. Think of browser tabs, except that each tab holds a whole Pando pointed at a different folder: its own chat, sessions, files and terminal.
 
 {{< shot src="images/webui/pando-webui-project-workspace-tab.jpg" alt="A project open in its own workspace tab" >}}
 
-1. Open **Projects**.
-2. Click the project row, or use **Open tab** in the actions column.
-3. Pando starts the workspace if needed and routes you to `/projects/:id/workspace`.
+## What it does for you
 
-Each tab keeps the child WebUI alive, so you can move between the main app and project workspaces without losing terminal state, navigation, or open session context.
+- **No more juggling windows.** The website, the API and the mobile app you are working on sit side by side as tabs.
+- **Nothing is lost when you switch.** A tab keeps running while you are elsewhere: the terminal stays mid-command, the conversation stays where it was.
+- **Instant return.** Closing a tab can leave its workspace running in the background, so reopening is immediate. Or you can switch it off completely when you are done.
+- **Tabs that survive a reload.** Refresh the page and they come back.
+- **Shared with your helpers.** When Pando hands work on a project to helper agents and that project already has a workspace running, the helpers use it instead of starting a second copy.
 
-## Tab bar behavior and shortcuts
+## How it feels in practice
 
-The bottom tab bar always includes the main app plus one tab per running project workspace.
+You open **Projects**, click a row and a new tab appears at the bottom with a green dot when it is ready. From then on you move between the main tab and the project tabs with a click or a keyboard shortcut. The Projects list shows at a glance which workspaces are running and which are stopped.
 
-- **Ctrl+Alt+1..9** focuses the main tab or one of the first project tabs.
-- **Ctrl+Alt+Left / Ctrl+Alt+Right** cycles through tabs.
-- **Ctrl+Alt+W** closes the active project tab.
+In the desktop app the tabs stay inside the main window: one window, one tray icon. If you would rather have a project in a separate window, there is an action for that too.
 
-Closing a tab gives you two choices:
+## When to use it
 
-- **Close** removes the tab from the parent shell but leaves the background workspace running, so reopening the same project is instant.
-- **Close and stop workspace** also shuts down the project-local child server and clears its runtime from the project list.
+- You work on two or more related projects in the same day.
+- You want a long job running in one project while you chat in another.
+- You delegate work across projects.
 
-## Delegation reuse
+For a single project you do not need tabs: just open Pando in that folder.
 
-Project workspaces and Mesnada delegation share the same project runtime. If a project workspace is already running, delegation reuses that live instance over IPC instead of spawning a separate `pando acp` child for the same project. That keeps terminals, sessions, and local state warm while avoiding duplicate project processes.
+## Good to know
 
-## Desktop app behavior
+Each tab is a private room that only the main Pando can enter:
 
-In the desktop app, project workspaces stay inside the main Pando window and tab bar. The window title and tray remain tied to the parent application, so opening a workspace tab does not create extra tray entries or detached project windows unless you explicitly use **Open desktop**.
+- A project tab answers only to your own machine, never directly to the network. The main Pando is the single front door, with its usual lock.
+- The pass that lets the main Pando talk to a tab never reaches your browser.
+- A tab stops when the main Pando closes, and starts again the next time you open it.
+- There is a limit on how many workspaces run at once (six by default), so a forgotten pile of tabs cannot eat your memory.
+- Design previews do not show inside a project tab. Open the project in its own window for those.
 
-## Configuration
+## Next steps
 
-{{< shot src="images/webui/pando-webui-settings-general-tool-discovery-workspaces.jpg" alt="Tool discovery and project workspace settings" >}}
-
-Add these keys under `[Projects]` in `.pando.toml`:
-
-```toml
-[Projects]
-MaxWebInstances = 6
-WebStartupTimeout = "20s"
-```
-
-| Key | Default | Meaning |
-|---|---|---|
-| `MaxWebInstances` | `6` | Maximum number of background project workspaces Pando may run at once. `0` means unlimited. |
-| `WebStartupTimeout` | `"20s"` | How long the parent waits for a new project workspace to pass its health and identity checks before startup fails. |
-
-These settings are also exposed in the WebUI settings under the general project workspace controls.
-
-## Security model in plain words
-
-Project workspaces are designed so the browser never talks to an untrusted child directly:
-
-- Each child WebUI binds to **loopback only** (`127.0.0.1`), not to your LAN.
-- The parent connects to the child with **pinned TLS**, so it only trusts the certificate/key pair it generated for project children.
-- The child API token is generated by the parent server and **never reaches browser JavaScript**.
-- A project workspace stops when its parent instance exits; it is started again the next time you open the tab.
-- Design previews are not available inside a project tab: open the project in its own window to use them.
-- Browser requests use a **scoped HttpOnly cookie** issued by the parent for the specific project workspace path.
-- `MaxWebInstances` gives you a hard cap on concurrent child workspaces, and `WebStartupTimeout` bounds failed startups.
-
-This means the parent WebUI acts as the single public surface, while each project child remains a private loopback service behind the reverse proxy.
+- Guide: [Work on several projects with workspace tabs]({{< relref "/guides/projects-workspaces" >}}).
+- Reference: [`[Projects]` options, shortcuts and API]({{< relref "/docs/configuration/webui" >}}).
+- Related: [Agent Delegation]({{< relref "/docs/features/agent-delegation" >}}), [Native Desktop App]({{< relref "/docs/features/desktop-app" >}}).

@@ -3,88 +3,40 @@ title: Instaladores Multi-Plataforma
 weight: 23
 ---
 
-Cada versión de Pando publica en GitHub binarios firmados para macOS, Linux y Windows. Descarga el de tu plataforma o deja que un script de instalación lo haga por ti.
+Pando es un solo programa, publicado ya preparado para macOS, Linux y Windows. Cada versión va firmada, que es el precinto del bote: tu sistema puede comprobar que el fichero viene de verdad del equipo de Pando y que nadie lo abrió por el camino.
 
-## Descargar una versión
+## Qué hace por ti
 
-Los ficheros están en la [última versión](https://github.com/digiogithub/pando/releases/latest):
+- **Una descarga para tu máquina**, sea la que sea: Mac con Apple Silicon o Intel, Linux en procesadores habituales y ARM, Windows.
+- **Una línea que lo hace todo.** Un script de instalación detecta tu sistema, descarga el fichero correcto, lo comprueba y lo coloca.
+- **La app de escritorio incluida.** En macOS el instalador añade `Pando.app`; en Linux el script añade una entrada de menú y las piezas que necesita la ventana de escritorio.
+- **Comprobado al llegar.** Las descargas se verifican contra la lista de huellas que se publica con cada versión.
 
-| Plataforma | Fichero |
+## Cómo se nota en el día a día
+
+En **macOS** abres un `.pkg` y sigues los pasos, como con cualquier otra app. En **Linux** y **macOS** también puedes pegar una línea en una terminal y esperar unos segundos. En **Windows** pegas una línea en PowerShell, o descomprimes y ejecutas `pando.exe`.
+
+Volver a ejecutar el script más adelante actualiza Pando: compara lo que tienes con la última versión y lo sustituye.
+
+## Qué usar en cada caso
+
+| Estás… | Usa |
 |---|---|
-| macOS, Apple Silicon | `pando-<versión>-darwin-arm64.pkg` |
-| macOS, Intel | `pando-<versión>-darwin-x64.pkg` |
-| Linux, x86-64 | [`pando-linux-x64.zip`](https://github.com/digiogithub/pando/releases/latest/download/pando-linux-x64.zip) |
-| Linux, ARM64 | [`pando-linux-arm64.zip`](https://github.com/digiogithub/pando/releases/latest/download/pando-linux-arm64.zip) |
-| Windows, x86-64 | [`pando-windows-x64.zip`](https://github.com/digiogithub/pando/releases/latest/download/pando-windows-x64.zip) |
+| En un Mac y te gustan los instaladores | El `.pkg` |
+| En Linux, o cómodo en una terminal | El script de instalación |
+| En Windows | El script de PowerShell, o el zip |
+| Montando un servidor o una tarea automática sin pantalla | El script en su forma «sin escritorio» |
+| Contribuyendo a Pando | Compilar desde el código |
 
-- **macOS**: abre el `.pkg`. Está firmado y notarizado, e instala `Pando.app` en `/Applications` y el comando `pando` en `/usr/local/bin`.
-- **Linux**: descomprime, da permiso de ejecución al binario y muévelo a una carpeta de tu `PATH`, por ejemplo `~/.local/bin/pando`.
-- **Windows**: descomprime y ejecuta `pando.exe`. El binario está firmado con Authenticode.
+## Conviene saber
 
-Cada versión publica también `SHA256SUMS` con el SHA-256 de todos los ficheros.
+- En Linux el script puede pedirte la contraseña, solo para instalar las piezas del sistema que necesita la ventana de escritorio. Si ese paso falla, la instalación termina igualmente.
+- En Windows on ARM se instala la versión estándar, que funciona bien emulada.
+- Las versiones anteriores a la lista de huellas se instalan con un aviso.
 
-## Linux y macOS: script de instalación
+## Siguientes pasos
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install.sh | bash
-```
-
-En **Linux** el script:
-
-- detecta la arquitectura (x86-64 o ARM64) y descarga el zip correspondiente
-- instala `~/.local/bin/pando` y añade esa carpeta a tu `PATH` si hace falta
-- crea una entrada de menú con el icono de Pando
-- instala las bibliotecas GTK y WebKitGTK que necesita la ventana de escritorio, con apt, dnf, pacman o zypper. Solo pide `sudo` si falta alguna, y un fallo en ese paso no detiene la instalación
-
-En **macOS** descarga el `.pkg` de tu arquitectura, comprueba su firma y ejecuta el instalador del sistema (pide `sudo`).
-
-Vuelve a ejecutarlo para actualizar: compara la versión instalada con la publicada y reemplaza el binario.
-
-### Opciones
-
-Pasa las opciones después de `bash -s --`, o define la variable de entorno:
-
-| Opción | Variable | Efecto |
-|---|---|---|
-| `--version v1.2.7` | `PANDO_VERSION` | Instala esa versión en lugar de la última |
-| `--dir <ruta>` | `PANDO_INSTALL_DIR` | Dónde se instala el binario (por defecto `~/.local/bin`) |
-| `--no-desktop` | `PANDO_NO_DESKTOP=1` | Linux: sin paquetes del sistema, icono ni entrada de menú |
-| `--cli-only` | `PANDO_CLI_ONLY=1` | macOS: solo el binario `pando`, sin `.pkg` |
-| `--force` | `PANDO_FORCE=1` | Reinstala la misma versión |
-
-Para un servidor, un contenedor o CI, donde no hay escritorio:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install.sh | bash -s -- --no-desktop
-```
-
-{{< callout >}}
-El script verifica la descarga con el `SHA256SUMS` de la versión. Las versiones publicadas antes de que existiera ese fichero se instalan con un aviso.
-{{< /callout >}}
-
-## Windows: script de instalación
-
-En PowerShell:
-
-```powershell
-iex (irm https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install-windows.ps1)
-```
-
-El script:
-
-- instala en `%LOCALAPPDATA%\Programs\pando` y lo añade a tu `PATH` de usuario
-- comprueba el SHA-256 y la firma Authenticode del binario
-- acepta `-Version v1.2.7` para instalar una versión concreta
-- instala la compilación x86-64 en Windows on ARM, donde se ejecuta emulada
-
-## Compilar desde el código
-
-Para quien contribuye. Necesitas Go y [Bun](https://bun.sh):
-
-```bash
-# Solo la CLI
-make build
-
-# Aplicación de escritorio
-make build-desktop
-```
+- Instala paso a paso, con todas las descargas y opciones: [Instala Pando]({{< relref "/guides/install" >}})
+- Tabla de descargas, opciones del script y compilación desde el código: [referencia de diagnóstico y mantenimiento]({{< relref "/docs/configuration/diagnostics" >}})
+- Mantente al día después: [Autoactualización]({{< relref "/docs/features/self-update" >}})
+- Todas las versiones: [GitHub](https://github.com/digiogithub/pando/releases/latest)

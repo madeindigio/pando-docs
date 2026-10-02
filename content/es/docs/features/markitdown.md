@@ -3,58 +3,37 @@ title: Conversión de Documentos (MarkItDown)
 weight: 17
 ---
 
-Pando integra la biblioteca MarkItDown para convertir formatos de documentos ricos a Markdown para la ingestión en la Base de Conocimiento y RAG (Generación Aumentada por Recuperación).
+Mucho de lo que sabe un proyecto no está en el código: está en PDF, documentos de Word, hojas de cálculo y presentaciones. Pando puede leer todo eso convirtiéndolo antes a texto plano, como un traductor que te deja leer un libro escrito en otro alfabeto.
 
-## Formatos Soportados
+## Qué hace por ti
 
-| Formato | Extensiones |
-|---------|-------------|
-| PDF | `.pdf` |
-| Word | `.docx` |
-| Excel | `.xlsx`, `.xls` |
-| PowerPoint | `.pptx` |
-| Web | `.html`, `.htm` |
-| Datos | `.csv` |
-| E-book | `.epub` |
-| Notebook | `.ipynb` |
-| Feed | `.rss`, `.atom` |
-| Markup | `.xml`, `.json`, `.jsonl` |
-| Archivo | `.zip` |
-| Texto | `.txt`, `.md`, `.markdown` |
+- **Hace que tus documentos se puedan buscar.** La especificación en PDF, la lista de precios en una hoja de cálculo y las diapositivas del arranque pasan a formar parte de lo que Pando puede consultar.
+- **Cubre los sospechosos habituales.** PDF, Word, Excel, PowerPoint, páginas web, CSV, libros electrónicos, notebooks, feeds, XML y JSON, y hasta ZIP con todo eso dentro.
+- **No toca los originales.** Pando lee una copia en texto plano. Tus ficheros no cambian nunca.
+- **No hay que configurar nada.** No hay nada que encender.
 
-## Uso CLI
+## Cómo se nota en el día a día
 
-Convierte un archivo individual:
+Dejas una carpeta con los documentos del proyecto en el sitio que Pando vigila para su base de conocimiento. Un rato después preguntas «¿qué decía el contrato sobre las fechas de entrega?» y Pando contesta citando el PDF.
+
+También puedes convertir un fichero tú cuando solo quieres su texto:
 
 ```bash
-pando convert documento.pdf
-pando convert presentacion.pptx
+pando convert report.pdf
 ```
 
-## Integración con KB
+## Cuándo usarlo
 
-Al sincronizar un directorio con la Base de Conocimiento, Pando convierte automáticamente los documentos soportados:
+- Las decisiones de tu proyecto viven en documentos que nadie quiere volver a teclear.
+- Quieres pegar el contenido de un fichero en un chat sin el lío del formato.
 
-```bash
-pando kb import /ruta/a/documentos
-```
+## Conviene saber
 
-Los documentos en formatos soportados (`.pdf`, `.docx`, `.xlsx`, `.pptx`, etc.) se convierten automáticamente a Markdown antes de indexar.
+- Un PDF escaneado es la foto de una página, no texto. Esos salen vacíos.
+- El formato se simplifica: quedan títulos, listas y tablas, no las fuentes ni los colores.
+- El conversor se despierta solo cuando llega el primer documento, así que no hace más lento el arranque de Pando.
 
-## Configuración
+## Siguientes pasos
 
-No se necesita configuración explícita. La conversión se habilita automáticamente cuando el convertidor está disponible.
-
-El motor de conversión se inicializa de forma lazy para evitar costos de inicio del procesamiento PDF.
-
-## Cómo Funciona
-
-1. La sincronía de KB detecta un archivo que no es Markdown
-2. Verifica si la extensión está en la lista soportada
-3. Convierte a Markdown usando el parser apropiado
-4. Indexa el contenido Markdown con metadatos de front-matter
-5. El archivo original no se modifica
-
-{{< callout >}}
-Coloca documentos que quieras indexar en un directorio monitoreado por KB. Se convertirán automáticamente y serán buscables. Esto es ideal para documentación del proyecto, especificaciones y docs de diseño almacenados como PDFs o documentos Office.
-{{< /callout >}}
+- Guía: [Enseña tu proyecto a Pando con Remembrances]({{< relref "/guides/remembrances" >}}) añade documentos a la base de conocimiento; [Dale ojos y manos a Pando]({{< relref "/guides/web-browser-desktop-tools" >}}) explica la conversión a mano.
+- Referencia: [formatos y comandos]({{< relref "/docs/configuration/tools" >}}).

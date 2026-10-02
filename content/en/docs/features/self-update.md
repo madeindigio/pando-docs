@@ -3,53 +3,42 @@ title: Self-Update
 weight: 19
 ---
 
-Pando updates itself: it downloads a release from GitHub and replaces its own binary.
-
-## Usage
+Pando changes its own light bulb. One command fetches the newest release and swaps it in; you do not download installers or hunt for the right file.
 
 ```bash
-# Update to the latest stable release
 pando update
-
-# Only check whether a newer release exists
-pando update --check
-
-# Install one specific release
-pando update v1.2.6
 ```
 
-## Install a specific version or go back
+## What it does for you
 
-Pass a version to `pando update` to install exactly that release, even when it is older than the one you have. Use it to go back after an update that does not work for you, or to reinstall the current version.
+- **Always the right file.** Pando picks the release that matches your operating system and processor.
+- **No half-finished updates.** The swap happens in one step: either the new version is fully in place or the old one stays.
+- **A way back.** Name an older version and Pando returns to it, which is handy when an update does not suit you.
+- **You are told when there is something new**, wherever you use Pando.
 
-```bash
-pando update v1.1.1      # go back to 1.1.1
-pando update 1.2.6       # the "v" is optional
-```
+## How it feels in practice
 
-Pando tells you what it is about to do: `Installing`, `Downgrading` or `Reinstalling`.
+When a newer release exists, you see it without looking for it:
 
-## Where you see that an update exists
+- In the **Web UI and desktop app**, the chat info panel and **Settings > General > Diagnostics** show your version and the newer one.
+- In the **terminal**, Pando prints a short notice when it starts.
 
-- **Terminal**: on startup, Pando prints a notice when a newer release is available.
+{{< shot src="images/webui/pando-webui-chat-light.jpg" dark="images/webui/pando-webui-chat-dark.jpg" alt="Chat view showing the installed version and the update notice" >}}
 
-  ```
-  A newer version of Pando is available: v1.2.3 (current: v1.2.2)
-  Run 'pando update' to upgrade.
-  ```
+Run the command and Pando says what it is about to do: `Installing`, `Downgrading` or `Reinstalling`. You can do it while Pando is open; the new version is used the next time you start it.
 
-- **Web UI and desktop**: the chat info panel and **Settings > General > Diagnostics** show your version and tell you when a newer one exists.
+## When to use it
 
-## How it works
+Whenever the notice appears. Use a specific version to go back after an update that causes trouble, or to reinstall the one you have.
 
-1. Looks up the release on GitHub (`digiogithub/pando`)
-2. Picks the file for your operating system and architecture
-3. Downloads it and extracts the binary
-4. Replaces the running executable in one step
+## Good to know
 
-## Notes
+- You need permission to write in the folder where the `pando` program lives.
+- On macOS, if you installed with the `.pkg`, update `Pando.app` with a new `.pkg`.
+- Pando only checks and tells you. It never updates by itself.
 
-- You need write permission on the folder where the `pando` binary lives.
-- It is safe to run while Pando is in use.
-- The replacement is atomic: either the new binary is fully installed or the old one stays.
-- On macOS, if you installed with the `.pkg`, use a new `.pkg` to update `Pando.app`. See [Cross-Platform Installers]({{< relref "/docs/features/installers" >}}).
+## Next steps
+
+- Step by step, including going back a version: [Update and diagnostics]({{< relref "/guides/update-and-diagnostics" >}})
+- All commands: [Diagnostics and maintenance reference]({{< relref "/docs/configuration/diagnostics" >}})
+- First install: [Cross-Platform Installers]({{< relref "/docs/features/installers" >}})

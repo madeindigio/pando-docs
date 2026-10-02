@@ -3,80 +3,35 @@ title: Goal Mode (Autopilot)
 weight: 10
 ---
 
-Goal mode enables Pando to pursue a persistent objective autonomously across multiple agent turns, without requiring user input after each step. The agent iterates, evaluates its own progress, and continues until the goal is achieved, blocked, or cancelled.
+Normally Pando does one thing and then waits for you, like a taxi that stops at every corner to ask "where now?". Goal Mode is giving the driver the final address. You describe where you want to end up, and Pando keeps going, step after step, until it arrives, gets stuck or you stop it.
 
-## Starting Goal Mode
+## What it does for you
 
-Use the `/goal` slash command in TUI, Web UI, or ACP mode:
+- **Long tasks without you watching.** Fixing a pile of failing tests, a refactor in many small steps, a migration.
+- **It checks its own progress.** After every step Pando looks at what it achieved and decides the next one.
+- **It knows when to stop.** It stops when the goal is reached, when it hits a wall it cannot climb alone, or when it notices it is going in circles.
 
-```
-/goal <objective description>
-```
+## How it feels in practice
 
-You can also use the alias:
+You type the goal in the chat. A card appears showing that the goal is running, which lap it is on, how long it has been working, what it has done so far and what it will try next. You can go for a coffee or close the laptop lid on another task: the goal keeps running. When you come back, the card tells you how it ended.
 
-```
-/autopilot <objective description>
-```
+A goal can end in several ways: completed, blocked waiting for something only you can give, cancelled by you, out of time, or stalled after several laps without progress.
 
-## Monitoring Progress
+It works in every interface, and it can also run with no window at all, which is handy for jobs you leave overnight.
 
-While a goal is running, Pando displays a dedicated status component showing:
+## When to use it
 
-- **Status badge** with animated spinner (running, completed, failed, blocked, timeout, stalled, cancelled)
-- **Objective text**
-- **Iteration counter** (e.g., "Iteration 3/20")
-- **Elapsed time**
-- **Progress text**
-- **Next step description**
+Use it when the finish line is clear and checkable: "all tests pass", "the build is green", "every file in this folder is converted". Do not use it for open questions or for work where you want to decide at each step.
 
-Check status at any time with:
+## Good to know
 
-```
-/goal-status
-```
+- While a goal runs, Pando normally does not stop to ask permission for each action. Keep the [command sandbox]({{< relref "/docs/features/sandbox" >}}) on so it works inside a playpen.
+- There are limits on how many laps and how much time a goal may take, so a goal cannot run for ever. You can change them.
+- You can list commands that must never be run during a goal.
+- Start with small goals and make them bigger as you gain trust.
 
-## Cancelling a Goal
+## Next steps
 
-Cancel the running goal with:
-
-```
-/goal-cancel
-```
-
-Or press **Ctrl+C** while a goal is active (this cancels the goal instead of exiting Pando).
-
-## How It Works
-
-1. The `GoalRunner` creates a goal record in the database
-2. Each iteration sends the goal prompt to the agent
-3. A `HeuristicGoalEvaluator` analyzes the response for completion, blocking, or stalling
-4. Progress is recorded and the loop continues until a terminal state is reached
-
-Terminal states: `completed`, `failed`, `cancelled`, `blocked`, `timeout`, `stalled`
-
-## Configuration
-
-```toml
-[Goal]
-MaxIterations = 20       # Maximum iterations (0 = default 20)
-MaxDuration = '1h'       # Go duration string
-StallIterations = 3      # Consecutive no-progress before stalled
-AutoApprove = true       # Auto-approve tool calls during goal mode
-DangerousPatterns = []   # Patterns to block in goal mode
-```
-
-## Non-Interactive Goal Mode
-
-From the command line, use the `--goal` flag for fully autonomous execution:
-
-```bash
-pando --goal "Fix all failing tests in the project"
-pando --goal "Refactor auth module" --model copilot.gpt-5.4
-```
-
-The CLI returns a structured result with session ID, objective, status, iteration count, and progress.
-
-{{< callout >}}
-Goal mode works in TUI, ACP, Web UI, and CLI non-interactive mode. In TUI, the chat input is disabled while a goal is running to prevent interference.
-{{< /callout >}}
+- Guide: [Goal Mode: long tasks without babysitting]({{< relref "/guides/goal-mode" >}}).
+- Reference: [Goal Mode configuration]({{< relref "/docs/configuration/goal" >}}).
+- Related: [Agent delegation]({{< relref "/docs/features/agent-delegation" >}}) to split a big goal among helpers.

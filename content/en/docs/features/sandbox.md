@@ -3,105 +3,54 @@ title: Command Sandbox
 weight: 38
 ---
 
-Pando runs the shell commands the agent writes directly on your machine. The command sandbox confines those commands with your operating system's own protections, so a command cannot write outside your project, cannot change Pando's configuration or your git hooks, and does not see your API keys.
+Pando's agent types real commands on your real computer. The command sandbox is a playpen around each of those commands: the agent can build, test and tidy inside your project, but it cannot wander off into the rest of your machine. There are no containers and nothing to install. On **Linux and macOS it is on from the first day**.
 
-There are no containers and nothing to install. On **Linux and macOS the sandbox is on by default**.
+## What it does for you
 
-## What it protects
+- **Your project is the only place the agent can write**, plus temporary folders and the usual download caches of your tools.
+- **Pando's own settings are locked.** The agent cannot switch the playpen off by editing a file.
+- **Your git hooks are locked.** A command cannot leave a booby trap that runs later, outside the playpen.
+- **Your keys are out of sight.** Anything in your environment that looks like a key, token or password is hidden from the agent's commands.
+- **Pando's own doors are closed.** A command cannot call Pando's internal services to change settings behind your back.
 
-While a command runs inside the sandbox:
+## How it feels in practice
 
-- **It can only write in your project**, in temporary folders and in the usual dependency caches (Go, npm, pnpm, yarn, bun, pip, cargo, gradle, maven).
-- **Pando's configuration is read-only**: `.pando.toml`, the `.pando/` folder and your global config. The agent cannot switch the sandbox off by editing a file.
-- **Git hooks and git config are read-only**: `.git/hooks` and `.git/config`. A command cannot plant a hook that runs later outside the sandbox.
-- **Your credentials are removed from the environment**: variables that look like keys, tokens or passwords never reach the agent's shell.
-- **Pando's own ports are blocked**, so a command cannot talk to the Pando API to change settings.
-
-Only the commands the agent writes are confined. The terminals you open yourself in the TUI or the Web UI are never confined: they run what you type.
-
-## Fewer permission prompts
-
-Because a confined command can do little harm, Pando **approves shell commands automatically** while the sandbox gives its full protection. Dangerous commands, such as `sudo` or deleting a system path, still ask you first.
-
-If you prefer to keep approving every command, set `AutoAllowBashDisabled = true`.
-
-## Modes
-
-| Mode | Can write to | Network | Use it for |
-|---|---|---|---|
-| `workspace-write` (default) | Project, temp folders, dependency caches | Allowed | Normal development |
-| `read-only` | Temp folders only | Blocked | Exploring or reviewing code the agent must not change |
-| `strict` | Project and temp folders | Blocked | Repositories you do not trust: the agent cannot read your home folder |
-| `off` | Everything | Allowed | Turning the sandbox off |
-
-## When a command is blocked
-
-The agent gets a note explaining that the sandbox blocked the command and why. Most of the time it retries inside the project.
-
-When a command really needs to go outside the sandbox, the agent can ask to run it once without confinement. That request **always needs your explicit approval**, in the TUI, the Web UI and in editors. Auto-approve and unattended modes never grant it.
-
-## Changing the mode or turning it off
+Mostly you notice fewer interruptions. Because a fenced-in command can do little harm, Pando stops asking "may I run this?" for ordinary commands. It still stops for the risky ones, such as `sudo` or deleting a system folder.
 
 {{< shot src="images/webui/pando-webui-settings-sandbox.jpg" alt="Command sandbox settings" >}}
 
-Any of these applies to the next command, with no restart:
+When a command bumps into the fence, the agent is told what happened and why, and nearly always tries again inside the project. If it truly needs to step outside, it asks you to run that single command without the sandbox. That request always needs your own click: no automatic or unattended mode can grant it.
 
-- **TUI**: Settings > Sandbox. The footer shows a badge with the current state.
-- **Web UI and desktop**: Settings > Sandbox. The same badge appears in the chat info panel.
-- **Config file** (`~/.pando.toml`):
+A small badge in the chat info panel shows the current state at all times.
 
-  ```toml
-  [Sandbox]
-  Mode = "read-only"     # workspace-write | read-only | strict | off
-  ```
+## Four fence heights
 
-- **For one run only**:
-
-  ```bash
-  PANDO_SANDBOX=off pando
-  PANDO_SANDBOX=strict pando
-  ```
-
-{{< callout >}}
-A project cannot loosen your sandbox. The `.pando.toml` inside a repository can only make it stricter, so cloning a repository never disables your protection.
-{{< /callout >}}
-
-## Common settings
-
-```toml
-[Sandbox]
-Mode = "workspace-write"
-Network = "allowed"                 # or "restricted" to block the network
-WritableRoots = ["~/work/shared"]   # extra folders the agent may write to
-DenyPaths = ["~/.ssh", "~/.aws", "*.pem"]   # neither readable nor writable
-AutoAllowBashDisabled = false       # true keeps the prompt for every command
-
-[Sandbox.Env]
-Keep = ["NPM_TOKEN"]                # let this variable through
-```
-
-## Check what is active
-
-```bash
-pando sandbox status                      # backend, mode, what is protected
-pando sandbox exec -- touch ~/.probe      # run one command confined; expect "Permission denied"
-```
-
-## Platform support
-
-| Platform | Protection |
+| Mode | In one sentence |
 |---|---|
-| Linux, kernel 6.7 or later, with bubblewrap installed | Full |
-| Linux, older kernel or without bubblewrap | Partial. Pando says what is missing and keeps asking before each command |
-| macOS | Full |
-| WSL 2 | Same as Linux |
-| Windows | Not confined. Pando keeps asking before each command |
+| Workspace write (default) | Work freely in the project, with internet |
+| Read only | Look, don't touch |
+| Strict | A project you do not trust yet: no internet, and the agent cannot even read your home folder |
+| Off | No fence |
 
-On Linux, install bubblewrap for full protection: `sudo apt install bubblewrap` (or `dnf`, `pacman`, `zypper`).
+## When to use it
+
+Leave it on. Tighten it to **Read only** for reviews and to **Strict** when you open code from a stranger. Turn it off only for a task that cannot work inside the fence, and turn it back on afterwards.
+
+Only commands the agent writes are fenced. Terminals you open yourself run what you type, with no restrictions.
 
 ## Good to know
 
-- If you run commands inside Docker or Podman, the container is the isolation and the host sandbox does not apply.
-- When Pando works inside an editor (Zed, VS Code, JetBrains) and the editor runs the command in its own terminal, the editor is in charge and the command is not confined.
-- MCP servers and delegated agent CLIs are not confined by default, because they usually need their own files outside the project. Opt in with `ExtendTo = ["mcp", "subagents"]`.
-- Temp folders are always writable, even in `read-only` mode.
+- A project cannot loosen your sandbox. Settings that come with a repository can only make it stricter, so cloning something never switches your protection off.
+- Changes apply to the next command. Nothing needs restarting.
+- **Linux**: full protection needs a recent kernel (6.7 or later) and the small `bubblewrap` package. Without them Pando protects what it can, says what is missing and keeps asking before each command.
+- **Windows**: commands are not fenced. Pando keeps asking before each one.
+- If you run commands inside Docker or Podman, the container is the fence and the sandbox steps aside.
+- When Pando works inside an editor and the editor runs the command in its own terminal, the editor is in charge.
+- Extra tool servers and delegated agents stay outside the fence unless you choose to include them, because they often keep their own files elsewhere.
+- Temporary folders are always writable, even in **Read only**.
+
+## Next steps
+
+- Set it up: [Sandbox and permissions]({{< relref "/guides/sandbox-and-permissions" >}})
+- Every option and platform detail: [Sandbox reference]({{< relref "/docs/configuration/sandbox" >}})
+- Stronger isolation: [Dev containers]({{< relref "/guides/dev-containers" >}})

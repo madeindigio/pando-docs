@@ -3,105 +3,54 @@ title: Sandbox de comandos
 weight: 38
 ---
 
-Pando ejecuta directamente en tu máquina los comandos de shell que escribe el agente. El sandbox de comandos confina esos comandos con las protecciones del propio sistema operativo: un comando no puede escribir fuera de tu proyecto, no puede cambiar la configuración de Pando ni tus hooks de git, y no ve tus claves de API.
+El agente de Pando escribe comandos de verdad en tu ordenador de verdad. El sandbox de comandos es un corralito alrededor de cada uno de esos comandos: el agente puede compilar, probar y ordenar dentro de tu proyecto, pero no puede irse de paseo por el resto de tu máquina. No hay contenedores ni nada que instalar. En **Linux y macOS viene activado desde el primer día**.
 
-No hay contenedores ni nada que instalar. En **Linux y macOS el sandbox viene activado por defecto**.
+## Qué hace por ti
 
-## Qué protege
+- **Tu proyecto es el único sitio donde el agente puede escribir**, además de las carpetas temporales y las cachés de descargas habituales de tus herramientas.
+- **Los ajustes del propio Pando están bajo llave.** El agente no puede apagar el corralito editando un fichero.
+- **Tus hooks de git están bajo llave.** Un comando no puede dejar una trampa que se dispare más tarde, fuera del corralito.
+- **Tus claves quedan fuera de la vista.** Todo lo que en tu entorno parezca una clave, un token o una contraseña se esconde a los comandos del agente.
+- **Las puertas del propio Pando están cerradas.** Un comando no puede llamar a los servicios internos de Pando para cambiar ajustes a tus espaldas.
 
-Mientras un comando se ejecuta dentro del sandbox:
+## Cómo se nota en el día a día
 
-- **Solo puede escribir en tu proyecto**, en las carpetas temporales y en las cachés habituales de dependencias (Go, npm, pnpm, yarn, bun, pip, cargo, gradle, maven).
-- **La configuración de Pando es de solo lectura**: `.pando.toml`, la carpeta `.pando/` y tu configuración global. El agente no puede desactivar el sandbox editando un fichero.
-- **Los hooks y la configuración de git son de solo lectura**: `.git/hooks` y `.git/config`. Un comando no puede dejar un hook que se ejecute después fuera del sandbox.
-- **Tus credenciales se eliminan del entorno**: las variables que parecen claves, tokens o contraseñas no llegan al shell del agente.
-- **Los puertos del propio Pando están bloqueados**, así que un comando no puede hablar con la API de Pando para cambiar ajustes.
-
-Solo se confinan los comandos que escribe el agente. Los terminales que abres tú en la TUI o en la Web UI no se confinan nunca: ejecutan lo que tú escribes.
-
-## Menos preguntas de permiso
-
-Como un comando confinado puede hacer poco daño, Pando **aprueba automáticamente los comandos de shell** mientras el sandbox ofrece su protección completa. Los comandos peligrosos, como `sudo` o borrar una ruta del sistema, te siguen preguntando antes.
-
-Si prefieres seguir aprobando cada comando, pon `AutoAllowBashDisabled = true`.
-
-## Modos
-
-| Modo | Puede escribir en | Red | Para qué |
-|---|---|---|---|
-| `workspace-write` (por defecto) | Proyecto, carpetas temporales, cachés de dependencias | Permitida | Desarrollo normal |
-| `read-only` | Solo carpetas temporales | Bloqueada | Explorar o revisar código que el agente no debe cambiar |
-| `strict` | Proyecto y carpetas temporales | Bloqueada | Repositorios en los que no confías: el agente no puede leer tu carpeta personal |
-| `off` | Todo | Permitida | Desactivar el sandbox |
-
-## Cuando se bloquea un comando
-
-El agente recibe una nota que explica que el sandbox bloqueó el comando y por qué. Casi siempre lo reintenta dentro del proyecto.
-
-Cuando un comando necesita de verdad salir del sandbox, el agente puede pedir ejecutarlo una vez sin confinamiento. Esa petición **siempre necesita tu aprobación explícita**, en la TUI, en la Web UI y en los editores. La aprobación automática y los modos desatendidos nunca la conceden.
-
-## Cambiar el modo o desactivarlo
+Sobre todo notas menos interrupciones. Como un comando vallado puede hacer poco daño, Pando deja de preguntar «¿puedo ejecutar esto?» con los comandos corrientes. Sigue parando con los arriesgados, como `sudo` o borrar una carpeta del sistema.
 
 {{< shot src="images/webui/pando-webui-settings-sandbox.jpg" alt="Ajustes del sandbox de comandos" >}}
 
-Cualquiera de estas opciones se aplica al siguiente comando, sin reiniciar:
+Cuando un comando choca con la valla, al agente se le cuenta qué ha pasado y por qué, y casi siempre lo reintenta dentro del proyecto. Si de verdad necesita salir, te pide ejecutar ese único comando sin sandbox. Esa petición siempre necesita tu clic: ningún modo automático o desatendido puede concederla.
 
-- **TUI**: Ajustes > Sandbox. El pie muestra una etiqueta con el estado actual.
-- **Web UI y escritorio**: Ajustes > Sandbox. La misma etiqueta aparece en el panel de información del chat.
-- **Fichero de configuración** (`~/.pando.toml`):
+Una etiqueta pequeña en el panel de información del chat muestra el estado en todo momento.
 
-  ```toml
-  [Sandbox]
-  Mode = "read-only"     # workspace-write | read-only | strict | off
-  ```
+## Cuatro alturas de valla
 
-- **Solo para una ejecución**:
-
-  ```bash
-  PANDO_SANDBOX=off pando
-  PANDO_SANDBOX=strict pando
-  ```
-
-{{< callout >}}
-Un proyecto no puede relajar tu sandbox. El `.pando.toml` de un repositorio solo puede hacerlo más estricto, así que clonar un repositorio nunca desactiva tu protección.
-{{< /callout >}}
-
-## Ajustes habituales
-
-```toml
-[Sandbox]
-Mode = "workspace-write"
-Network = "allowed"                 # o "restricted" para bloquear la red
-WritableRoots = ["~/work/shared"]   # carpetas extra donde el agente puede escribir
-DenyPaths = ["~/.ssh", "~/.aws", "*.pem"]   # ni se leen ni se escriben
-AutoAllowBashDisabled = false       # true mantiene la pregunta en cada comando
-
-[Sandbox.Env]
-Keep = ["NPM_TOKEN"]                # deja pasar esta variable
-```
-
-## Comprobar qué está activo
-
-```bash
-pando sandbox status                      # backend, modo y qué está protegido
-pando sandbox exec -- touch ~/.probe      # ejecuta un comando confinado; debe dar "Permission denied"
-```
-
-## Soporte por plataforma
-
-| Plataforma | Protección |
+| Modo | En una frase |
 |---|---|
-| Linux, kernel 6.7 o posterior, con bubblewrap instalado | Completa |
-| Linux, kernel anterior o sin bubblewrap | Parcial. Pando indica qué falta y sigue preguntando antes de cada comando |
-| macOS | Completa |
-| WSL 2 | Igual que Linux |
-| Windows | Sin confinamiento. Pando sigue preguntando antes de cada comando |
+| Escritura en el espacio de trabajo (por defecto) | Trabaja con libertad en el proyecto, con internet |
+| Solo lectura | Mirar y no tocar |
+| Estricto | Un proyecto del que aún no te fías: sin internet, y el agente ni siquiera puede leer tu carpeta personal |
+| Desactivado | Sin valla |
 
-En Linux, instala bubblewrap para tener la protección completa: `sudo apt install bubblewrap` (o `dnf`, `pacman`, `zypper`).
+## Cuándo usarlo
+
+Déjalo activado. Súbelo a **Solo lectura** para revisiones y a **Estricto** cuando abras código de un desconocido. Apágalo solo para una tarea que no pueda funcionar dentro de la valla, y vuelve a encenderlo después.
+
+Solo se vallan los comandos que escribe el agente. Los terminales que abres tú ejecutan lo que tú tecleas, sin restricciones.
 
 ## Conviene saber
 
-- Si ejecutas los comandos dentro de Docker o Podman, el aislamiento es el contenedor y el sandbox del host no se aplica.
-- Cuando Pando trabaja dentro de un editor (Zed, VS Code, JetBrains) y el editor ejecuta el comando en su propio terminal, manda el editor y el comando no se confina.
-- Los servidores MCP y las CLI de agentes delegados no se confinan por defecto, porque suelen necesitar ficheros propios fuera del proyecto. Actívalo con `ExtendTo = ["mcp", "subagents"]`.
-- Las carpetas temporales siempre son escribibles, incluso en modo `read-only`.
+- Un proyecto no puede aflojar tu sandbox. Los ajustes que vienen con un repositorio solo pueden hacerlo más estricto, así que clonar algo nunca apaga tu protección.
+- Los cambios se aplican al siguiente comando. No hay que reiniciar nada.
+- **Linux**: la protección completa necesita un kernel reciente (6.7 o posterior) y el pequeño paquete `bubblewrap`. Sin ellos Pando protege lo que puede, dice qué falta y sigue preguntando antes de cada comando.
+- **Windows**: los comandos no se vallan. Pando sigue preguntando antes de cada uno.
+- Si ejecutas los comandos dentro de Docker o Podman, la valla es el contenedor y el sandbox se hace a un lado.
+- Cuando Pando trabaja dentro de un editor y el editor ejecuta el comando en su propio terminal, manda el editor.
+- Los servidores de herramientas extra y los agentes delegados quedan fuera de la valla salvo que decidas incluirlos, porque suelen guardar sus ficheros en otros sitios.
+- Las carpetas temporales siempre son escribibles, incluso en **Solo lectura**.
+
+## Siguientes pasos
+
+- Configúralo: [Sandbox y permisos]({{< relref "/guides/sandbox-and-permissions" >}})
+- Todas las opciones y el detalle por plataforma: [referencia del sandbox]({{< relref "/docs/configuration/sandbox" >}})
+- Aislamiento más fuerte: [Dev containers]({{< relref "/guides/dev-containers" >}})

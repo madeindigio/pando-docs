@@ -3,80 +3,35 @@ title: Modo Objetivo (Autopiloto)
 weight: 10
 ---
 
-El modo objetivo permite que Pando persiga un objetivo persistente de forma autónoma a través de múltiples turnos del agente, sin requerir input del usuario después de cada paso. El agente itera, evalúa su propio progreso y continúa hasta que el objetivo se logre, se bloquee o se cancele.
+Normalmente Pando hace una cosa y luego te espera, como un taxi que se para en cada esquina a preguntar «¿y ahora por dónde?». El Modo Objetivo (Goal Mode) es darle al conductor la dirección final. Describes dónde quieres acabar y Pando sigue, paso a paso, hasta que llega, se queda atascado o lo paras tú.
 
-## Iniciar el Modo Objetivo
+## Qué hace por ti
 
-Usa el comando slash `/goal` en TUI, Web UI o modo ACP:
+- **Tareas largas sin que estés mirando.** Arreglar un montón de tests que fallan, una refactorización en muchos pasos pequeños, una migración.
+- **Comprueba su propio avance.** Después de cada paso Pando mira lo que ha conseguido y decide el siguiente.
+- **Sabe cuándo parar.** Para cuando alcanza el objetivo, cuando topa con un muro que no puede saltar solo o cuando nota que está dando vueltas en círculo.
 
-```
-/goal <descripción del objetivo>
-```
+## Cómo se nota en el día a día
 
-También puedes usar el alias:
+Escribes el objetivo en el chat. Aparece una tarjeta que muestra que el objetivo está en marcha, en qué vuelta va, cuánto lleva trabajando, qué ha hecho hasta ahora y qué va a intentar a continuación. Puedes irte a por un café o ponerte con otra cosa: el objetivo sigue. Al volver, la tarjeta te dice cómo terminó.
 
-```
-/autopilot <descripción del objetivo>
-```
+Un objetivo puede acabar de varias maneras: completado, bloqueado a la espera de algo que solo tú puedes dar, cancelado por ti, sin tiempo, o atascado tras varias vueltas sin avanzar.
 
-## Monitorear el Progreso
+Funciona en todas las interfaces, y también puede ejecutarse sin ninguna ventana, lo que viene bien para trabajos que dejas por la noche.
 
-Mientras un objetivo está en ejecución, Pando muestra un componente de estado dedicado mostrando:
+## Cuándo usarlo
 
-- **Insignia de estado** con spinner animado (ejecutándose, completado, fallido, bloqueado, timeout, detenido, cancelado)
-- **Texto del objetivo**
-- **Contador de iteraciones** (ej. "Iteración 3/20")
-- **Tiempo transcurrido**
-- **Texto de progreso**
-- **Descripción del siguiente paso**
+Úsalo cuando la meta es clara y se puede comprobar: «pasan todos los tests», «la compilación sale en verde», «todos los ficheros de esta carpeta están convertidos». No lo uses para preguntas abiertas ni para trabajos en los que quieres decidir en cada paso.
 
-Consulta el estado en cualquier momento con:
+## Conviene saber
 
-```
-/goal-status
-```
+- Mientras un objetivo está en marcha, Pando normalmente no se para a pedir permiso en cada acción. Deja activado el [sandbox de comandos]({{< relref "/docs/features/sandbox" >}}) para que trabaje dentro de un corralito.
+- Hay límites de vueltas y de tiempo, así que un objetivo no puede correr para siempre. Puedes cambiarlos.
+- Puedes listar comandos que nunca deben ejecutarse durante un objetivo.
+- Empieza con objetivos pequeños y hazlos más grandes según ganes confianza.
 
-## Cancelar un Objetivo
+## Siguientes pasos
 
-Cancela el objetivo en ejecución con:
-
-```
-/goal-cancel
-```
-
-O presiona **Ctrl+C** mientras un objetivo está activo (esto cancela el objetivo en lugar de salir de Pando).
-
-## Cómo Funciona
-
-1. El `GoalRunner` crea un registro del objetivo en la base de datos
-2. Cada iteración envía el prompt del objetivo al agente
-3. Un `HeuristicGoalEvaluator` analiza la respuesta en busca de completado, bloqueo o estancamiento
-4. Se registra el progreso y el bucle continúa hasta un estado terminal
-
-Estados terminales: `completado`, `fallido`, `cancelado`, `bloqueado`, `timeout`, `detenido`
-
-## Configuración
-
-```toml
-[Goal]
-MaxIterations = 20       # Iteraciones máximas (0 = predeterminado 20)
-MaxDuration = '1h'       # Cadena de duración Go
-StallIterations = 3      # Iteraciones sin progreso antes de detenido
-AutoApprove = true       # Auto-aprobar llamadas a herramientas durante modo objetivo
-DangerousPatterns = []   # Patrones a bloquear en modo objetivo
-```
-
-## Modo Objetivo No Interactivo
-
-Desde la línea de comandos, usa el flag `--goal` para ejecución completamente autónoma:
-
-```bash
-pando --goal "Corregir todos los tests fallidos en el proyecto"
-pando --goal "Refactorizar el módulo de autenticación" --model copilot.gpt-5.4
-```
-
-El CLI devuelve un resultado estructurado con ID de sesión, objetivo, estado, conteo de iteraciones y progreso.
-
-{{< callout >}}
-El modo objetivo funciona en TUI, ACP, Web UI y CLI no interactivo. En TUI, el input del chat se desactiva mientras un objetivo está en ejecución para evitar interferencias.
-{{< /callout >}}
+- Guía: [Goal Mode: tareas largas sin supervisión]({{< relref "/guides/goal-mode" >}}).
+- Referencia: [Configuración del Modo Objetivo]({{< relref "/docs/configuration/goal" >}}).
+- Relacionado: [Delegación de agentes]({{< relref "/docs/features/agent-delegation" >}}) para repartir un objetivo grande entre ayudantes.

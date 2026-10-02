@@ -3,88 +3,46 @@ title: Caveman Mode (Output Brevity)
 weight: 28
 ---
 
-Caveman mode reduces Pando's output tokens by constraining expression — it cuts filler, restatements, and unnecessary prose while preserving code, commands, paths, errors, and verification output. This is a **token-saving feature** that helps reduce costs and keep responses focused.
+Caveman mode makes Pando talk less. Think of the difference between a telegram and a letter: the news is the same, the paper is a tenth. Pando drops the greetings, the "let me explain what I am about to do" and the summaries of what it has just said, and keeps everything that matters.
 
-Caveman mode does not reduce reasoning, tool use, testing, or verification — only how the AI expresses itself.
+It only changes how Pando expresses itself. It thinks, tests and checks exactly as much as before.
 
-## How to Use
+## What it does for you
 
-### Slash Commands
+- **Saves money.** Models charge by the word they write, and Pando writes fewer.
+- **Saves reading time.** The answer comes first, without a warm-up.
+- **Keeps long sessions lighter.** Shorter answers fill the conversation more slowly.
 
-Type these in the chat input:
+## How it feels in practice
 
-| Command | What it does |
-|---------|--------------|
-| `/caveman lite` | Enable light brevity — removes filler and preambles |
-| `/caveman full` | Enable standard brevity — concise answers, no unnecessary explanation |
-| `/caveman ultra` | Maximum brevity — fragments and bullets only, no paragraphs |
-| `/caveman off` or `/caveman-finish` | Disable caveman mode |
+There are three levels, like volume steps:
 
-### Settings
-
-{{< shot src="images/webui/pando-webui-settings-general-caveman-brevity.jpg" alt="Caveman output brevity level in General settings" >}}
-
-Set a default mode that applies to all new sessions:
-
-**Web UI:** Settings > Token Optimization > Caveman Mode
-
-**TUI:** Settings > Tools > Caveman
-
-**Configuration file:**
-
-```toml
-[Caveman]
-# "" (empty) = off, "lite", "full", or "ultra"
-DefaultMode = "lite"
-```
-
-## Behavior Levels
-
-| Level | Style | When to use |
+| Level | How Pando talks | Good for |
 |-------|-------|-------------|
-| **Lite** | Normal sentences, filler removed. Answer first, then a short paragraph of context. | Everyday coding — saves tokens without changing communication style significantly |
-| **Full** | Fragments and bullets. One idea per line. Cut greetings, sign-offs, self-narration. | High-volume sessions where every token counts |
-| **Ultra** | Maximum compression. Only the essential facts survive. | Budget-constrained sessions or very long conversations |
+| **Lite** | Normal sentences without the padding. Answer first, then a short note | Everyday work |
+| **Full** | Short lines and bullets, one idea each | Busy sessions where every word counts |
+| **Ultra** | Only the bare facts | A tight budget or a very long conversation |
 
-## What Gets Cut
+What gets cut: greetings and goodbyes, repeating your question back to you, announcements ("I'll now..."), summaries of what was just said, apologies, praise and explanations nobody asked for.
 
-- Greetings, sign-offs, self-narration ("I'll now...", "Let me...")
-- Restating the request back to the user before answering
-- Preamble before answers and summaries that repeat what was just said
-- Generic transitions, hedging, apologies, praise, filler adjectives
-- Explanation nobody asked for
-
-## What Is Preserved (Never Compressed)
-
-- Code and code blocks
-- Command lines and file paths
-- Error text and stack traces
-- Test output and verification results
-- API signatures and URLs
-- Security warnings
-- Anything the user explicitly asked for detail about
+What is never cut: code, commands and file paths, error messages, test results, web addresses, safety warnings, and anything you asked to hear in detail.
 
 {{< callout type="info" >}}
-A direct request for detail (e.g., "explain", "walk me through") overrides caveman mode for that reply. The AI will give the full explanation when you ask for it.
+Ask for an explanation ("explain", "walk me through it") and you get the full version for that answer, whatever the level.
 {{< /callout >}}
 
-## Per-Session Override
+## When to use it
 
-You can change caveman mode during a session without affecting the default:
+Use it when you already know the ground and want results, not narration. Leave it off when you are learning something new and the explanations are the point.
 
-```bash
-/caveman lite     # switch to lite for this session
-/caveman-finish   # turn off for this session
-```
+## Good to know
 
-The session-level setting overrides the global default. When you start a new session, it reverts to the configured default.
+- It is off until you choose a level.
+- You can pick a level for the current session with a command, and a different default for new sessions in the settings.
+- A new session always starts with the default, not with what you chose in the previous one.
 
-## Configuration Reference
+## Next steps
 
-| Setting | Location | Values | Default |
-|---------|----------|--------|---------|
-| `Caveman.DefaultMode` | `.pando.toml` | `""`, `"lite"`, `"full"`, `"ultra"` | `""` (off) |
-
-{{< callout >}}
-Caveman mode is off by default. Existing installations see no behavior change until you explicitly enable it via slash command or configuration.
-{{< /callout >}}
+- Guide: [Change how Pando thinks and talks]({{< relref "/guides/working-modes" >}}) shows the commands and the setting.
+- Guide: [Spend fewer tokens]({{< relref "/guides/save-tokens" >}}) covers the other ways to save.
+- Reference: [Working modes]({{< relref "/docs/configuration/modes" >}}).

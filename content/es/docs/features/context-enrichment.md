@@ -3,105 +3,42 @@ title: Enriquecimiento de Contexto
 weight: 13
 ---
 
-El enriquecimiento de contexto busca automáticamente en tu Base de Conocimiento, índice de código y eventos de sesiones pasadas para inyectar información relevante en cada prompt, dando al agente de IA mayor conocimiento del proyecto sin intervención manual.
+El enriquecimiento de contexto es Pando haciendo los deberes antes de responder. Piensa en el compañero que, de camino a la reunión, saca la carpeta adecuada del archivador y la hojea. Cuando envías un mensaje, Pando mira con discreción tus notas, tu código y tus conversaciones anteriores, y se trae lo que parece útil. Tú solo ves una respuesta mejor.
 
-## Cómo Funciona
+## Qué hace por ti
 
-Cuando está habilitado, Pando enriquece cada mensaje del usuario antes de enviarlo al LLM:
+- **Respuestas que conocen tu proyecto.** Pando llega con los ficheros y las notas que vienen al caso ya en la mano, sin que tú se los señales.
+- **Menos explicaciones.** No hace falta pegar los mismos antecedentes en cada conversación.
+- **Tres sitios consultados a la vez:** tu base de conocimiento, el mapa de tu código y lo ocurrido en sesiones anteriores.
+- **Solo los buenos hallazgos.** Las coincidencias flojas se descartan antes de llegar al modelo.
 
-1. **Planificación de Consulta** - Un planificador (heurístico o basado en LLM) analiza el mensaje del usuario
-2. **Búsqueda Paralela** - Busca en KB, índice de código y eventos simultáneamente
-3. **Filtrado por Puntuación** - Los resultados por debajo del umbral mínimo se descartan
-4. **Inyección de Contexto** - Los resultados relevantes se anteponen al mensaje del usuario
+## Cómo se nota en el día a día
 
-## Configuración
+En su forma sencilla es invisible: una ronda rápida de búsquedas antes de cada respuesta.
 
-{{< shot src="images/webui/pando-webui-settings-remembrances-chunking-context.jpg" alt="Ajustes de troceado, indexado de código y enriquecimiento de contexto" >}}
+Hay también una forma más concienzuda. Un pequeño ayudante hace varias rondas de búsqueda, como el bibliotecario que vuelve unas cuantas veces a las estanterías, y le entrega al agente principal un resumen ordenado. Con ella activada:
 
-```toml
-[Remembrances]
-ContextEnrichmentEnabled = true
+- Por defecto trabaja en el primer mensaje de la sesión, que es el momento en que Pando menos sabe de tu proyecto.
+- Lo ves trabajar: una línea en el chat dice que el ayudante está reuniendo contexto, y después cuánto ha añadido.
+- Su trabajo queda guardado como una pequeña sesión aparte que puedes abrir para leer exactamente qué buscó y qué encontró.
+- Si tarda demasiado o no encuentra nada, Pando recurre a la búsqueda sencilla, así que nunca te quedas con menos que antes.
+- Se prepara mientras Pando arranca, de modo que tu primer mensaje no tiene que esperarlo.
 
-# Enriquecimiento KB
-ContextEnrichmentKBResults = 2
-ContextEnrichmentKBMaxChars = 0
+El ayudante usa su propio modelo, distinto del que elegiste para programar. Basta uno barato y rápido.
 
-# Enriquecimiento de código
-ContextEnrichmentCodeResults = 5
-ContextEnrichmentCodeProject = 'pando'
-ContextEnrichmentCodeMaxChars = 0
+## Cuándo usarlo
 
-# Enriquecimiento de eventos
-ContextEnrichmentEventsResults = 5
-ContextEnrichmentEventsMaxChars = 0
+Actívalo cuando tu proyecto tenga algo que merezca consultarse: un código indexado, una carpeta de notas, algo de historia. En un proyecto recién creado y vacío todavía no hay nada que encontrar.
 
-# Configuración global
-ContextEnrichmentMinScore = 0.0
-ContextEnrichmentTotalMaxChars = 0
+## Conviene saber
 
-# Selección de planificador
-ContextEnrichmentUseAgentPlanner = false
-ContextEnrichmentPlannerFallbackToCoder = false
-```
+- Cada hallazgo que se trae ocupa sitio en la conversación. Tú eliges cuántos se permiten de cada sitio.
+- Un filtro opcional, a cargo de un [modelo de decisión]({{< relref "/docs/features/decision-model" >}}) diminuto, puede descartar los hallazgos que no encajan con tu pregunta.
+- La forma concienzuda cuesta un poco más, porque el ayudante también es un modelo. Su coste se suma al de la sesión.
+- Pando también calibra cada mensaje (¿va de código, de un fallo, de una explicación?) para dejar fuera las instrucciones que no vienen al caso, lo que ahorra tokens.
 
-## Enriquecimiento como bucle de agente
+## Siguientes pasos
 
-{{< shot src="images/webui/pando-webui-settings-remembrances-context-enrichment.jpg" alt="Ajustes del bucle de enriquecimiento y del filtro de relevancia" >}}
-
-En lugar de una única ronda de búsquedas, Pando puede ejecutar el enriquecimiento como un **pequeño agente dedicado** que consulta de forma iterativa la memoria, la base de conocimiento, los eventos pasados y el índice de código hasta tener lo que necesita. El agente principal nunca ve esas búsquedas: solo recibe el bloque de contexto ya terminado.
-
-El bucle usa su propio modelo, independiente del que hayas elegido para programar, así que puedes asignarle uno barato y rápido:
-
-```toml
-[Agents.context-enricher]
-Model = 'openrouter.un-modelo-barato'
-
-[Remembrances]
-ContextEnrichmentAgentLoopEnabled        = true
-ContextEnrichmentAgentLoopTimeoutSeconds = 60      # límite de una ejecución
-ContextEnrichmentAgentLoopMaxChars       = 6000    # tope del contexto inyectado
-ContextEnrichmentAgentLoopEveryMessage   = false   # true = cada turno, no solo al iniciar sesión
-```
-
-Lo que vas a notar:
-
-- **Por defecto solo se ejecuta en el primer mensaje de la sesión**, que es donde aporta valor: el momento en que el agente no sabe nada de tu proyecto. Pon `ContextEnrichmentAgentLoopEveryMessage = true` para enriquecer en cada turno.
-- **Lo ves trabajar.** El chat muestra `🧠 Context enrichment agent gathering project context...` y después cuánto contexto ha añadido, igual que hace la compactación.
-- **La ejecución aparece como sesión hija** de tu chat, así que puedes abrirla y leer exactamente qué buscó y qué encontró. Su coste se suma al de la sesión padre.
-- **Tiene respaldo**: si agota el tiempo o vuelve vacío, cae al enriquecimiento clásico de una sola pasada, así que activarlo no puede dejarte con menos contexto que antes.
-- **Sin arranque en frío.** El agente de enriquecimiento se prepara en segundo plano mientras Pando arranca, de modo que el primer prompt no lo espera.
-
-Configurable desde TOML, desde la TUI (Remembrances → Context Enrichment) y desde los ajustes de la WebUI.
-
-## Planificadores
-
-### Planificador Heurístico (Predeterminado)
-
-Analiza el mensaje del usuario usando extracción de palabras clave y coincidencia de patrones para determinar qué fuentes de búsqueda consultar. Rápido y determinista.
-
-### Planificador Basado en LLM
-
-Usa una llamada LLM barata para analizar el mensaje y seleccionar estrategias de búsqueda óptimas. Más preciso pero agrega latencia y costo de tokens.
-
-```toml
-ContextEnrichmentUseAgentPlanner = true
-```
-
-## Perfil de Contexto
-
-El recortador consciente de contexto clasifica cada mensaje del usuario para optimizar la composición del prompt:
-
-```json
-{
-  "task_type": "code|debug|refactor|explain|test|search|general",
-  "relevant_tool_names": ["tool1", "tool2"],
-  "skip_sections": ["capabilities/web_search"],
-  "confidence": 0.85
-}
-```
-
-Esto permite a Pando omitir secciones de prompt irrelevantes, ahorrando tokens y mejorando la calidad de respuesta.
-
-{{< callout >}}
-El enriquecimiento de contexto funciona silenciosamente en segundo plano. Habilítalo con `ContextEnrichmentEnabled = true` y configura los conteos de resultados según el tamaño de tu proyecto.
-{{< /callout >}}
+- Guía: [Enseña tu proyecto a Pando con Remembrances]({{< relref "/guides/remembrances" >}}).
+- Referencia: [Configuración de Remembrances]({{< relref "/docs/configuration/remembrances" >}}).
+- Relacionado: [Memoria persistente]({{< relref "/docs/features/persistent-memory" >}}).

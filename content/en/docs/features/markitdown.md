@@ -3,58 +3,37 @@ title: Document Conversion (MarkItDown)
 weight: 17
 ---
 
-Pando integrates the MarkItDown library to convert rich document formats into Markdown for Knowledge Base ingestion and RAG (Retrieval-Augmented Generation).
+Much of what a project knows is not in code: it sits in PDFs, Word documents, spreadsheets and slides. Pando can read all of those by first turning them into plain text, like a translator who lets you read a book written in another alphabet.
 
-## Supported Formats
+## What it does for you
 
-| Format | Extensions |
-|--------|------------|
-| PDF | `.pdf` |
-| Word | `.docx` |
-| Excel | `.xlsx`, `.xls` |
-| PowerPoint | `.pptx` |
-| Web | `.html`, `.htm` |
-| Data | `.csv` |
-| E-book | `.epub` |
-| Notebook | `.ipynb` |
-| Feed | `.rss`, `.atom` |
-| Markup | `.xml`, `.json`, `.jsonl` |
-| Archive | `.zip` |
-| Text | `.txt`, `.md`, `.markdown` |
+- **Makes your documents searchable.** The specification in a PDF, the price list in a spreadsheet and the kick-off slides become part of what Pando can look up.
+- **Covers the usual suspects.** PDF, Word, Excel, PowerPoint, web pages, CSV, e-books, notebooks, feeds, XML and JSON, even ZIP archives of those.
+- **Leaves the originals alone.** Pando reads a copy in plain text. Your files are never changed.
+- **Needs no setup.** There is nothing to switch on.
 
-## CLI Usage
+## How it feels in practice
 
-Convert a single file:
+You drop a folder of project documents into the place Pando watches for its knowledge base. A little later you ask "what did the contract say about delivery dates?" and Pando answers, quoting the PDF.
+
+You can also convert one file yourself when you just want its text:
 
 ```bash
-pando convert document.pdf
-pando convert presentation.pptx
+pando convert report.pdf
 ```
 
-## KB Integration
+## When to use it
 
-When syncing a directory to the Knowledge Base, Pando automatically converts supported documents:
+- Your project's decisions live in documents nobody wants to retype.
+- You want to paste the content of a file into a chat without the formatting mess.
 
-```bash
-pando kb import /path/to/documents
-```
+## Good to know
 
-Documents in supported formats (`.pdf`, `.docx`, `.xlsx`, `.pptx`, etc.) are automatically converted to Markdown before indexing.
+- A scanned PDF is a photo of a page, not text. Those come out empty.
+- Layout is simplified: you get headings, lists and tables, not the fonts and colours.
+- The converter wakes up only when the first document arrives, so it does not slow Pando's start.
 
-## Configuration
+## Next steps
 
-No explicit configuration needed. Conversion is enabled automatically when the converter is available.
-
-The conversion engine is lazily initialized to avoid startup costs from PDF processing.
-
-## How It Works
-
-1. KB sync detects a non-Markdown file
-2. Checks if the extension is in the supported list
-3. Converts to Markdown using the appropriate parser
-4. Indexes the Markdown content with front-matter metadata
-5. Original file is not modified
-
-{{< callout >}}
-Place documents you want indexed in a KB-watched directory. They'll be automatically converted and searchable. This is ideal for project documentation, specifications, and design docs stored as PDFs or Office documents.
-{{< /callout >}}
+- Guide: [Teach Pando your project with Remembrances]({{< relref "/guides/remembrances" >}}) adds documents to the knowledge base; [Give Pando eyes and hands]({{< relref "/guides/web-browser-desktop-tools" >}}) covers converting by hand.
+- Reference: [formats and commands]({{< relref "/docs/configuration/tools" >}}).

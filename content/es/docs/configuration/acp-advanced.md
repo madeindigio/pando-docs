@@ -3,7 +3,7 @@ title: Configuración ACP Avanzada
 weight: 33
 ---
 
-Configuración avanzada de ACP (Agent Client Protocol) para integración con editores.
+Ajustes finos para usar Pando dentro de un editor de código a través de ACP, el idioma común con el que los editores alojan un asistente externo. Empieza por la guía [Usa Pando desde tu editor y otras aplicaciones]({{< relref "/guides/editors-and-other-apps" >}}) y por los fragmentos para cada editor de [Protocolo ACP]({{< relref "/docs/acp" >}}); ven aquí cuando necesites cambiar cómo se comportan las sesiones.
 
 ## Configuración del Servidor
 
@@ -82,5 +82,5 @@ Controla cómo se streamea el razonamiento al editor:
 Opciones: `header`, `full`, `disabled`
 
 {{< callout >}}
-La integración ACP funciona con VS Code, Zed y JetBrains IDEs. Ve la documentación principal de ACP para instrucciones de configuración.
+ACP funciona con VS Code, Zed y los editores de JetBrains. Los fragmentos de configuración están en [Protocolo ACP]({{< relref "/docs/acp" >}}).
 {{< /callout >}}

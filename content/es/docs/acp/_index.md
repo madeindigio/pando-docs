@@ -3,7 +3,9 @@ title: Protocolo ACP
 weight: 4
 ---
 
-Pando soporta el [Agent Client Protocol (ACP)](https://agentclientprotocol.com), lo que permite usarlo directamente en editores compatibles como asistente de codificación IA.
+Muchos editores de código pueden alojar un asistente externo en su propio panel de chat. Hablan con él en un idioma común, el [Agent Client Protocol (ACP)](https://agentclientprotocol.com). Pando lo habla, así que puedes usarlo sin salir de tu editor. Esta página es material de referencia: el fragmento para cada editor, comandos y ajustes.
+
+Para ir paso a paso, mira la guía [Usa Pando desde tu editor y otras aplicaciones]({{< relref "/guides/editors-and-other-apps" >}}). Las opciones más finas están en [Configuración ACP avanzada]({{< relref "/docs/configuration/acp-advanced" >}}).
 
 ## Inicio rápido
 

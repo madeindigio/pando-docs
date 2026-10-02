@@ -3,67 +3,42 @@ title: Local LLM Proxy
 weight: 4
 ---
 
-Pando allows you to turn your computer into a centralized, intelligent AI gateway. With the **Local LLM Proxy** feature, you can unburden your development workflow and seamlessly share your configured AI models with other developer tools in your ecosystem.
+You already told Pando which AI accounts you have. The local proxy lets your other tools borrow them, so you do not have to paste the same keys into every program. It works like the Wi-Fi router at home: one contract with the provider, and every device in the house connects through it.
 
-## What is the Local LLM Proxy?
+## What it does for you
 
-Instead of configuring API keys, settings, and model endpoints in every single developer tool you use (such as external code editors, CLI tools, or browser assistants), Pando can act as a single, local bridge. 
+- **Set up once.** Your keys and model choices live in Pando. Another editor, a command-line assistant or a browser add-on connects to Pando and uses them.
+- **Take your Copilot models elsewhere.** The models that come with your GitHub Copilot subscription become usable in tools that know nothing about Copilot.
+- **Keep your keys at home.** The other tools only talk to your own machine. Your real keys never leave Pando.
+- **One list of models everywhere.** Every tool sees the same names, so you stop wondering which model is behind which setting.
 
-By starting a local proxy server, Pando unifies all your configured AI providers (Anthropic, OpenAI, Google Gemini, and even your GitHub Copilot subscription models) and exposes them through a single local endpoint. This endpoint is fully compatible with standard AI client formats (OpenAI-compatible APIs).
+## How it feels in practice
+
+You start the proxy and leave it running, like switching the router on. In the other tool you type a local address where it asks for "the API address", and any text where it asks for a key. From then on that tool lists Pando's models and uses them as if they were its own.
 
 ```mermaid
 flowchart TD
-    subgraph Client Tools
-        Aider[Aider / Cline / Cursor]
-        VSCode[VS Code Extensions]
-        Other[Custom IDEs]
-    end
-
-    subgraph Local Gateway
-        PandoProxy[Pando LLM Proxy]
-    end
-
-    subgraph AI Providers
-        Anthropic[Anthropic Claude]
-        OpenAI[OpenAI GPT]
-        Gemini[Google Gemini]
-        Copilot[GitHub Copilot Models]
-    end
-
-    Aider --> PandoProxy
-    VSCode --> PandoProxy
-    Other --> PandoProxy
-
-    PandoProxy --> Anthropic
-    PandoProxy --> OpenAI
-    PandoProxy --> Gemini
-    PandoProxy --> Copilot
+    A[Other editors and tools] --> P[Pando proxy on your machine]
+    P --> B[Anthropic]
+    P --> C[OpenAI]
+    P --> D[Google Gemini]
+    P --> E[GitHub Copilot]
 ```
 
-## Key Benefits
+## When to use it
 
-- **Single Point of Configuration**: Enter your API keys and model preferences once in Pando, and let all other tools leverage them instantly.
-- **GitHub Copilot Integration**: Access the powerful models bundled with your GitHub Copilot subscription outside of your main IDE, making it easy to use Copilot models in external command-line tools or secondary editors.
-- **Improved Performance**: Leverage Pando's smart token management and local routing to avoid redundant network setups and keep all communication lightning-fast.
-- **Security & Privacy**: Your API keys remain securely stored in your local Pando profile. Other tools connect only to your local machine, keeping your credentials safe.
+Use it when you work with more than one AI tool and are tired of configuring each one, or when a tool you like has no way to sign in to a provider you already pay for.
 
-## Using the Proxy
+You do not need it if Pando is the only assistant you use.
 
-### Starting the Server
+## Good to know
 
-Starting your local AI gateway is simple. Just run:
+- The proxy speaks the format most tools expect ("OpenAI-compatible").
+- It listens only on your own machine unless you tell it otherwise. If you open it to your network, start it with a key of its own so not everyone nearby can use your accounts.
+- It runs while its terminal is open. Close it and the other tools lose their connection.
 
-```bash
-pando llm-proxy
-```
+## Next steps
 
-By default, this launches a local secure server on your computer that listens for incoming requests from other applications.
-
-### Connecting External Tools
-
-To connect an external tool (like Aider, Cline, or an editor plugin), simply configure it to point to your local Pando proxy.
-
-- **API Base URL**: `http://localhost:8765/v1` (or the secure URL shown when launching the proxy)
-- **API Key**: Any placeholder text (Pando will securely authenticate using the keys defined in your `.pando.toml` or system profile).
-
-This enables you to use your favorite AI assistants with Pando's unified model list, ensuring a seamless, consistent, and cost-effective coding experience across your entire environment.
+- Guide: [Use Pando from your editor and other apps]({{< relref "/guides/editors-and-other-apps" >}}) shows how to start it and connect a tool.
+- Reference: [command options]({{< relref "/docs/configuration/providers" >}}).
+- Related: [GitHub Copilot Auth]({{< relref "/docs/features/copilot-auth" >}}).

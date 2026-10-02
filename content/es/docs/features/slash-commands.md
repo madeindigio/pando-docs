@@ -3,179 +3,93 @@ title: Comandos Slash
 weight: 18
 ---
 
-Los comandos slash proporcionan acceso rápido a las funcionalidades de Pando sin salir de la interfaz de chat. Escribe `/` al inicio de un input vacío para ver los comandos disponibles.
+Los comandos slash son los botones del mando a distancia de Pando. En lugar de explicar lo que quieres con una frase larga, escribes `/` y una palabra, y Pando cambia de modo o arranca toda una rutina. Escribe `/` con el cuadro de mensaje vacío para verlos todos.
 
-## Cómo Usar los Comandos Slash
+{{< shot src="images/webui/pando-webui-chat-slash-commands.jpg" alt="Menú de comandos slash en el chat" >}}
 
-### TUI (Interfaz de Usuario en Terminal)
+## Qué hace por ti
 
-Escribe `/` en el input del chat. Aparece un diálogo con búsqueda fuzzy que muestra todos los comandos disponibles organizados por categoría. Usa las flechas o escribe para filtrar, luego presiona Enter para seleccionar.
+- **Una palabra en lugar de un párrafo.** `/compact` dice «resume esta conversación para que tengamos sitio para seguir».
+- **Igual en todas partes.** La Web UI, la app de escritorio, la interfaz de terminal y el panel de asistente de tu editor (Zed, VS Code, JetBrains) los entienden.
+- **Fáciles de encontrar.** El menú filtra mientras escribes, así que basta con recordar las primeras letras.
+- **Ampliables.** Un fichero de texto en la carpeta adecuada se convierte en un comando nuevo.
 
-### Web UI
+## Los comandos, según lo que quieres hacer
 
-Escribe `/` en el input del chat. Los comandos aparecen en un dropdown de autocompletado que se filtra mientras escribes.
+### Dejar que Pando trabaje solo
 
-### ACP (Integración con Editor)
+| Comando | Qué ocurre |
+|---|---|
+| `/goal <objetivo>` | Pando sigue trabajando hacia ese objetivo, turno tras turno, sin esperarte después de cada paso |
+| `/autopilot <objetivo>` | Lo mismo que `/goal` |
+| `/goal-status` | Muestra cómo va el objetivo: avance, rondas, tiempo empleado |
+| `/goal-cancel` | Detiene el objetivo |
 
-Escribe `/` en el panel de chat del editor. Los comandos están disponibles en VS Code, Zed y JetBrains a través del Agent Client Protocol.
+Más en [Goal Mode]({{< relref "/docs/features/goal-mode" >}}).
 
-### CLI (No Interactivo)
+### Mantener ligera una conversación larga
 
-Usa flags en lugar de comandos slash:
+| Comando | Qué ocurre |
+|---|---|
+| `/compact` | Sustituye la conversación hasta ahora por un resumen y deja sitio para continuar. Úsalo cuando una sesión se alarga y no quieres empezar de cero |
+| `/summarize` | Lo mismo que `/compact` |
+| `/db-compact` | Ordena el almacén de Pando en disco y recupera el espacio de las sesiones borradas |
 
-```bash
-pando --goal "Corregir tests"           # equivalente a /goal
-pando --goal "Refactorizar auth" --model copilot.gpt-5.4
-```
+Más en [Compactación de sesión]({{< relref "/docs/features/session-compaction" >}}) y [Compactación de la base de datos]({{< relref "/docs/features/db-compact" >}}).
 
----
+### Cambiar cómo habla Pando
 
-## Comandos del Modo Objetivo
+| Comando | Qué ocurre |
+|---|---|
+| `/caveman lite` | Quita el relleno. Frases normales, pero menos |
+| `/caveman full` | Breve por defecto: conclusiones, sin explicaciones que no pediste |
+| `/caveman ultra` | La respuesta y nada alrededor |
+| `/caveman-finish` | Vuelta a lo normal |
 
-| Comando | Descripción |
-|---------|-------------|
-| `/goal <objetivo>` | Iniciar modo objetivo autónomo con un objetivo persistente |
-| `/autopilot <objetivo>` | Alias para `/goal` |
-| `/goal-status` | Mostrar el estado del objetivo actual (progreso, iteraciones, tiempo transcurrido) |
-| `/goal-cancel` | Cancelar el objetivo en ejecución |
+Caveman solo acorta las palabras. Pando piensa, prueba y comprueba exactamente igual que antes, y te da todo el detalle cuando lo pides.
 
-El modo objetivo permite que Pando trabaje de forma autónoma a través de múltiples turnos sin requerir input del usuario después de cada paso. Ver [Modo Objetivo](/docs/features/goal-mode) para detalles completos.
+### Cambiar cómo trabaja Pando
 
----
+| Comando | Qué ocurre |
+|---|---|
+| `/ponytail lite` · `full` · `ultra` | El «desarrollador sénior perezoso»: Pando prefiere la solución más simple y se resiste a construir lo que no vas a necesitar, con más firmeza en cada nivel |
+| `/ponytail off` | Vuelta a lo normal |
+| `/superpowers [objetivo]` | Una rutina disciplinada: entender, diseñar y pedir tu aprobación, planificar, construir en pasos pequeños y probados, demostrar que funciona, revisar |
+| `/superpowers-finish` | Comprueba, informa y vuelve a lo normal |
+| `/learning [enfoque]` | Pando se comporta como un aprendiz cuidadoso: lee primero las notas del proyecto, pregunta en lugar de suponer y apunta lo que descubre |
+| `/learning-finish` | Archiva lo aprendido en las notas del proyecto y vuelve a lo normal |
 
-## Comandos de Gestión de Sesiones
+Más en [Ponytail]({{< relref "/docs/features/ponytail" >}}), [Modo Superpowers]({{< relref "/docs/features/superpowers-mode" >}}) y [Modo aprendizaje]({{< relref "/docs/features/learning-mode" >}}).
 
-| Comando | Descripción |
-|---------|-------------|
-| `/compact` | Crear un resumen compacto manual para la sesión actual (libera tokens) |
-| `/summarize` | Alias para `/compact` |
-| `/db-compact` | Compactar la base de datos (SQLite VACUUM) para recuperar espacio libre |
+### Cuidar el proyecto y enseñar a Pando
 
-**`/compact`** resume el historial de la conversación para liberar tokens del contexto. Usa esto cuando la sesión sea larga y quieras continuar sin crear una nueva sesión.
+| Comando | Qué ocurre |
+|---|---|
+| `/improve-agents-md [indicaciones]` | Crea o refuerza `AGENTS.md`, las normas de la casa que todo agente de IA debe seguir en este proyecto |
+| `/evaluate` | Puntúa una sesión con el evaluador de automejora (la actual, salvo que indiques otra) |
+| `/feedback good` · `/feedback bad` | Le dice a Pando cómo fue la sesión, por encima de su propia nota |
 
-**`/db-compact`** ejecuta SQLite VACUUM en la base de datos de Pando para recuperar espacio en disco de registros eliminados. Es útil después de un uso prolongado o después de limpiar sesiones antiguas.
+### Buscar agujeros de seguridad
 
----
+Una rutina de auditoría de seguridad adaptada de [VulnHunter, de Capital One](https://github.com/capitalone/VulnHunter). Cada ejecución es un trabajo puntual, no un modo que se queda activo, y sus hallazgos se guardan en las notas del proyecto para que el siguiente comando los recoja.
 
-## Comandos de Calidad de Código
+| Comando | Qué ocurre |
+|---|---|
+| `/vulnhunt [alcance]` | Hace de atacante: sigue los datos no fiables por el código, intenta demostrar que cada debilidad es real, intenta refutarla e informa de lo que sobrevive. Dale una carpeta o un enfoque para acotar la búsqueda |
+| `/vulnhunter-fix [hallazgo]` | Corrige una debilidad confirmada por el camino cuidadoso: reproduce el ataque, escribe una prueba que falla, corrige y comprueba que el ataque ya no funciona |
+| `/vulnhunt-fix-verify [hallazgos]` | Una segunda opinión que no cambia nada: contrasta las correcciones con el código y da un veredicto a cada una (FIXED, PARTIAL, NOT_FIXED o INCONCLUSIVE) |
 
-### Modo Ponytail
+## Tus propios comandos
 
-Ponytail es un modo de "desarrollador senior perezoso" que aplica principios YAGNI (You Aren't Gonna Need It) a las sugerencias de código.
+Escribe las instrucciones en un fichero Markdown y déjalo en una carpeta de comandos. Aparece en el menú junto a los integrados, con la etiqueta `project:` si vive con el proyecto o `user:` si vive en tu carpeta personal. Los nombres de las carpetas están en la [referencia]({{< relref "/docs/configuration/webui" >}}).
 
-| Comando | Descripción |
-|---------|-------------|
-| `/ponytail lite` | Habilitar modo YAGNI lite - sugiere alternativas más simples |
-| `/ponytail full` | Habilitar modo YAGNI full - más agresivo con la simplicidad |
-| `/ponytail ultra` | Habilitar modo YAGNI ultra - máxima aplicación de simplicidad |
-| `/ponytail off` | Desactivar modo ponytail |
+## Conviene saber
 
-### Modo Caveman
+- En la interfaz de terminal el menú es una lista con buscador agrupada por categorías (General, Code Quality, Workflow, Project, Security); en la Web UI es un desplegable sobre el cuadro de mensaje.
+- Fuera de un chat, en modo de una línea, las opciones hacen el trabajo: `pando --goal "Fix tests"` equivale a `/goal`.
+- `/` solo abre el menú al principio de un mensaje vacío. Para mencionar un fichero, usa `@`.
 
-Caveman reduce la verbosidad de la salida para ahorrar tokens de salida manteniendo código, comandos y errores exactos.
+## Siguientes pasos
 
-| Comando | Descripción |
-|---------|-------------|
-| `/caveman lite` | Eliminar relleno y repeticiones. Oraciones normales, menos de ellas |
-| `/caveman full` | Breve por defecto. Conclusiones y fragmentos, sin explicación no solicitada |
-| `/caveman ultra` | Máxima brevedad. Solo la respuesta, nada más |
-| `/caveman-finish` | Desactivar caveman y volver a la salida normal |
-
-{{< callout type="info" >}}
-Caveman solo restringe la expresión. Nunca reduce los requisitos de razonamiento, uso de herramientas, pruebas o verificación. Pide detalles en cualquier momento y los obtendrás completos.
-{{< /callout >}}
-
----
-
-## Comandos de Flujo de Trabajo
-
-### Modo Superpowers
-
-Superpowers enforce un flujo de trabajo de desarrollo disciplinado: planificar primero, verificar siempre.
-
-| Comando | Descripción |
-|---------|-------------|
-| `/superpowers [objetivo]` | Habilitar el flujo de trabajo de desarrollo disciplinado |
-| `/superpowers-finish` | Verificar, reportar y volver al modo normal |
-
-Cuando está activo, el trabajo sigue este ciclo:
-1. Entender antes de diseñar
-2. Diseñar, luego obtener aprobación
-3. Planificar trabajo largo explícitamente
-4. Implementar con tests primero, en incrementos pequeños
-5. Verificar con evidencia, no con afirmaciones
-6. Revisar antes de declarar listo
-
-### Modo Learning
-
-El modo Learning hace que Pando trabaje como un aprendiz y documentador deliberado.
-
-| Comando | Descripción |
-|---------|-------------|
-| `/learning [enfoque]` | Habilitar modo aprendiz: leer más la KB, documentar descubrimientos, hacer preguntas |
-| `/learning-finish` | Consolidar aprendizajes en KB/memoria y volver al modo normal |
-
-Cuando está activo, Pando:
-- Busca en la base de conocimientos antes de actuar
-- Pregunta al usuario en lugar de adivinar
-- Captura descubrimientos no triviales como documentación
-- Mantiene la documentación existente honesta (actualiza obsoletos, marca superados)
-
----
-
-## Comandos de Gestión de Proyectos
-
-| Comando | Descripción |
-|---------|-------------|
-| `/improve-agents-md [orientación]` | Crear o reforzar AGENTS.md con reglas obligatorias de operación para agentes IA |
-
----
-
-## Comandos de Seguridad
-
-### Vulnerability Hunter
-
-Flujo de auditoría de seguridad adversarial portado desde [VulnHunter de Capital One](https://github.com/capitalone/VulnHunter). Estos comandos ejecutan flujos de seguridad autocontenidos como turnos normales del agente — se transmiten, orientan y persisten como cualquier otro mensaje.
-
-| Comando | Descripción |
-|---------|-------------|
-| `/vulnhunt [alcance]` | Rastrear input de atacante hasta sinks y reportar vulnerabilidades explotables |
-| `/vulnhunter-fix [hallazgo]` | Remediación basada en tests: exploit → test fallido → fix → verificación |
-| `/vulnhunt-fix-verify [hallazgos]` | Verificación independiente de solo lectura de fixes de seguridad reclamados |
-
-**`/vulnhunt`** ejecuta una auditoría de seguridad completa: recon → caza paralela por clase → verificación de explotabilidad → refutación adversarial → reporte filtrado por capacidades. Los hallazgos se persisten en la base de conocimientos. Pasa un alcance opcional (subdirectorio, paquete o énfasis) para limitar la auditoría.
-
-**`/vulnhunter-fix`** realiza remediación basada en tests de vulnerabilidades confirmadas: crea una prueba de exploit, escribe un test de seguridad fallido (RED), implementa la fix (GREEN) y verifica que el exploit esté bloqueado sin regresiones.
-
-**`/vulnhunt-fix-verify`** es una verificación de solo lectura que comprueba los fixes reclamados contra el código real, emitiendo un veredicto por hallazgo: FIXED, PARTIAL, NOT_FIXED o INCONCLUSIVE.
-
-{{< callout type="info" >}}
-Los comandos de seguridad no son modos persistentes — cada ejecución es un flujo de trabajo autocontenido. Los hallazgos se almacenan en la base de conocimientos y pueden ser referenciados por ejecuciones posteriores de fix o verify.
-{{< /callout >}}
-
----
-
-## Comandos Personalizados
-
-Pando soporta comandos slash personalizados mediante archivos markdown. Coloca archivos `.md` en:
-
-- **Comandos del proyecto**: `<data-dir>/commands/` (se muestran como `project:nombre-comando`)
-- **Comandos de usuario**: `~/.config/pando/commands/` o `~/.pando/commands/` (se muestran como `user:nombre-comando`)
-
-Los comandos personalizados aparecen en la paleta de comandos junto con los incorporados.
-
----
-
-## Categorías de Comandos
-
-Los comandos se organizan en categorías en la paleta de comandos:
-
-- **General**: Goal, compact, db-compact
-- **Calidad de Código**: Modos Ponytail y Caveman
-- **Flujo de Trabajo**: Modos Superpowers y Learning
-- **Proyecto**: Gestión de AGENTS.md
-- **Seguridad**: Vulnerability Hunter (vulnhunt, vulnhunter-fix, vulnhunt-fix-verify)
-
-{{< callout >}}
-Los comandos slash funcionan en todas las interfaces de Pando (TUI, Web UI, ACP). La paleta de comandos proporciona búsqueda fuzzy para encontrar rápidamente el comando que necesitas.
-{{< /callout >}}
+- Guías: [Oriéntate en la Web UI]({{< relref "/guides/webui-tour" >}}), [Goal Mode]({{< relref "/guides/goal-mode" >}}), [Cambia cómo piensa y habla Pando]({{< relref "/guides/working-modes" >}}).
+- Referencia: [carpetas de comandos propios]({{< relref "/docs/configuration/webui" >}}).

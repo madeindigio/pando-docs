@@ -3,58 +3,38 @@ title: Habilidad Ponytail (Modo YAGNI)
 weight: 16
 ---
 
-Ponytail es un conjunto de instrucciones de "desarrollador senior perezoso" que aplica principios YAGNI (You Aren't Gonna Need It - No Lo Vas a Necesitar). Hace que el agente escriba código más conciso, prefiera soluciones de la biblioteca estándar y cuestione la complejidad innecesaria.
+Ponytail es la voz del desarrollador veterano que pregunta «¿de verdad necesitamos esto?». Empuja a Pando a escribir menos código, a usar lo que el lenguaje ya trae antes de añadir nada y a poner en duda la complejidad. Entre programadores la idea tiene nombre, YAGNI: «no lo vas a necesitar».
 
-## Activación
+## Qué hace por ti
 
-Usa el comando slash `/ponytail`:
+- **Cambios más pequeños.** La edición mínima que resuelve el problema.
+- **Menos piezas móviles.** Se usa lo que ya existe antes de añadir una biblioteca nueva.
+- **Explicaciones más cortas.** Solo lo que necesitas saber.
+- **Un «¿por qué?» saludable.** En su nivel más fuerte cuestiona la propia petición.
 
-```
-/ponytail lite      # Construye lo solicitado, nombra la alternativa más perezosa
-/ponytail full      # Aplica "La Escala" - stdlib primero, diff más corto
-/ponytail ultra     # Extremista YAGNI: eliminación antes que adición
-/ponytail off       # Desactivar (predeterminado para sesiones nuevas)
-```
+## Cómo se nota en el día a día
 
-## Modos
+Sin Ponytail, ante la petición de una pequeña utilidad, Pando podría construir una función nueva con sus tests, su documentación y un par de capas «por si acaso». Con Ponytail en nivel full, primero mira si el lenguaje ya lo resuelve, usa la versión más simple, se salta las capas que nadie pidió y escribe los tests mínimos.
 
-| Modo | Comportamiento |
-|------|----------------|
-| `lite` | Construye lo solicitado, nombra la alternativa más perezosa |
-| `full` | Aplica stdlib primero, diff más corto, explicación más corta |
-| `ultra` | Extremista YAGNI: eliminación antes de adición, cuestiona el requisito |
-| `off` | Desactivado (predeterminado) |
+Hay tres niveles:
 
-## La Escala (Modo Full)
+| Nivel | Comportamiento |
+|------|----------|
+| **Lite** | Construye lo que pides y menciona la alternativa más perezosa |
+| **Full** | Sigue «la escalera»: primero lo que el lenguaje ya trae, luego el cambio más pequeño, luego la explicación más corta |
+| **Ultra** | Quita antes de añadir, y pone en duda que la cosa haga falta |
 
-Cuando el modo `full` está activo, el agente sigue "La Escala":
+## Cuándo usarlo
 
-1. **Biblioteca estándar primero** - Usa stdlib existente antes de buscar dependencias
-2. **Diff más corto** - Haz el cambio mínimo que resuelve el problema
-3. **Explicación más corta** - Explica solo lo necesario
+Brilla en sesiones de limpieza y en proyectos que se han complicado más de la cuenta. Déjalo apagado cuando de verdad estás construyendo algo nuevo y amplio.
 
-## Configuración
+## Conviene saber
 
-```toml
-[Ponytail]
-DefaultMode = ''   # 'lite', 'full', 'ultra', o '' (off)
-```
+- En las sesiones nuevas está apagado salvo que fijes un nivel por defecto.
+- Cambia cómo se escribe el código, no cuánto habla Pando. Para respuestas más cortas usa [Caveman]({{< relref "/docs/features/caveman-mode" >}}).
+- Está inspirado en la skill ponytail de Dietrich Gebert (licencia MIT).
 
-O a través de variable de entorno:
+## Siguientes pasos
 
-```bash
-PANDO_PONYTAIL_DEFAULT_MODE=full
-```
-
-## Ejemplo
-
-Sin ponytail, el agente podría crear una nueva función de utilidad con tests, documentación y abstracciones. Con ponytail en modo `full`:
-
-1. Verifica si stdlib ya resuelve el problema
-2. Usa la implementación más simple posible
-3. Omite abstracciones prematuras
-4. Escribe tests mínimos
-
-{{< callout >}}
-Ponytail está inspirado en la habilidad ponytail de Dietrich Gebert (licencia MIT). Es particularmente útil para sesiones de refactorización donde quieres reducir la complejidad.
-{{< /callout >}}
+- Guía: [Cambia cómo piensa y cómo habla Pando]({{< relref "/guides/working-modes" >}}).
+- Referencia: [Modos de trabajo]({{< relref "/docs/configuration/modes" >}}).

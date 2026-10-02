@@ -3,47 +3,41 @@ title: Configuration File Discovery
 weight: 32
 ---
 
-Pando automatically searches for your configuration file (`.pando.toml` or `.pando.json`) by walking up the directory tree from your current working directory. This means you can place your config in a parent directory and Pando will find it.
+You do not have to tell Pando where its settings are. Wherever you start it, it looks in the current folder, then in the folder above, and keeps climbing the stairs until it finds a settings file. The first one it meets is the one it uses.
 
-## How It Works
+## What it does for you
 
-When Pando starts, it looks for a configuration file in this order:
+- **One file for a big repository.** Put `.pando.toml` at the top and every folder beneath it follows the same settings.
+- **Shared team settings.** Commit that one file and everyone works the same way.
+- **Tidy folders.** No copies of the settings file scattered among your source code.
+- **Sensible fallback.** With no project file anywhere on the way up, Pando uses your personal settings.
 
-1. **Current directory** — `./.pando.toml`
-2. **Parent directory** — `../.pando.toml`
-3. **Grandparent directory** — `../../.pando.toml`
-4. **Continues up** until it reaches the filesystem root
-
-The first `.pando.toml` (or `.pando.json`) found is used. If none is found, Pando uses default configuration.
-
-## Why This Is Useful
-
-- **Monorepo setups**: Place one `.pando.toml` at the repo root, and it applies to all subdirectories
-- **Shared configuration**: Teams can share a single config file for a project tree
-- **Clean working directories**: Keep your source directories free of config files
-
-## Data Directory
-
-Pando also searches upward for the data directory. If `.pando/` exists in a parent directory, it's used as the data directory for sessions, caches, and other state.
-
-## Example
+## How it feels in practice
 
 ```
 /my-project/
 ├── .pando.toml          ← Pando finds this
 ├── src/
-│   ├── frontend/
-│   │   └── (running pando here finds ../.pando.toml)
-│   └── backend/
-│       └── (running pando here also finds ../../.pando.toml)
+│   ├── frontend/        (start Pando here: it climbs two floors and finds it)
+│   └── backend/         (same here)
 ```
 
-## Configuration Reference
+You start Pando deep inside a project and it behaves as if you had started it at the top. The same goes for the `.pando/` folder where Pando keeps the project's sessions and caches: if it exists further up, it is reused.
 
-| Setting | Description |
-|---------|-------------|
-| None | This behavior is automatic and cannot be disabled |
+## When to use it
 
-{{< callout type="info" >}}
-This feature is purely a convenience for configuration discovery. The config file format and all settings remain the same regardless of where the file is placed.
-{{< /callout >}}
+It is automatic. Take advantage of it in repositories with many sub-projects, or when you like to work from inside a subfolder.
+
+## Good to know
+
+- The climb stops at your home folder. Pando does not use files it finds above it.
+- Only files you can both read and change are used.
+- The nearest file wins. A file in a subfolder hides the one at the top.
+- The file's format and options are the same wherever it lives.
+- The search can be switched off for a run if you ever need the old behaviour.
+
+## Next steps
+
+- The full search order and the switch to disable it: [Diagnostics and maintenance reference]({{< relref "/docs/configuration/diagnostics" >}})
+- What goes in the file: [Configuration]({{< relref "/docs/configuration" >}})
+- A walk through the maintenance corner: [Update and diagnostics]({{< relref "/guides/update-and-diagnostics" >}})

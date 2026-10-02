@@ -3,60 +3,42 @@ title: Asistente de configuración
 weight: 40
 ---
 
-La primera vez que abres Pando en la Web UI o en la app de escritorio, un asistente te guía por lo mínimo que necesitas para empezar a trabajar: dónde guardar tus ajustes, qué proveedor de IA usar, qué modelos, y si quieres memoria y búsqueda en el código.
-
-Se abre solo cuando todavía no hay nada configurado. También puedes abrirlo en cualquier momento desde el aviso de configuración, con **Asistente de configuración**.
-
-## Los pasos
-
-### 1. Dónde guardar tus ajustes
+El asistente de configuración es el anfitrión que te recibe en la puerta la primera vez que abres Pando. En lugar de dejarte delante de un muro de ajustes, te hace unas pocas preguntas en orden y te deja trabajando en un par de minutos.
 
 {{< shot src="images/webui/pando-webui-setup-assistant-scope.jpg" dark="images/webui/pando-webui-setup-assistant-scope-dark.jpg" alt="Asistente de configuración: dónde guardar los ajustes" >}}
 
-- **Global** (recomendado): los ajustes valen para todos los proyectos de esta máquina.
-- **Solo este directorio**: los ajustes se quedan con este proyecto.
+## Qué hace por ti
 
-### 2. Proveedor
+Cubre lo mínimo que necesitas, y nada más:
 
-{{< shot src="images/webui/pando-webui-setup-assistant-provider.jpg" dark="images/webui/pando-webui-setup-assistant-provider-dark.jpg" alt="Asistente de configuración: cuentas de proveedor" >}}
+1. **Dónde viven tus ajustes**: para todos los proyectos de este ordenador o solo para este.
+2. **Qué proveedor de IA usas**: GitHub Copilot, Anthropic, OpenAI, Gemini, OpenRouter, Groq, xAI, Ollama o cualquier servicio compatible. Cada uno dice qué necesita y dónde conseguirlo.
+3. **Qué modelos hacen el trabajo**: uno capaz para pensar de verdad y otro rápido y barato para recados como poner nombre a tus sesiones.
+4. **Si quieres memoria**: Remembrances, el cuaderno a largo plazo de Pando y su buscador de código, que funciona en tu propia máquina.
+5. **Un resumen** de lo que ha quedado configurado.
 
-Elige el proveedor de IA que quieres usar: GitHub Copilot, Anthropic, OpenAI, Gemini, OpenRouter, Groq, xAI, Ollama o cualquier servicio compatible con OpenAI. Cada uno indica qué necesita y enlaza a la página donde conseguir una clave de API.
+## Cómo se vive
 
-Si ya tienes cuentas configuradas, el asistente te ofrece seguir usándolas.
+Se abre solo cuando no hay nada configurado. Cinco pantallas cortas, una barra de progreso arriba, y **Atrás** y **Omitir** en todas. Si ya existen cuentas, se ofrece a seguir usándolas en lugar de hacerte escribir otra vez.
 
-Con **GitHub Copilot** no hay clave que pegar. El asistente muestra un código, abres GitHub, lo introduces, y el asistente continúa solo cuando termina el inicio de sesión. Si tu editor ya tiene sesión en Copilot, ese paso se omite.
+Iniciar sesión en GitHub Copilot no necesita clave: recibes un código corto, lo confirmas en GitHub y el asistente sigue solo. Para la memoria, comprueba si Ollama está instalado y en marcha, se ofrece a arrancarlo y descarga lo que falte con una barra de progreso.
 
-### 3. Modelos
+Puedes salir en cualquier momento con **Cancelar asistente**, el botón de cerrar o `Esc`. No se pierde nada, y las pantallas de ajustes de siempre siguen ahí.
 
-{{< shot src="images/webui/pando-webui-setup-assistant-models.jpg" dark="images/webui/pando-webui-setup-assistant-models-dark.jpg" alt="Asistente de configuración: modelo principal y secundario" >}}
+## Cuándo usarlo
 
-Elige dos modelos:
+- La primera vez que abres Pando.
+- Cuando empiezas un proyecto que necesita cuentas o modelos propios.
+- Siempre que quieras rehacer lo básico sin rebuscar en los ajustes: la barra amarilla de arriba del chat tiene un botón **Setup assistant**.
 
-- el **modelo principal**, que escribe y razona sobre tu código
-- un **modelo rápido y barato** para pequeñas tareas de fondo, como poner título a las sesiones o resumir
+## Conviene saber
 
-El asistente sugiere modelos adecuados del proveedor que elegiste.
+- El asistente forma parte de la Web UI y de la app de escritorio. En la interfaz de terminal, proveedores y modelos se configuran desde la pantalla de ajustes.
+- El paso de la memoria es opcional y puede hacerse más tarde.
+- Pando nunca instala nada en tu máquina sin preguntar antes.
 
-### 4. Memoria y búsqueda en el código (Remembrances)
+## Siguientes pasos
 
-{{< shot src="images/webui/pando-webui-setup-assistant-remembrances.jpg" dark="images/webui/pando-webui-setup-assistant-remembrances-dark.jpg" alt="Asistente de configuración: modelos de embeddings de Remembrances" >}}
-
-Este paso es opcional. Remembrances da a Pando memoria a largo plazo y búsqueda semántica sobre tu código y tus documentos, y funciona en local con [Ollama](https://ollama.com).
-
-- Si Ollama no está instalado, el asistente muestra cómo instalarlo en tu sistema. Cuando puede, se ofrece a ejecutar la instalación por ti después de que confirmes.
-- Si Ollama está instalado pero parado, hay un botón **Arrancar Ollama**.
-- Con Ollama en marcha, descargas los dos modelos que necesita con un botón y una barra de progreso.
-
-Puedes saltarte este paso y activar Remembrances más tarde desde Ajustes.
-
-### 5. Listo
-
-Un resumen de lo configurado. Pulsa **Terminar** y empieza a chatear.
-
-## Cancelar
-
-**Cancelar asistente**, el botón de cerrar o `Esc` cierran el asistente en cualquier paso. No se pierde nada: las pantallas de ajustes habituales siguen ahí y puedes configurarlo todo a mano.
-
-{{< callout >}}
-El asistente forma parte de la Web UI y de la app de escritorio. En la interfaz de terminal configuras proveedores y modelos desde la pantalla de ajustes, como hasta ahora.
-{{< /callout >}}
+- Guía: [Conecta tus cuentas de IA y elige tus modelos]({{< relref "/guides/setup-providers-models" >}}), con capturas de cada paso.
+- Referencia: [Configuración]({{< relref "/docs/configuration" >}}).
+- Relacionado: [Memoria persistente]({{< relref "/docs/features/persistent-memory" >}}), [GitHub Copilot Auth]({{< relref "/docs/features/copilot-auth" >}}).

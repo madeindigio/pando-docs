@@ -3,72 +3,41 @@ title: Native Desktop App
 weight: 5
 ---
 
-Pando is not only a terminal companion—it is also a fully-fledged, modern **Native Desktop Application** for macOS, Windows, and Linux. Built with performance and elegance in mind, the desktop application combines the full power of Pando's local tools with the convenience of a rich graphical interface.
+The desktop app is Pando with a window of its own, on macOS, Windows and Linux. Same interface as the Web UI, but it lives among your other applications instead of among your browser tabs, like having a dedicated desk instead of borrowing a corner of the kitchen table.
 
-## Why a Native Desktop App?
+## What it does for you
 
-While Pando's interactive terminal (TUI) and Web-UI are incredibly powerful, the native desktop application goes a step further by integrating directly with your operating system's features. This creates a highly immersive, distraction-free environment for developer workflows.
+- **A tap on the shoulder.** Hand Pando a long job, minimise the window and do something else. A system notification tells you when the job is done or when Pando needs an answer.
+- **Many things at once.** Several sessions and several projects keep working in the background without getting in each other's way.
+- **Always within reach.** Open it from the Dock, the Start menu or the application launcher. On Linux and Windows an icon in the system tray brings the window back or quits.
+- **All the room for your work.** The window has no separate title bar: the minimise, maximise and close buttons share one bar with the session title, so the content gets the full height. Drag that bar to move the window.
+- **Private by default.** Conversations, settings and history stay on your machine, and the app talks to its own engine over an encrypted local connection.
+- **Trusted installers.** The macOS installer and the Windows program are signed, so the system opens them without security warnings.
 
-```mermaid
-mindmap
-  root((Pando Desktop))
-    System Integration
-      Native Notifications
-      Menu Bar Control
-      Fast Local Launch
-    Multi-Tasking
-      Simultaneous Sessions
-      Background Agent Work
-      Responsive Tabs
-    Security
-      Local SQLite Storage
-      Encrypted Configs
-      Auto HTTPS
-```
+## How it feels in practice
 
-## Key Features
+You click the Pando icon. The app opens in your home folder as a general workspace; from **Projects** you open the project you want, either as a tab in the same window or in a window of its own. Each window has its own folder, sessions and terminals.
 
-- **System Notifications**: Never lose track of long-running tasks. If you delegate a complex job to a sub-agent, you can minimize the application and focus on other work. Pando will automatically send a native desktop notification when the agent completes the task or requires your feedback.
-- **Background Session Management**: Run and manage multiple active sessions concurrently. You can have separate tabs for different projects, debug sessions, or research tasks, all working seamlessly in the background without affecting each other.
-- **Menu Bar / System Tray Integration**: Access Pando quickly from your operating system's menu bar or system tray. Start new sessions, check agent statuses, or access configuration panels with a single click.
-- **Secure by Default**: The desktop application runs over a secure local HTTPS connection using automatically generated local SSL certificates. Your data, conversations, and settings remain entirely stored on your machine in a private SQLite database.
-- **Tailored Multi-Platform Experience**:
-  - **macOS**: Fully optimized for Apple Silicon (M1/M2/M3) and Intel, utilizing native WebKit renders for buttery-smooth animations and low battery consumption.
-  - **Windows**: High-performance, lightweight interface with complete support for secure encryption mechanisms to protect your development settings.
+On a Mac it also learns the same paths your terminal uses, so the tools you installed with Homebrew or a version manager are found without extra steps.
 
-## The window
+The first time, with nothing configured, the [setup assistant]({{< relref "/docs/features/setup-assistant" >}}) greets you.
 
-The desktop app has its own title bar, drawn by Pando instead of the operating system. The minimise, maximise and close buttons sit in the same bar as the session title and the app actions, so the content gets the full height of the window. Drag the bar to move the window.
+## When to use it
 
-On Linux and Windows, Pando also adds an icon to the **system tray**. Use it to bring the window back or to quit.
+- Pando is part of your working day and deserves its own place.
+- You run long jobs and want to be told when they finish.
+- You juggle several projects.
 
-## One window per project
+On a machine without a screen, or from another device, use the [Web UI]({{< relref "/docs/features/web-ui" >}}) instead.
 
-From the **Projects** view you can open a project in its own Pando window with **Open desktop**. Each window works on its own folder, with its own sessions and terminals. If you prefer everything in a single window, open the project as a tab instead: see [Project workspaces]({{< relref "/docs/features/project-workspaces" >}}).
+## Good to know
 
-## Starting from the app icon
+- On Linux the window needs two common system libraries (GTK 3 and WebKitGTK). If one is missing, Pando names it and shows the command to install it for your distribution. The install script takes care of it.
+- With no graphical session at all, for example over SSH, Pando explains that there is no display to open a window on.
+- Opening a project as a tab keeps everything in one window and one tray icon; a separate window is something you ask for explicitly.
 
-When you open Pando from the Dock, the Start menu or the application launcher, it starts in your home folder as a general workspace. On macOS it also picks up the `PATH` of your login shell, so the tools you installed with Homebrew or a version manager are found the same way as in your terminal.
+## Next steps
 
-## Linux: missing libraries
-
-The Linux window needs the GTK 3 and WebKitGTK libraries. If one is missing, Pando says which and shows the command to install it on your distribution, instead of failing with a cryptic error. The [install script]({{< relref "/docs/features/installers" >}}) installs them for you.
-
-If there is no graphical session at all, for example over SSH, Pando explains that there is no display to open a window on. Use `pando serve` and a browser in that case.
-
-## First run
-
-The first time you open the app with nothing configured, the [setup assistant]({{< relref "/docs/features/setup-assistant" >}}) walks you through provider, models and memory.
-
-## Getting Started
-
-To launch the desktop application, download the package for your operating system from the [latest release](https://github.com/digiogithub/pando/releases/latest), install it, and open it like any other application. The macOS installer and the Windows binary are signed, so the system opens them without security warnings. See [Cross-Platform Installers]({{< relref "/docs/features/installers" >}}).
-
-If you prefer to compile it from source, ensure you have the developer dependencies installed and build it using the standard build command:
-
-```bash
-# Build the embedded desktop bundle
-make build-desktop
-```
-
-Once opened, you will find a premium, responsive interface featuring hot model switching, an integrated terminal launcher, a tabbed file explorer, and immediate access to your entire local AI workspace.
+- Guides: [Install Pando]({{< relref "/guides/install" >}}), [Choose your surface]({{< relref "/guides/choose-your-surface" >}}), [Projects and tabs]({{< relref "/guides/projects-workspaces" >}}).
+- Reference: [start commands and building from source]({{< relref "/docs/configuration/webui" >}}).
+- Related: [Cross-Platform Installers]({{< relref "/docs/features/installers" >}}), [Project Workspaces]({{< relref "/docs/features/project-workspaces" >}}).

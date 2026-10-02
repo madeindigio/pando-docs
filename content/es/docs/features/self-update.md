@@ -3,53 +3,42 @@ title: Auto-Actualización
 weight: 19
 ---
 
-Pando se actualiza solo: descarga una versión desde GitHub y reemplaza su propio binario.
-
-## Uso
+Pando se cambia su propia bombilla. Un comando trae la última versión y la coloca; no descargas instaladores ni buscas el fichero correcto.
 
 ```bash
-# Actualizar a la última versión estable
 pando update
-
-# Solo comprobar si existe una versión más reciente
-pando update --check
-
-# Instalar una versión concreta
-pando update v1.2.6
 ```
 
-## Instalar una versión concreta o volver atrás
+## Qué hace por ti
 
-Pasa una versión a `pando update` para instalar exactamente esa, aunque sea anterior a la que tienes. Sirve para volver atrás después de una actualización que no te funciona, o para reinstalar la versión actual.
+- **Siempre el fichero correcto.** Pando elige la versión que corresponde a tu sistema operativo y tu procesador.
+- **Sin actualizaciones a medias.** El cambio se hace en un solo paso: o la versión nueva queda puesta del todo o se queda la antigua.
+- **Camino de vuelta.** Dile una versión anterior y Pando vuelve a ella, muy útil cuando una actualización no te convence.
+- **Te avisa cuando hay algo nuevo**, uses Pando donde lo uses.
 
-```bash
-pando update v1.1.1      # volver a la 1.1.1
-pando update 1.2.6       # la "v" es opcional
-```
+## Cómo se nota en el día a día
 
-Pando te dice lo que va a hacer: `Installing`, `Downgrading` o `Reinstalling`.
+Cuando existe una versión más nueva, la ves sin buscarla:
 
-## Dónde ves que hay una actualización
+- En la **Web UI y la app de escritorio**, el panel de información del chat y **Configuración > General > Diagnóstico** muestran tu versión y la nueva.
+- En la **terminal**, Pando imprime un aviso corto al arrancar.
 
-- **Terminal**: al arrancar, Pando muestra un aviso cuando hay una versión más reciente.
+{{< shot src="images/webui/pando-webui-chat-light.jpg" dark="images/webui/pando-webui-chat-dark.jpg" alt="Vista de chat con la versión instalada y el aviso de actualización" >}}
 
-  ```
-  A newer version of Pando is available: v1.2.3 (current: v1.2.2)
-  Run 'pando update' to upgrade.
-  ```
+Ejecutas el comando y Pando dice lo que va a hacer: `Installing`, `Downgrading` o `Reinstalling`. Puedes hacerlo con Pando abierto; la versión nueva se usa la próxima vez que lo arranques.
 
-- **Web UI y escritorio**: el panel de información del chat y **Ajustes > General > Diagnóstico** muestran tu versión y te avisan cuando existe una más nueva.
+## Cuándo usarlo
 
-## Cómo funciona
+Siempre que aparezca el aviso. Indica una versión concreta para volver atrás tras una actualización que da problemas, o para reinstalar la que tienes.
 
-1. Busca la versión en GitHub (`digiogithub/pando`)
-2. Elige el fichero de tu sistema operativo y arquitectura
-3. Lo descarga y extrae el binario
-4. Reemplaza el ejecutable en marcha en un solo paso
+## Conviene saber
 
-## Notas
+- Necesitas permiso de escritura en la carpeta donde vive el programa `pando`.
+- En macOS, si instalaste con el `.pkg`, actualiza `Pando.app` con un `.pkg` nuevo.
+- Pando solo comprueba y avisa. Nunca se actualiza por su cuenta.
 
-- Necesitas permiso de escritura en la carpeta donde está el binario `pando`.
-- Es seguro ejecutarlo mientras Pando está en uso.
-- El reemplazo es atómico: o el binario nuevo queda instalado del todo o se queda el anterior.
-- En macOS, si instalaste con el `.pkg`, usa un `.pkg` nuevo para actualizar `Pando.app`. Consulta [Instaladores Multi-Plataforma]({{< relref "/docs/features/installers" >}}).
+## Siguientes pasos
+
+- Paso a paso, incluido volver a una versión anterior: [Actualizar y diagnosticar]({{< relref "/guides/update-and-diagnostics" >}})
+- Todos los comandos: [referencia de diagnóstico y mantenimiento]({{< relref "/docs/configuration/diagnostics" >}})
+- Primera instalación: [Instaladores multiplataforma]({{< relref "/docs/features/installers" >}})

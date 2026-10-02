@@ -3,53 +3,41 @@ title: Retroalimentación Rápida (Steering)
 weight: 20
 ---
 
-La retroalimentación rápida permite proporcionar correcciones en tiempo real mientras el agente está ejecutándose, sin cancelar la operación actual. Los mensajes se inyectan en el siguiente límite seguro.
+Dar indicaciones sobre la marcha es hablar con el conductor sin parar el coche. Mientras Pando está en mitad de un trabajo puedes enviarle un mensaje nuevo, «solo la parte del login, por favor», y corrige el rumbo en el siguiente momento seguro, sin obligarte a cancelar y empezar otra vez.
 
-## Cómo Funciona
+## Qué hace por ti
 
-1. El agente está procesando una tarea (ejecutando herramientas, generando código, etc.)
-2. Escribes un mensaje y lo envías
-3. El mensaje se encola como "retroalimentación de steering"
-4. En el siguiente límite seguro (después de los resultados de herramientas actuales), la retroalimentación se inyecta
-5. El agente la recibe como un nuevo turno de usuario y se ajusta
+- **No se pierde trabajo.** Lo que Pando ya ha terminado se queda terminado. Tu mensaje cambia lo que viene después.
+- **No hay que esperar.** No tienes que quedarte mirando hasta que acabe para decir «así no».
+- **Más barato que empezar de cero.** Cancelar tira el avance y lo que costó llegar hasta ahí; dar indicaciones conserva las dos cosas.
+- **En el momento seguro.** Pando no suelta lo que tiene entre manos. Termina el paso en curso y entonces lee tu mensaje.
+- **Paciente.** Si recargas la página, el mensaje que dejaste en cola se entrega igualmente.
 
-## Uso por Interfaz
+## Cómo se vive
 
-### TUI
+1. Pando empieza a ordenar el proyecto entero.
+2. Te das cuenta de que es demasiado.
+3. Escribes «Céntrate solo en el módulo de login» y lo envías.
+4. Pando termina el fichero en el que estaba, lee tu mensaje y acota.
 
-Escribe tu mensaje mientras el agente está ejecutándose y presiona **Ctrl+S** para encolarlo. Un indicador de estado muestra el número de mensajes de retroalimentación en cola.
+En la Web UI y la app de escritorio basta con escribir en el chat mientras Pando trabaja; el mensaje se pone en cola solo. En la interfaz de terminal lo escribes y pulsas `Ctrl+S`, y un contador muestra cuántos mensajes esperan. En el panel de asistente de un editor, enviar un mensaje a una sesión ocupada hace lo mismo.
 
-### Web UI
+## Cuándo usarlo
 
-Envía retroalimentación a través de la interfaz de chat durante una ejecución activa. El mensaje se encola automáticamente.
+- Pando ha entendido mal y va en mala dirección.
+- Te has acordado de un detalle que importa.
+- El trabajo está saliendo más grande de lo que querías.
 
-### ACP (Editor)
+Si lo que hace es dañino o está claramente mal, páralo. Dar indicaciones es un toque al volante; el botón de parar es el freno.
 
-Envía un prompt a una sesión activa. Se encola como retroalimentación.
+## Conviene saber
 
-### API
+- Tu mensaje se entrega entre pasos, nunca en mitad de uno, así que puede haber una pequeña espera si el paso en curso es lento.
+- Si la conversación ha crecido demasiado, Pando resume la parte antigua por su cuenta para hacer sitio.
+- Otros programas también pueden dar indicaciones a una sesión, a través de la API.
 
-```bash
-curl -X POST http://localhost:8766/api/v1/sessions/:id/steer \
-  -H "Content-Type: text/plain" \
-  -d "Enfócate en el módulo de autenticación en su lugar"
-```
+## Siguientes pasos
 
-## Características Clave
-
-- **No destructivo**: La operación actual se completa antes de procesar la retroalimentación
-- **Inyección en límite seguro**: La retroalimentación se inyecta después de persistir los resultados de herramientas
-- **Continuación del bucle**: Si la retroalimentación llega entre turnos, el agente continúa con la nueva dirección
-- **Auto-compactación**: El contexto se compacta automáticamente si el historial excede el presupuesto del proveedor
-- **Seguro reconexión**: La retroalimentación pendiente sobrevive la reconexión en Web UI
-
-## Ejemplo de Flujo
-
-1. El agente comienza a refactorizar toda la base de código
-2. Te das cuenta de que el alcance es demasiado amplio
-3. Escribe: "Enfócate solo en el módulo de auth" + Ctrl+S
-4. El agente termina la llamada actual de herramienta, recibe la retroalimentación, reduce el alcance
-
-{{< callout >}}
-El steering es más eficiente que cancelar y reiniciar. Úsalo cuando quieras redirigir al agente sin perder progreso en el trabajo completado.
-{{< /callout >}}
+- Guía: [Tu primera sesión]({{< relref "/guides/first-session" >}}) lo muestra en contexto.
+- Referencia: [la llamada de la API]({{< relref "/docs/configuration/webui" >}}).
+- Relacionado: [Preguntas interactivas]({{< relref "/docs/features/ask-user-question" >}}), [Compactación de sesión]({{< relref "/docs/features/session-compaction" >}}).

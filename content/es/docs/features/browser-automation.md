@@ -3,94 +3,39 @@ title: Automatización de Navegador
 weight: 24
 ---
 
-Pando incluye un completo suite de automatización de navegador usando chromedp, con soporte para múltiples tipos de navegador incluyendo el ligero navegador Lightpanda.
+Pando puede usar un navegador web igual que tú: abrir una página, hacer clic, rellenar un formulario, desplazarse y mirar lo que vuelve. Es la diferencia entre leer la carta de un restaurante en un folleto y entrar a pedir.
 
-## Tipos de Navegador
+## Qué hace por ti
 
-| Tipo | Descripción |
-|------|-------------|
-| `chrome` | Google Chrome (predeterminado) |
-| `msedge` | Microsoft Edge |
-| `chromium` | Chromium |
-| `opera` | Opera |
-| `firefox` | Firefox (vía herramienta fetch) |
-| `lightpanda` | Navegador headless ligero |
-| `obscura` | Navegador headless rápido escrito en Rust |
+- **Lee páginas que necesitan un navegador de verdad.** Muchas webs no muestran nada hasta que se ejecutan sus scripts. Pando espera y lee la página terminada.
+- **Hace los clics por ti.** Navegar, pulsar botones, rellenar campos, desplazarse.
+- **Enseña lo que ha hecho.** Puede sacar una captura de una página o de un elemento, o guardar la página en PDF.
+- **Te ayuda a depurar tu propia web.** Lee los mensajes de consola de la página y las peticiones que hizo, que es donde suelen esconderse los fallos.
 
-## Herramientas Disponibles
+## Cómo se nota en el día a día
 
-### Navegación y Contenido
+Dices: «abre nuestra web de pruebas, entra con el usuario de test y dime si carga el panel». Si dejaste la ventana visible, ves cómo se abre el navegador y se mueve solo. Después Pando te cuenta lo que ha visto, con una captura si la pediste.
 
-- `browser_navigate` - Navegar a URL
-- `browser_get_content` - Extraer HTML, texto o título
-- `browser_screenshot` - Capturar captura de pantalla de página o elemento
+Cuando solo le das un enlace para leer, prueba primero el camino rápido y recurre al navegador solo si la página lo necesita.
 
-### Interacción
+## Cuándo usarlo
 
-- `browser_click` - Hacer clic en elementos
-- `browser_fill` - Llenar inputs de formulario
-- `browser_scroll` - Desplazar la página
-- `browser_evaluate` - Ejecutar JavaScript
+- Para probar una aplicación web que estás haciendo.
+- Para sacar información de una web que no ofrece otra forma más sencilla.
+- Para capturar cómo se ve una página.
 
-### Análisis
+Para artículos y documentación sin más, basta la herramienta fetch, más ligera, y Pando la elige solo.
 
-- `browser_console_logs` - Obtener mensajes de consola JavaScript
-- `browser_network` - Obtener peticiones de red
-- `browser_pdf` - Generar PDF de la página
+## Conviene saber
 
-## Soporte Lightpanda
+- Funciona con los navegadores que seguramente ya tienes: Chrome, Edge, Chromium, Opera.
+- También admite dos navegadores muy ligeros y sin ventana, Lightpanda y [Obscura](https://github.com/h4ckf0r0day/obscura). Arrancan rápido y gastan poca memoria, lo que va bien en servidores y comprobaciones automáticas, donde instalar Chrome pesa.
+- Tú eliges si la ventana se ve. Visible da confianza; oculta va bien en servidores.
+- Si tu navegador de siempre está abierto, Pando usa un perfil temporal y no se pelea por el tuyo.
+- Solo mantiene abiertas unas pocas ventanas de navegador a la vez, para no comerse tu memoria.
 
-Lightpanda es un navegador headless ligero diseñado para automatización:
+## Siguientes pasos
 
-```toml
-[InternalTools]
-BrowserType = 'lightpanda'
-```
-
-A diferencia de los navegadores locales, Lightpanda se lanza como un proceso servidor CDP y se conecta via WebSocket. No se aplican perfiles de usuario ni flags de headless.
-
-## Soporte de Obscura
-
-[Obscura](https://github.com/h4ckf0r0day/obscura) es un navegador headless pequeño que arranca rápido y usa poca memoria. Encaja bien en servidores, contenedores y CI, donde instalar Chrome pesa.
-
-Instala Obscura de modo que el comando `obscura` esté en tu `PATH` y selecciónalo:
-
-```toml
-[InternalTools]
-BrowserType = 'obscura'
-```
-
-Todas las herramientas de navegador funcionan con él: navegar, leer contenido, hacer clic, rellenar formularios, ejecutar JavaScript y hacer capturas. Igual que Lightpanda, no tiene ventana ni perfil de usuario.
-
-## Configuración
-
-{{< shot src="images/webui/pando-webui-settings-tools-browser.jpg" alt="Ajustes de la herramienta de navegador" >}}
-
-```toml
-[InternalTools]
-BrowserEnabled = true
-BrowserType = 'chrome'
-BrowserExecutable = ''         # Auto-detectar
-BrowserHeadless = false
-BrowserTimeout = 30            # segundos
-BrowserUserDataDir = ''
-BrowserMaxSessions = 3
-```
-
-## Integración con Herramienta Fetch
-
-La herramienta fetch soporta backends de navegador para páginas pesadas en JavaScript:
-
-```json
-{
-  "url": "https://ejemplo.com",
-  "format": "markdown",
-  "browser": "auto"
-}
-```
-
-Backends de navegador: `auto`, `chrome`, `firefox`, `curl`, `http`
-
-{{< callout >}}
-Las sesiones de navegador se agrupan con límites configurables. La detección de lock de perfil cambia automáticamente a perfiles temporales cuando el perfil predeterminado está en uso.
-{{< /callout >}}
+- Guía: [Dale ojos y manos a Pando]({{< relref "/guides/web-browser-desktop-tools" >}}) lo enciende y elige un navegador.
+- Referencia: [opciones del navegador y lista de herramientas]({{< relref "/docs/configuration/tools" >}}).
+- Relacionado: [Controlador de Escritorio]({{< relref "/docs/features/desktop-controller" >}}), para aplicaciones que no son páginas web.

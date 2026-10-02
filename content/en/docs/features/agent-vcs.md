@@ -3,78 +3,44 @@ title: Agent-VCS (Version Control for Agents)
 weight: 15
 ---
 
-Agent-VCS is a lightweight version control system that tracks file changes across agent sessions. It provides immutable commits, per-session changelogs, file-level diffs, and revert capability—inspired by jj (Jujutsu).
+Agent-VCS is the diary Pando keeps of what it changes in your files. Think of the save points of a video game: before Pando starts, it saves the game; after each turn of work, it saves again. You can open any save point to see what changed, and load it to get your files back as they were.
 
-## CLI Commands
+It is Pando's own diary. It does not touch your git history.
 
-```bash
-# List all sessions
-pando agent-vcs sessions
+It comes **switched off**. You turn it on once, in the settings, and from then on every conversation gets its diary.
 
-# Show commit log for a session
-pando agent-vcs log <session-id>
+## What it does for you
 
-# Show commit details and diff
-pando agent-vcs show <commit-id>
+- **You can get your code back.** Each conversation keeps its own chain of save points, starting with your files as they were before Pando touched anything. One click returns to any of them.
+- **You see exactly what changed.** For every save point: which files were added, changed or deleted, and each change line by line, old on the left and new on the right.
+- **An undo of any size.** Put back one file, a few, or everything.
+- **Undo is safe too.** Before going back, Pando saves the present, so you can change your mind.
 
-# Revert to a previous commit
-pando agent-vcs revert <commit-id>
+## How it feels in practice
 
-# Compact: keep only recent sessions
-pando agent-vcs compact --keep 20
+{{< shot src="images/webui/pando-webui-agent-vcs-commit.jpg" alt="Agent VCS: a session, its two save points and the files changed in the latest one" >}}
 
-# Compact: remove sessions older than N days
-pando agent-vcs compact --days 30
-```
+You open the **Agent VCS** view and pick a conversation. Its save points appear from newest to oldest; the oldest one is marked **BASELINE** and is your project before the conversation started. You click a save point, see the list of files it changed, and click a file to read the change.
 
-## Key Concepts
+While you chat you do not need to open anything: a list of the files Pando has touched sits next to the conversation, with the lines added and removed.
 
-### Commits
+## When to use it
 
-Immutable point-in-time snapshots with content-derived IDs (SHA-256). Each commit records:
-- File additions, modifications, and deletions
-- Timestamp and session association
-- Content hash for integrity
+- After a long run on its own, to review what Pando did before you commit it to git.
+- When a conversation went wrong and you want your files as they were when it started.
+- When you like most of the work and want to throw away the changes to one file.
+- When you wonder "what did it change last Tuesday?" and want to read that day's pages.
 
-### Trees
+## Good to know
 
-Deduplicated file listings stored separately. Multiple commits can reference the same tree if no files changed.
+- Pando saves once when a conversation starts and once after each turn of work, not after every single edit.
+- Save points cannot be edited. What is written stays written, which is what makes the diary trustworthy.
+- Each save point only stores the files that changed, so the diary stays small even in a big project.
+- You decide how many save points to keep, how old they may get and which folders never go in (heavy or private ones).
+- It is a safety net, not a replacement for git: the diary lives on your machine and is trimmed over time.
+- The design is inspired by the jj (Jujutsu) version control system.
 
-### Sessions
+## Next steps
 
-Linear chains of commits per agent session. Each session groups related changes made during a single conversation.
-
-### Diffs
-
-File-level change tracking between any two commits. Shows added, modified, and deleted files with their content changes.
-
-## Revert
-
-Restore your working directory to any previous commit's state:
-
-```bash
-pando agent-vcs revert <commit-id>
-```
-
-A safety commit is created before reverting, so you can always undo the revert.
-
-## Configuration
-
-```toml
-[Snapshots]
-Enabled = true
-MaxSnapshots = 5
-MaxFileSize = '10MB'
-ExcludePatterns = ['dist', 'node_modules', '.env', '.pando']
-AutoCleanupDays = 5
-```
-
-## Web UI Integration
-
-{{< shot src="images/webui/pando-webui-agent-vcs.jpg" alt="Agent VCS view" >}}
-
-The Web UI provides a snapshot window with diff visualization, allowing you to review changes made by the agent and revert specific files or entire sessions.
-
-{{< callout >}}
-Agent-VCS tracks changes incrementally—only modified files are stored in each commit, keeping storage efficient even for large projects.
-{{< /callout >}}
+- Guide: [Review and undo what the agent did]({{< relref "/guides/review-and-undo" >}}).
+- Reference: [Snapshots and Agent-VCS]({{< relref "/docs/configuration/modes" >}}).

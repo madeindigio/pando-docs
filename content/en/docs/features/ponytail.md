@@ -3,58 +3,38 @@ title: Ponytail Skill (YAGNI Mode)
 weight: 16
 ---
 
-Ponytail is a "lazy senior developer" instruction set that enforces YAGNI (You Aren't Gonna Need It) principles. It makes the agent write more concise code, prefer standard library solutions, and challenge unnecessary complexity.
+Ponytail is the voice of the veteran developer who asks "do we really need this?". It pushes Pando to write less code, to use what the language already brings before adding anything, and to question complexity. The idea has a name among programmers, YAGNI: "you aren't gonna need it".
 
-## Activation
+## What it does for you
 
-Use the `/ponytail` slash command:
+- **Smaller changes.** The smallest edit that solves the problem.
+- **Fewer moving parts.** What already exists is used before adding a new library.
+- **Shorter explanations.** Only what you need to know.
+- **A healthy "why?"** At its strongest level it questions the request itself.
 
-```
-/ponytail lite      # Build what's asked, name the lazier alternative
-/ponytail full      # Enforce "The Ladder" - stdlib first, shortest diff
-/ponytail ultra     # YAGNI extremist - deletion before addition
-/ponytail off       # Disable (default for new sessions)
-```
+## How it feels in practice
 
-## Modes
+Without Ponytail, asked for a small helper, Pando might build a new function with its tests, its documentation and a couple of layers "for the future". With Ponytail at full level it first checks whether the language already solves it, uses the simplest version, skips the layers nobody asked for and writes the minimum tests.
 
-| Mode | Behavior |
+There are three levels:
+
+| Level | Behaviour |
 |------|----------|
-| `lite` | Builds what's asked, names the lazier alternative |
-| `full` | Enforces stdlib-first, shortest diff, shortest explanation |
-| `ultra` | YAGNI extremist: deletion before addition, challenges the requirement |
-| `off` | Disabled (default) |
+| **Lite** | Builds what you ask and mentions the lazier alternative |
+| **Full** | Follows "the ladder": what the language already has first, then the smallest change, then the shortest explanation |
+| **Ultra** | Removes before adding, and challenges whether the thing is needed at all |
 
-## The Ladder (Full Mode)
+## When to use it
 
-When `full` mode is active, the agent follows "The Ladder":
+It shines in clean-up sessions and in projects that have grown more complicated than they should. Leave it off when you really are building something new and broad.
 
-1. **Standard library first** - Use existing stdlib before reaching for dependencies
-2. **Shortest diff** - Make the minimal change that solves the problem
-3. **Shortest explanation** - Explain only what's necessary
+## Good to know
 
-## Configuration
+- It is off for new sessions unless you set a default level.
+- It changes how code is written, not how much Pando talks. For shorter answers use [Caveman]({{< relref "/docs/features/caveman-mode" >}}).
+- It is inspired by Dietrich Gebert's ponytail skill (MIT licensed).
 
-```toml
-[Ponytail]
-DefaultMode = ''   # 'lite', 'full', 'ultra', or '' (off)
-```
+## Next steps
 
-Or via environment variable:
-
-```bash
-PANDO_PONYTAIL_DEFAULT_MODE=full
-```
-
-## Example
-
-Without ponytail, the agent might create a new utility function with tests, documentation, and abstractions. With ponytail `full` mode, it would:
-
-1. Check if stdlib already solves the problem
-2. Use the simplest possible implementation
-3. Skip premature abstractions
-4. Write minimal tests
-
-{{< callout >}}
-Ponytail is inspired by Dietrich Gebert's ponytail skill (MIT licensed). It's particularly useful for refactoring sessions where you want to reduce complexity.
-{{< /callout >}}
+- Guide: [Change how Pando thinks and talks]({{< relref "/guides/working-modes" >}}).
+- Reference: [Working modes]({{< relref "/docs/configuration/modes" >}}).

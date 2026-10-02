@@ -3,71 +3,38 @@ title: AG-UI para aplicaciones web
 weight: 42
 ---
 
-Pando puede ser el agente que hay detrás de tu propia aplicación web. Habla [AG-UI](https://docs.ag-ui.com), el protocolo que usan [CopilotKit](https://www.copilotkit.ai) y otros kits de React parecidos, así que un panel de chat dentro de tu producto puede hablar con un agente de Pando que lee ficheros, ejecuta herramientas y delega trabajo.
+Pando puede ser el cerebro que hay detrás de un chat en tu propia aplicación web. Tu página es el mostrador de la tienda; Pando es el taller de la trastienda, que lee ficheros, usa herramientas y reparte trabajo entre su cuadrilla. Los dos se hablan en [AG-UI](https://docs.ag-ui.com), el idioma común que usan [CopilotKit](https://www.copilotkit.ai) y herramientas parecidas.
 
-Viene **desactivado por defecto**, porque pone un agente capaz de ejecutar código al alcance de un navegador.
+Viene **desactivado**, porque deja al alcance de un navegador un agente que puede ejecutar código.
 
-## Arrancarlo
+## Qué hace por ti
 
-```bash
-# Solo AG-UI, en su propio puerto (recomendado)
-pando agui-serve --port 8090 --allow-origin http://localhost:3000
+- **Un agente de verdad en tu producto.** No un chat que solo habla: uno que trabaja sobre un proyecto.
+- **Respuestas que llegan mientras se escriben**, con la actividad del agente a la vista.
+- **Aprobaciones y preguntas dentro de tu página.** Cuando el agente necesita permiso o quiere preguntar algo, lo muestra tu interfaz.
+- **Las acciones de tu propia página.** El agente puede usar los botones y funciones que tú definas.
+- **Estado en vivo para dibujar.** El modelo en uso, el presupuesto que queda, la lista de tareas, los ficheros tocados y los subagentes en marcha llegan como datos, listos para mostrarse como tarjetas.
+- **Varios personajes con un solo Pando.** Un perfil es un agente con nombre, con su propio modelo, persona y herramientas. Puedes ofrecer un «reviewer» prudente y un «coder» que mete mano, cada uno en su dirección.
 
-# O junto a la Web UI
-pando serve --agui-port 8090
-```
+## Cómo se nota en el día a día
 
-Pando muestra un token de acceso al arrancar. Apunta tu frontend a `http://localhost:8090/api/v1/agui/coder` y envía el token como `Authorization: Bearer <token>`. El token se conserva entre reinicios, así que lo configuras una sola vez.
+Alguien escribe en tu página. La respuesta va llegando, con un panel pequeño que enseña lo que hace el agente. Si recarga, la conversación sigue ahí. Si se le cae la conexión, el trabajo continúa dos minutos; cuando vuelve recibe lo que se perdió y después la emisión en directo. Ni siquiera reiniciar Pando hace perder el hilo.
 
-## Qué recibe tu página
+## Cuándo usarlo
 
-- **Chat en streaming** con el agente, incluida la actividad de sus herramientas.
-- **Aprobaciones y preguntas en la página**: cuando el agente necesita permiso o pregunta algo, lo muestra tu interfaz.
-- **Tus propias herramientas de frontend**: el agente puede llamar a las acciones que definas en la página.
-- **Estado en vivo**: el modelo en uso, el presupuesto de tokens, la lista de tareas, los ficheros tocados y los subagentes en marcha, listos para pintar como tarjetas en lugar de interpretar el texto del chat.
-- **Conversaciones que sobreviven**: recarga la página, o reinicia Pando, y el mismo hilo continúa.
-- **Ejecuciones que siguen adelante**: si el navegador se desconecta, la ejecución espera dos minutos. Al reconectar recibes lo que te perdiste y después el streaming en vivo.
+Úsalo cuando estés haciendo una aplicación web y quieras en ella un asistente que de verdad pueda hacer cosas con un proyecto o un conjunto de ficheros.
 
-## Perfiles de agente
+No es para hablar tú con Pando: para eso está la Web UI.
 
-Un perfil es un agente con nombre, con su propio modelo, persona y conjunto de herramientas. Con perfiles puedes ofrecer, por ejemplo, un «revisor» de solo lectura y un «programador» completo desde el mismo Pando, cada uno en su propia dirección.
+## Conviene saber
 
-```toml
-[AGUI.Profiles.reviewer]
-Base    = 'coder'
-Model   = 'anthropic.claude-sonnet-4'
-Persona = 'code-reviewer'
-```
+- Solo pueden conectarse las direcciones web que tú indiques, y cada petición necesita un token de acceso.
+- El token no cambia entre reinicios, así que lo configuras una vez en tu página.
+- Déjalo escuchando en tu propia máquina salvo que lo pongas detrás de una pasarela tuya.
+- Lo recomendable es ejecutarlo como un proceso aparte de la Web UI.
 
-## Configuración
+## Siguientes pasos
 
-```toml
-[AGUI]
-Enabled        = true
-Port           = 8090
-Host           = 'localhost'
-Agents         = ['coder']
-AllowedOrigins = ['http://localhost:3000']   # vacío: ningún navegador puede conectar
-RequireToken   = true
-FrontendTools  = true
-HumanInTheLoop = true
-```
-
-{{< callout type="warning" >}}
-Solo los orígenes que indiques pueden conectar desde un navegador, y cada petición necesita el token. Deja `Host` en `localhost` salvo que pongas Pando detrás de tu propio proxy inverso.
-{{< /callout >}}
-
-## Bibliotecas cliente
-
-El SDK de TypeScript incluye un cliente y una ayuda para CopilotKit:
-
-```typescript
-import { PandoAguiClient } from '@pando-ai/sdk/agui';
-
-const client = new PandoAguiClient({ baseUrl: 'http://localhost:8090', token });
-for await (const event of client.run({ prompt: 'Summarise the repo' })) {
-  if (event.type === 'TEXT_MESSAGE_CONTENT') process.stdout.write(event.delta);
-}
-```
-
-En el repositorio de Pando, en [`examples/copilotkit`](https://github.com/digiogithub/pando/tree/main/examples/copilotkit), hay un ejemplo completo en Next.js con chat, panel de estado, una herramienta de frontend y aprobaciones dentro de la página.
+- Guía: [Usa Pando desde tu editor y otras aplicaciones]({{< relref "/guides/editors-and-other-apps" >}}) arranca el servidor y conecta una página.
+- Referencia: [comandos, claves de configuración, perfiles y la biblioteca cliente]({{< relref "/docs/configuration/providers" >}}).
+- Ejemplo: una aplicación Next.js completa en [`examples/copilotkit`](https://github.com/digiogithub/pando/tree/main/examples/copilotkit).

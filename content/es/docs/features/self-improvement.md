@@ -3,79 +3,38 @@ title: Sistema de Auto-Mejora
 weight: 25
 ---
 
-Pando puede aprender de cómo van tus sesiones. Puntúa cada sesión terminada, detecta qué funcionó y propone reglas cortas para la próxima vez. Tú revisas esas reglas y solo se usan las que apruebas.
+Después de un partido, un buen entrenador ve la repetición y apunta una o dos cosas que hacer mejor la próxima vez. Pando puede hacer lo mismo con tus sesiones: puntúa cada una cuando termina, se fija en lo que funcionó y propone reglas cortas para el futuro. Tú lees las propuestas, y solo se usan las que apruebas.
 
 Viene **desactivado por defecto**.
 
-## Cómo funciona
+## Qué hace por ti
 
-1. **Cada sesión recibe una puntuación.** Cuando una sesión termina o queda inactiva, Pando la puntúa sin llamar a ningún modelo. Mira si tuviste que corregir al agente, cuántos errores de herramientas y cancelaciones hubo, y cuántos tokens costó.
-2. **Puedes decirlo tú.** `/feedback good` o `/feedback bad` en el chat sustituye la puntuación automática.
-3. **Un juez mira los casos claros.** En las sesiones que fueron claramente bien o claramente mal, un modelo lee la conversación y puede proponer una regla, como «comprueba la compilación antes de dar la tarea por terminada». El juez tiene un presupuesto diario, así que no dispara tu factura.
-4. **Tú revisas las propuestas.** Cada regla propuesta es un fichero que puedes leer y editar. Nada llega a tus prompts hasta que lo apruebas.
-5. **Las reglas aprobadas se usan en las sesiones nuevas.** Las que no ayudan se retiran solas.
+- **Cada sesión recibe una nota**, sin llamar a ningún modelo: si tuviste que corregir a Pando, cuántas acciones fallaron, cuántas veces cancelaste, cuánto costó.
+- **Tu opinión cuenta más.** Un pulgar arriba o abajo tuyo sustituye a la nota automática.
+- **Lecciones de los casos claros.** Cuando una sesión fue claramente bien o claramente mal, un modelo juez la lee y puede proponer una regla, como «comprueba la compilación antes de dar el trabajo por terminado».
+- **Tú eres el editor.** Cada regla propuesta es un fichero pequeño que puedes leer, retocar, aprobar o rechazar.
+- **Las reglas que no ayudan se retiran** solas.
 
-## Activarlo
+## Cómo se nota en el día a día
 
-{{< shot src="images/webui/pando-webui-settings-self-improvement.jpg" alt="Ajustes de Self-Improvement" >}}
+{{< shot src="images/webui/pando-webui-self-improvement.jpg" alt="Vista Self-Improvement: contadores, evaluaciones por día y reglas aprendidas" >}}
 
-En **Ajustes > Self-Improvement** (Web UI y TUI), o en el fichero de configuración:
+Trabajas como siempre. De vez en cuando abres la vista Self-Improvement: muestra cuántas sesiones se han puntuado, la media, cómo ha evolucionado en las dos últimas semanas y por qué cada sesión reciente tiene la nota que tiene. Una lista de reglas pendientes te espera con botones de aprobar y rechazar. Las reglas aprobadas se suman a las instrucciones de Pando en las sesiones que empieces después.
 
-```toml
-[evaluator]
-enabled = true
-model = 'anthropic.claude-haiku-4'   # el juez; basta un modelo barato
-```
+Si te gustan los experimentos, también puedes escribir dos versiones de una instrucción y dejar que Pando averigüe cuál da mejores sesiones.
 
-## Revisar las reglas aprendidas
+## Cuándo usarlo
 
-En la Web UI, la vista Self-Improvement lista las propuestas pendientes con botones **Aprobar** y **Rechazar**. Desde el terminal:
+Compensa cuando usas Pando con regularidad en el mismo tipo de trabajo, porque los patrones necesitan repetición para aparecer. Con un uso ocasional no hay bastante de lo que aprender.
 
-```bash
-pando skills list --status pending
-pando skills approve verify-the-build-before-reporting-done
-pando skills reject some-skill-id
-```
+## Conviene saber
 
-Las propuestas son ficheros en `.pando/skills/learned/`. Edítalos antes de aprobar si quieres cambiar la redacción. Una aprobación se aplica a las sesiones que empieces después.
+- **Pando nunca reescribe sus propias instrucciones a tus espaldas.** Las reglas son ficheros que tú apruebas, y las variantes de instrucciones son ficheros que tú escribes.
+- El juez tiene un presupuesto diario, así que no puede dispararte la factura.
+- El juez solo opina de sesiones de cierta longitud que acabaron claramente bien o mal. Que haya pocas propuestas al principio es normal.
+- Un «doctor» integrado te dice con palabras claras si el entrenador está trabajando y, si no, por qué.
 
-## ¿Está funcionando?
+## Siguientes pasos
 
-```bash
-pando evaluator doctor
-```
-
-El doctor dice con palabras claras si el ciclo está en marcha y, si no, por qué: desactivado, sin modelo para el juez, ninguna sesión puntuada todavía, presupuesto agotado. La Web UI muestra el mismo informe en un aviso en la parte superior de la vista Self-Improvement.
-
-La vista muestra también las puntuaciones de tus sesiones recientes, por qué recibió cada una la suya y cómo ha evolucionado la media en los últimos 14 días.
-
-Para puntuar sesiones a mano:
-
-```bash
-pando evaluate --all --limit 20
-```
-
-## Probar distintas redacciones de prompt
-
-Si quieres comparar dos formas de dar instrucciones al agente, pon una versión alternativa de una sección del prompt en `.pando/prompts/variants/<sección>/<nombre>.md.tpl`. Pando usa una variante por sesión, sigue las puntuaciones y poco a poco prefiere la que funciona mejor.
-
-## Ajustes que te pueden interesar
-
-{{< shot src="images/webui/pando-webui-settings-self-improvement-evaluation.jpg" alt="Cuándo se evalúan las sesiones" >}}
-
-{{< shot src="images/webui/pando-webui-settings-self-improvement-judge-limits.jpg" alt="Límites del juez y variantes de prompt" >}}
-
-{{< shot src="images/webui/pando-webui-settings-self-improvement-correction-patterns.jpg" alt="Patrones de corrección" >}}
-
-```toml
-[evaluator]
-idleTimeout = '30m'        # puntúa una sesión tras este tiempo sin actividad
-
-[evaluator.judge]
-dailyCalls  = 20           # llamadas al juez por día; 0 = sin límite
-dailyTokens = 200000       # tokens del juez por día; 0 = sin límite
-```
-
-{{< callout >}}
-Pando nunca reescribe sus propios prompts a tus espaldas. Las variantes de prompt son ficheros que escribes tú, y las reglas aprendidas son ficheros que apruebas tú.
-{{< /callout >}}
+- Guía: [Ayuda a Pando a aprender de tus sesiones]({{< relref "/guides/self-improvement" >}}).
+- Referencia: [Configuración de la automejora]({{< relref "/docs/configuration/self-improvement" >}}).

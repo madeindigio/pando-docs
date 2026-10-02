@@ -3,47 +3,36 @@ title: Database Compact
 weight: 27
 ---
 
-Pando maintains a SQLite database for sessions, memories, and code index. Over time, this database can grow due to deleted records. The DB Compact command reclaims space using SQLite's VACUUM operation.
-
-## CLI Usage
-
-```bash
-# Full VACUUM
-pando db compact
-
-# Incremental (only reclaim freed pages)
-pando db compact --incremental
-
-# Without enabling auto_vacuum
-pando db compact --no-auto-vacuum
-```
-
-## Slash Command
-
-Use the `/db-compact` slash command in TUI, Web UI, or ACP:
+Pando keeps your sessions, memories and code index in one file on your disk. When you delete things, the file does not shrink by itself: it is a notebook with torn-out pages that still takes the same space on the shelf. Database Compact rebinds the notebook without the gaps.
 
 ```
 /db-compact
 ```
 
-Reports size before/after and freed bytes.
+## What it does for you
 
-## How It Works
+- **Gives disk space back** after you delete sessions or memories.
+- **Tells you the result**: size before, size after and how much was freed.
+- **Keeps future tidying cheap.** After the first full pass, Pando can hand back freed space in small, quick steps.
 
-1. Checks if another Pando instance is running for this directory
-2. If running, forwards the VACUUM request over IPC to the primary
-3. If not running, performs VACUUM in-process
-4. Enables `auto_vacuum=INCREMENTAL` for future cheap reclamation
-5. Reports statistics
+## How it feels in practice
 
-## Multi-Instance Support
+Type `/db-compact` in any chat, in the Web UI, the terminal interface or your editor. Pando works for a moment and reports the numbers. Nothing in your sessions changes; only the wasted space goes.
 
-In multi-instance setups, only the primary performs database writes. The `/db-compact` command automatically routes to the primary via IPC, with a 30-minute timeout.
+{{< shot src="images/webui/pando-webui-chat-slash-commands.jpg" alt="Slash command list in the chat, including /db-compact" >}}
 
-## Configuration
+## When to use it
 
-No explicit configuration needed. The command uses existing database settings.
+Now and then, and especially after a big clean-up. There is a lighter variant that only returns space already marked as free; it is faster and fine for routine use.
 
-{{< callout >}}
-Run `/db-compact` periodically to keep the database lean. The incremental mode is faster and reclaims only pages that were freed by deletes.
-{{< /callout >}}
+## Good to know
+
+- It is safe with several Pando windows open on the same project. The request is passed to the one in charge of writing, so they never step on each other.
+- A very large database can take a while.
+- There is nothing to configure.
+
+## Next steps
+
+- Housekeeping step by step: [Update and diagnostics]({{< relref "/guides/update-and-diagnostics" >}})
+- Command options: [Diagnostics and maintenance reference]({{< relref "/docs/configuration/diagnostics" >}})
+- All chat commands: [Slash Commands]({{< relref "/docs/features/slash-commands" >}})

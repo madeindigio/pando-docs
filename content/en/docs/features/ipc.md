@@ -3,77 +3,34 @@ title: Inter-Process Communication (IPC)
 weight: 21
 ---
 
-Pando's IPC system enables multiple instances to communicate, share state, and coordinate work across a single machine. Built on ZeroMQ, it provides pub/sub event broadcasting and JSON-RPC 2.0 request/response messaging.
+You can have Pando open several times at once: the desktop app, a browser tab, a terminal, one window per project. IPC is how those windows talk to each other, so they behave as one Pando and not as strangers. Picture a team with walkie-talkies: everyone hears what happens, and one of them keeps the logbook.
 
-## Architecture
+## What it does for you
 
-{{< shot src="images/webui/pando-webui-instances.jpg" alt="Running instances" >}}
+- **Every window stays up to date.** A session you start in one place shows up in the others, and you can watch an answer being written from any of them.
+- **No two hands on the logbook.** One window is in charge of writing to Pando's database; the others ask it to. Your history cannot get scrambled by two windows saving at the same moment.
+- **Nobody is indispensable.** If the window in charge closes or dies, another one notices within seconds and takes over. The rest reconnect by themselves.
+- **Windows can lend a hand.** One Pando can pass a task to another that is already open on a different project, instead of starting a new one from cold.
 
-- **Primary instance**: Creates the IPC bus with PUB (events) and ROUTER (RPC) sockets
-- **Secondary instances**: Connect via SUB (events) and DEALER (RPC)
-- **Instance registry**: File-based tracking at `/tmp/pando-instances/`
+## How it feels in practice
 
-## Features
+Mostly, you do not notice it, and that is the point. The one place you see it is the **Instances** screen, which lists every Pando running on your machine, which one is in charge (marked **PRIMARY**) and how each was opened.
 
-### Session Synchronization
+{{< shot src="images/webui/pando-webui-instances.jpg" alt="Instances screen listing the running Pando windows" >}}
 
-Secondary instances receive real-time session updates from the primary:
+## When to use it
 
-- Session creation, activation, deletion
-- Message append events
-- LLM streaming tokens (start, token, end)
-- Tool execution events (start, end)
+It switches itself on as soon as a second Pando starts. There is nothing to enable.
 
-### Primary/Secondary Failover
+The only part you opt into is letting windows hand tasks to each other: both the one that asks and the one that accepts must agree.
 
-A watcher monitors primary liveness via heartbeats. When the primary dies:
+## Good to know
 
-1. A secondary detects the missing heartbeat
-2. Acquires an exclusive file lock
-3. Promotes itself to primary
-4. Publishes `instance.promoted` so other secondaries reconnect
+- It works between windows on the same machine, not across the network.
+- Tidying the database is always done by the window in charge, whichever window you ask from.
 
-### Write Coordination
+## Next steps
 
-Only the primary instance performs database writes. Secondaries route write requests (like `db.compact`) to the primary over IPC.
-
-### Hot-Peer Delegation
-
-Instances can delegate tasks to external peer instances:
-
-```toml
-[Mesnada.Delegation]
-AllowExternalWarmTargets = true   # caller-side opt-in
-AcceptDelegations = true           # target-side opt-in
-```
-
-## RPC Methods
-
-| Method | Description |
-|--------|-------------|
-| `state.sync` | Full state snapshot |
-| `session.list` | List sessions |
-| `session.activate` | Activate a session |
-| `message.send` | Send a message |
-| `session.interrupt` | Cancel running LLM call |
-| `instance.ping` | Liveness and capability check |
-| `delegation.run` | Run a delegated task |
-| `delegation.cancel` | Cancel a delegated task |
-| `delegation.status` | Check delegation status |
-| `db.compact` | Database VACUUM (routed to primary) |
-
-## Configuration
-
-IPC is configured automatically when multiple instances are running. Failover settings:
-
-```toml
-# Automatic configuration via internal defaults:
-# HeartbeatInterval: 5s
-# HeartbeatTimeout: 15s
-# ProbeInterval: 60s
-# Enabled: true
-```
-
-{{< callout >}}
-IPC enables Pando to run as a multi-process system: a primary instance handles database writes while secondaries handle specific projects or tasks, all coordinated automatically.
-{{< /callout >}}
+- Guide: [Delegate to subagents with Mesnada]({{< relref "/guides/mesnada" >}}) covers handing work between projects.
+- Reference: [timings, messages and the hand-over switches]({{< relref "/docs/configuration/providers" >}}).
+- Related: [Project Workspaces]({{< relref "/docs/features/project-workspaces" >}}), [Agent Delegation]({{< relref "/docs/features/agent-delegation" >}}).

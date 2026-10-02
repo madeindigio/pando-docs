@@ -22,8 +22,24 @@
   {{- with site.GetPage "/guides" }}
     <div class="side__group">
       <a class="label side__title" href="{{ .RelPermalink }}">{{ T "guides" }}</a>
-      {{- range .RegularPages.ByWeight }}
-        {{- template "side-link" (dict "page" . "here" $here "title" (.Params.shortTitle | default .LinkTitle)) }}
+      {{- /* Guides grouped by track (data/tracks.yaml), like features by stratum. */ -}}
+      {{- $guides := .RegularPages.ByWeight -}}
+      {{- $tracks := slice -}}
+      {{- range $id, $t := site.Data.tracks }}{{ $tracks = $tracks | append (merge $t (dict "id" $id)) }}{{ end -}}
+      {{- range sort $tracks "weight" }}
+        {{- $track := . -}}
+        {{- with where $guides "Params.track" .id }}
+          {{- $open := false -}}
+          {{- range . }}{{ if eq . $page }}{{ $open = true }}{{ end }}{{ end }}
+          <details class="side__stratum"{{ if $open }} open{{ end }}>
+            <summary class="side__link"><span><span class="kanji">{{ $track.kanji }}</span> {{ index $track.short site.Language.Lang }} · {{ len . }}</span></summary>
+            <div class="side__children">
+              {{- range . }}
+                {{- template "side-link" (dict "page" . "here" $here "title" (.Params.shortTitle | default .LinkTitle)) }}
+              {{- end }}
+            </div>
+          </details>
+        {{- end }}
       {{- end }}
     </div>
   {{- end }}

@@ -3,7 +3,9 @@ title: ACP Protocol
 weight: 4
 ---
 
-Pando supports the [Agent Client Protocol (ACP)](https://agentclientprotocol.com), allowing it to be used directly in compatible editors as an AI coding assistant.
+Many code editors can host an outside assistant in their own chat panel. They talk to it in a shared language, the [Agent Client Protocol (ACP)](https://agentclientprotocol.com). Pando speaks it, so you can use Pando without leaving your editor. This page is reference material: the snippet for each editor, commands and settings.
+
+For a walk-through, see the guide [Use Pando from your editor and other apps]({{< relref "/guides/editors-and-other-apps" >}}). Finer options are in [ACP advanced configuration]({{< relref "/docs/configuration/acp-advanced" >}}).
 
 ## Quick start
 

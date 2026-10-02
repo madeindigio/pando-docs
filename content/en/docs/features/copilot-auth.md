@@ -3,80 +3,34 @@ title: GitHub Copilot Authentication
 weight: 34
 ---
 
-Pando integrates with GitHub Copilot, allowing you to use Copilot models through the LLM Proxy and agent system.
+If you have a GitHub Copilot subscription, Pando can use its models. You sign in with your GitHub account and that is the whole setup: no key to create, copy or renew. It is like using your gym card at another branch of the same chain.
 
-## Login
+## What it does for you
 
-```bash
-# Device flow login (opens browser)
-pando auth copilot login
+- **No new bill.** You use what your Copilot plan already includes.
+- **No keys to look after.** You approve Pando once on GitHub's own page.
+- **Your company's models too.** If your organisation added its own models to Copilot (what GitHub calls BYOK, "bring your own key"), they appear in Pando's model list just as they do in VS Code. On a Business seat that is often twenty models or more.
+- **Usable everywhere in Pando.** In the chat, in sub-agents, and through the [local proxy]({{< relref "/docs/features/llm-proxy" >}}) for your other tools.
 
-# For GitHub Enterprise
-pando auth copilot login --enterprise-url https://github.mycompany.com
+## How it feels in practice
 
-# Print URL/code without opening browser
-pando auth copilot login --no-browser
-```
+You press **Login with GitHub**, GitHub shows you a page, you type a short code and approve. Back in Pando, the model picker now has entries that start with `copilot.`. You choose one and work as usual.
 
-## Status
+## When to use it
 
-```bash
-pando auth copilot status
-```
+Use it if you or your company already pay for Copilot. It is the quickest way to get good models into Pando.
 
-## Logout
+Which models you see depends on your plan: the free plan has a small set, Pro and Pro+ have more, and Business or Enterprise seats add the organisation's own.
 
-```bash
-pando auth copilot logout
-```
+## Good to know
 
-## Using Copilot Models
+- The sign-in uses GitHub's standard flow for devices. Your GitHub password never passes through Pando.
+- The pass that GitHub hands back is kept on your machine, in your Pando profile.
+- GitHub Enterprise (your company's own GitHub address) is supported.
+- If your organisation's models do not appear, signing out and in again usually fixes it.
 
-Once authenticated, Copilot models are available as:
+## Next steps
 
-```bash
-# In agent mode
-pando --model copilot.gpt-4.1 -p "Explain this code"
-
-# In LLM Proxy
-pando llm-proxy
-# Connect tools to http://localhost:8765/v1
-```
-
-## Model Availability
-
-Copilot models depend on your subscription tier:
-
-| Tier | Available Models |
-|------|------------------|
-| Free | Limited models |
-| Pro | GPT-4, GPT-4o |
-| Pro+ | Extended model access |
-| Business/Enterprise | Organization models, including BYOK custom models |
-
-## Organization BYOK models (Business/Enterprise)
-
-If your organization added its own models to Copilot through BYOK ("bring your own key") — OpenRouter, Gemini or other providers routed through GitHub — those models now appear in Pando's model picker exactly as they do in VS Code, alongside the Copilot-hosted ones.
-
-Nothing to configure: log in normally and they show up. On a Business seat this typically adds twenty or more models to the list.
-
-They are used like any other Copilot model:
-
-```bash
-pando --model 'copilot.myorg/OpenRouter/some-model' -p "Explain this code"
-```
-
-If your organization's models do not appear:
-
-```bash
-pando auth copilot status     # confirm the seat and organization are detected
-pando auth copilot logout && pando auth copilot login
-```
-
-## Configuration
-
-Copilot authentication is stored in your Pando profile. No additional configuration needed after login.
-
-{{< callout >}}
-The Copilot OAuth flow uses GitHub's device flow. Your Copilot credentials never leave your machine—they're used locally to obtain tokens.
-{{< /callout >}}
+- Guide: [Use Pando from your editor and other apps]({{< relref "/guides/editors-and-other-apps" >}}) walks through the sign-in.
+- Reference: [sign-in commands and plans]({{< relref "/docs/configuration/providers" >}}).
+- Related: [Local LLM Proxy]({{< relref "/docs/features/llm-proxy" >}}), [Model Auto Mode]({{< relref "/docs/features/model-auto-mode" >}}).

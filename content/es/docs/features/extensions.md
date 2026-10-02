@@ -3,99 +3,56 @@ title: Extensiones
 weight: 36
 ---
 
-Pando tiene ya un sistema formal de extensiones: módulos opcionales compilados dentro del binario que pueden añadir herramientas, rutas HTTP, paneles de interfaz y comportamiento de memoria. Es la vía por la que llegan capacidades privadas y empresariales sin bifurcar Pando.
+Una extensión es un órgano extra injertado en el propio Pando: un módulo que va compilado dentro del programa y puede añadir herramientas, pantallas y comportamiento desde dentro. Es la forma en que las empresas distribuyen funciones privadas sin mantener su propia copia de Pando.
 
-## ¿Qué mecanismo necesito?
+Para la mayoría es también lo último a lo que recurrir. Pando tiene maneras más ligeras de aprender trucos nuevos, y casi siempre son las adecuadas.
 
-Las extensiones son una de las cinco formas de añadir comportamiento a Pando, y normalmente no es la que quieres. Elige la más barata que resuelva el problema:
+## ¿Qué forma de ampliar necesito?
 
-| Quieres… | Usa |
-|---|---|
-| Añadir una herramienta invocable por el modelo, en cualquier lenguaje, fuera del proceso | **Servidor MCP** |
-| Cambiar cómo se comporta Pando en un momento concreto, con un script pequeño | **Hook Lua** |
-| Añadir un prompt, un flujo de trabajo o un procedimiento repetible | **Skill o comando slash** |
-| Describir un proveedor/modelo nuevo | **Plantilla de motor personalizado** |
-| Llegar al núcleo de Pando, o viajar dentro del binario | **Extensión** |
+Quédate con la primera fila que resuelva tu caso:
 
-Un servidor MCP es un proceso que puedes reiniciar y configurar por proyecto. Una extensión es una decisión de compilación cocida en un binario que alguien tiene que producir. Prefiere la parte alta de la tabla.
+| Quieres… | Usa | Piénsalo como |
+|---|---|---|
+| Darle al modelo una herramienta nueva, escrita en cualquier lenguaje | **Servidor MCP** | Enchufar un aparato a una regleta |
+| Enseñar un procedimiento o una manera repetible de trabajar | **Skill o comando slash** | Una ficha de receta |
+| Darle un toque a Pando en un momento preciso con un script pequeño | **Hook de Lua** | Una nota en la nevera |
+| Describir un tipo nuevo de proveedor o modelo de IA | **Plantilla de motor personalizada** | Un adaptador de enchufe |
+| Llegar a las tripas de Pando, o viajar dentro del programa | **Extensión** | Cirugía |
 
-El código de terceros o no confiable pertenece a un servidor MCP: es un proceso separado que habla un protocolo estrecho. Una extensión se ejecuta dentro del proceso, con acceso total y sin sandbox.
+Un servidor MCP es un programa aparte que puedes reiniciar y configurar por proyecto. Una extensión se decide cuando se compila el programa, y alguien tiene que compilarlo. El código del que no te fías del todo va en un servidor MCP, que corre aparte; una extensión corre dentro de Pando con acceso total.
 
-## Elige una extensión solo si
+## Cuándo una extensión es la opción correcta
 
-1. **Necesita llegar al núcleo**: filtrar el conjunto de herramientas, envolver la búsqueda en la base de conocimiento, montar una ruta HTTP autenticada, suscribirse a eventos internos. Ningún otro mecanismo ve eso.
-2. **Debe viajar en el binario**: un solo ejecutable que desplegar, nada más que instalar.
-3. **Es de primera parte y privilegiada**: si no fusionarías ese código en Pando, ejecútalo como servidor MCP.
+1. **Necesita llegar al núcleo**: decidir qué herramientas existen, cambiar lo que devuelve una búsqueda en la memoria, añadir una dirección web protegida al servidor del propio Pando, reaccionar a eventos internos. Nada más puede ver eso.
+2. **Tiene que viajar en el programa**: un solo fichero que desplegar, nada extra que instalar.
+3. **Es tuya y de confianza**: si no fusionarías ese código en el propio Pando, ejecútalo como servidor MCP.
 
-## Ver qué tiene tu binario
+## Qué puede añadir una extensión
 
-```bash
-pando extensions list      # extensiones compiladas y si han cargado
-pando ext                  # comandos aportados por extensiones
-pando --version            # muestra la variante, p. ej. v0.9.1 (enterprise)
-```
+- **Herramientas**, y reglas que envuelven o filtran todas las demás.
+- **Comandos slash**, que aparecen como los de serie.
+- **Direcciones web** en el servidor del propio Pando, detrás de su inicio de sesión.
+- **Paneles y páginas** en la Web UI, o una interfaz entera de sustitución.
+- **Comportamiento de memoria**: observar lo que se recuerda y enriquecer lo que devuelve una búsqueda.
+- **Comprobaciones de licencia**, para módulos comerciales.
+- **Ajustes gestionados**: valores que llegan de un sitio central, con los que no debes tocar bloqueados. Los ajustes bloqueados aparecen en gris en las pantallas de configuración.
+- **Inicio de sesión**: el de tu organización, con las credenciales adecuadas en las peticiones a los proveedores de IA.
+- **Política de interfaz**: ocultar o desactivar partes de la interfaz que no aplican en tu organización.
+- **Eventos y prompts**: reaccionar a lo que pasa, como que se elija un modelo o termine una sesión, y lanzar prompts propios.
 
-Un binario que no se compiló con una extensión no puede activarla. Es deliberado: es lo que convierte la frontera en algo real y no en un simple flag.
+## Cómo se nota en el día a día
 
-## Activar y configurar
+Si usas una descarga normal de Pando, no cambia nada: no lleva extensiones y se comporta como siempre. Si tu empresa te da su propia versión, ves sus extras como partes corrientes de la app, y `pando --version` muestra el nombre de la variante, por ejemplo `v0.9.1 (enterprise)`.
 
-La configuración bajo `[Extensions]` solo elige cuáles de las extensiones *ya compiladas* se cargan, y les pasa sus ajustes:
+Un programa que no se compiló con una extensión no puede encenderla después. Es a propósito: hace que la frontera sea una pared de verdad y no un ajuste que cualquiera puede cambiar.
 
-```toml
-[Extensions]
-Disabled = ["memory.sink.corp"]     # no cargar nunca, diga lo que diga el resto
+## Conviene saber
 
-[Extensions.Entries."memory.sink.corp"]
-Enabled = true
+- Los ajustes solo pueden elegir cuáles de las extensiones incluidas se cargan, y pasarles sus opciones.
+- Una extensión no tiene sandbox propio. Trátala como cualquier código que pasa a formar parte del programa.
+- Una versión de empresa muestra la Web UI normal salvo que alguna de sus extensiones traiga la suya.
 
-[Extensions.Entries."memory.sink.corp".Config]
-Endpoint = "https://remembrances.corp.internal"
-```
+## Siguientes pasos
 
-`Disabled` es el interruptor fuerte: también apaga extensiones que cargarían por defecto.
-
-## Qué puede aportar una extensión
-
-- **Herramientas**, y middleware que envuelve o filtra todo el conjunto.
-- **Comandos slash**, expuestos como cualquier comando integrado.
-- **Rutas HTTP** en el servidor de Pando, tras su autenticación.
-- **Paneles y páginas** en la WebUI, incluido reemplazar el frontend entero.
-- **Comportamiento de memoria**: observar qué se recuerda y enriquecer lo que devuelve una búsqueda.
-- **Ganchos de licenciamiento**, para módulos comerciales.
-- **Configuración gestionada**: una extensión puede aportar ajustes desde una fuente central y bloquear las claves que los usuarios no deben cambiar. Los ajustes bloqueados aparecen como solo lectura en las pantallas de ajustes.
-- **Inicio de sesión**: una extensión puede conectar el proveedor de identidad de tu organización y añadir las credenciales correctas a las peticiones que van a los proveedores de IA.
-- **Política de interfaz**: una extensión puede ocultar o desactivar las partes de la interfaz que no aplican en tu organización.
-- **Eventos y prompts**: una extensión puede reaccionar a lo que pasa en Pando, como la elección de un modelo o el final de una sesión, y ejecutar sus propios prompts.
-
-## Compilaciones empresariales
-
-Las compilaciones estándar no cambian e imprimen exactamente lo de siempre. Hay dos vías adicionales para binarios compuestos:
-
-```bash
-make build                          # ./pando
-make build-enterprise               # ./pando-enterprise
-make release-enterprise             # un archivo distribuible
-```
-
-Para un binario que enlaza módulos privados, Pando incluye `xpando`, una pequeña herramienta que genera un módulo que importa Pando más las extensiones que indiques, y lo compila con el toolchain normal de Go:
-
-```bash
-make xpando
-
-./xpando build v0.9.1 \
-    --with github.com/tuorg/tu-extension/tools \
-    --output ./pando-enterprise
-```
-
-| Opción | Significado |
-|---|---|
-| `--with módulo[/pkg][@versión][=/ruta/local]` | Paquete de extensión a enlazar. Repetible; `=ruta` compila contra un checkout local. |
-| `--replace módulo[@versión]=reemplazo` | Sustitución de dependencia sin importar nada. Repetible. |
-| `--tags`, `--ldflags`, `--output` | Se pasan a la compilación. |
-| `--variant nombre` | Sobrescribe la variante que muestra `--version`. |
-
-`GOOS`, `GOARCH` y las variables habituales del toolchain se respetan, así que la compilación cruzada funciona igual que con `go build`.
-
-{{< callout >}}
-La WebUI va empotrada en el núcleo, así que un binario compuesto lleva la interfaz estándar salvo que una de sus extensiones aporte sus propios recursos. Las extensiones pueden añadir paneles y páginas, o sustituir el frontend por completo.
-{{< /callout >}}
+- Empieza por las opciones ligeras: [Escribe tu primera skill]({{< relref "/guides/first-skill" >}}) y [Conecta servidores MCP]({{< relref "/guides/mcp-servers" >}})
+- Ajustes, comandos y cómo compilar un programa con extensiones: [referencia de skills, Lua y extensiones]({{< relref "/docs/configuration/skills-and-extensions" >}})

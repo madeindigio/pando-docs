@@ -3,138 +3,39 @@ title: TUI Enhancements
 weight: 26
 ---
 
-Pando's Terminal UI has received significant enhancements for productivity and visual appeal.
+The terminal interface is not a bare black screen. Over time it has collected the comforts you expect from a desktop app: tabs, themes, a side panel, a file tree, a built-in terminal. This page is the tour of those comforts, the way an estate agent shows you the nice touches of a flat.
 
-## Workspace Tabs
+## What it does for you
 
-Switch between three workspace modes with **Alt+1/2/3** or click the tabs:
+- **Three layouts, one key each.** Chat only, editor only, or both side by side, so the screen matches what you are doing.
+- **A fact sheet beside the chat.** Session title, the plan Pando is following with each step's status, the files it changed and where the project lives. It appears by itself when the terminal is wide enough.
+- **Themes.** Eleven colour themes (pando, light, dracula, gruvbox, opencode, onedark, tron, flexoki, tokyonight, catppuccin, monokai), each also available with a transparent background.
+- **Mention a file by typing `@`.** A search box finds it as you type.
+- **Know your model before you pick it.** The model list shows how much each can read at once, what it costs, whether it can reason or see images, and how recent its knowledge is.
+- **A fuel gauge.** The status bar shows how full the conversation's memory is while Pando works, and warns you past 80%.
+- **A real terminal inside.** Open a shell panel, with tabs, without leaving Pando.
 
-| Tab | Mode | Description |
-|-----|------|-------------|
-| 1 | Chat | Full-width chat interface |
-| 2 | Editor | File editor with sidebar |
-| 3 | Editor+Chat | Split view with both |
+## How it feels in practice
 
-## Chat Info Sidebar
+You start in the chat. A file needs a look, so you switch to the split layout: code on one side, conversation on the other. The bar at the bottom keeps you oriented: which project, which model, how much memory is used, how many errors the code checker found, which files you touched last. Everything on it can be clicked.
 
-A right-hand information panel showing:
+The file tree marks new, changed and deleted files, loads folders only when you open them and filters as you type. Arrow up brings back the messages you sent before, like in any shell.
 
-- Session title
-- LSP configuration
-- Plan (TodoWrite entries with status)
-- Modified files with live diff stats
-- Repository URL and CWD
+There is also a switch that lets Pando use its tools without asking each time. A badge in the status bar reminds you while it is on.
 
-Toggle with **Ctrl+Shift+B**. Auto-shows when terminal width ≥ 120 columns.
+## When to use it
 
-```toml
-[tui]
-chatSidebar = 'auto'           # 'auto' or 'off'
-chatSidebarMinWidth = 120      # minimum terminal width
-```
+Always, if the terminal is your home: these are not modes to turn on but the way the terminal interface is. Reach for the themes and the icon switch on day one, and for the layouts when you start reviewing code.
 
-## Themes
+## Good to know
 
-Switch themes instantly with **Ctrl+T**:
+- Icons need a font that includes them (a "Nerd Font"). If you see little boxes, switch icons off and Pando draws plain characters.
+- Hidden files (the ones starting with a dot) are out of sight until you ask for them.
+- Letting tools run without asking is convenient and risky in equal parts. The [command sandbox]({{< relref "/docs/features/sandbox" >}}) is the safer way to get fewer questions.
+- `/` is reserved for [slash commands]({{< relref "/docs/features/slash-commands" >}}); files are mentioned with `@`.
 
-Available themes: pando, light, dracula, gruvbox, opencode, onedark, tron, flexoki, tokyonight, catppuccin, monokai
+## Next steps
 
-Each theme has a `-nobg` variant for transparent backgrounds.
-
-```toml
-[tui]
-theme = 'pando'
-```
-
-## File Selector (@)
-
-Type **@** in chat input to open a file completion dialog with fuzzy search. Replaces the old `/` character (now reserved for slash commands).
-
-## Model Details
-
-The model selection dialog now shows enriched metadata for each model:
-
-- **Context window**: Token limit displayed compactly (e.g., 200K, 1M)
-- **Pricing**: Per-million-token input/output costs when available from the provider or [models.dev](https://models.dev) catalog
-- **Capabilities**: Reasoning and image support indicators
-- **Knowledge cutoff**: Training data cutoff date
-
-This information appears as a footer line for the highlighted model entry, helping you choose the right model for your task.
-
-## Auto-Approve Toggle
-
-Press **Shift+Tab** to toggle auto-approve mode. When active, all tool permissions are automatically approved.
-
-```toml
-[permissions]
-autoApproveTools = false
-```
-
-## Realtime Token Estimation
-
-The status bar shows live context-window token usage with a `~` prefix while the agent is running. Displays warning at 80%+ usage.
-
-## Hidden Files Toggle
-
-Press **Ctrl+Shift+H** to show/hide dotfiles in the file tree.
-
-```toml
-[tui]
-showHiddenFiles = false
-```
-
-## Nerd Fonts
-
-Toggle between Nerd Font glyphs and plain ASCII:
-
-```toml
-[tui]
-nerdFonts = true
-```
-
-Or via environment variable:
-
-```bash
-PANDO_NERD_FONTS=0
-```
-
-## Enhanced Status Bar
-
-- Help widget (clickable)
-- Breadcrumbs trail (recently edited files)
-- Active project badge
-- Context token usage
-- Auto-approve badge
-- MCP gateway favorites count
-- LSP diagnostics (errors/warnings)
-- Model name badge
-
-## Mouse Support
-
-Full mouse support across all components:
-
-- File tree: click to open, scroll to navigate
-- Chat messages: click copy buttons, drag to select
-- Status bar: clickable zones
-- Permission dialog: click Allow/Deny
-
-## File Tree Enhancements
-
-- Git status indicators (+, -, ?, →)
-- New file creation (**Ctrl+Shift+N**)
-- Lazy loading of directories
-- Fuzzy search filter
-
-## Input History
-
-Press **Up/Down** arrow keys to navigate through previously sent messages.
-
-## Integrated Terminal
-
-- **Ctrl+U**: Toggle terminal panel
-- **Ctrl+Y**: New terminal tab
-- **Ctrl+Shift+Y**: Switch terminal tabs
-
-{{< callout >}}
-Press **Ctrl+h** in any view to see available keyboard shortcuts for that panel.
-{{< /callout >}}
+- Guide: [Choose your surface]({{< relref "/guides/choose-your-surface" >}}).
+- Reference: [every shortcut and every `[TUI]` option]({{< relref "/docs/configuration/webui" >}}).
+- Related: [Terminal UI]({{< relref "/docs/features/terminal-interface" >}}).

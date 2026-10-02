@@ -3,105 +3,42 @@ title: Context Enrichment
 weight: 13
 ---
 
-Context enrichment automatically searches across your Knowledge Base, code index, and past session events to inject relevant information into every prompt, giving the AI agent deeper project awareness without manual intervention.
+Context enrichment is Pando doing its homework before answering. Think of a colleague who, on the way to the meeting, pulls the right folder from the cabinet and skims it. When you send a message, Pando quietly looks through your notes, your code and your past conversations, and brings along what looks useful. You only see a better answer.
 
-## How It Works
+## What it does for you
 
-When enabled, Pando enriches each user message before sending it to the LLM:
+- **Answers that know your project.** Pando arrives with the relevant files and notes already in hand, without you pointing at them.
+- **Less explaining.** You do not need to paste the same background into every conversation.
+- **Three places searched at once:** your knowledge base, the map of your code, and what happened in earlier sessions.
+- **Only the good finds.** Weak matches are thrown away before they reach the model.
 
-1. **Query Planning** - A planner (heuristic or LLM-based) analyzes the user message
-2. **Parallel Search** - Searches KB, code index, and events simultaneously
-3. **Score Filtering** - Results below the minimum score threshold are discarded
-4. **Context Injection** - Relevant results are prepended to the user message
+## How it feels in practice
 
-## Configuration
+In its simple form it is invisible: one quick round of searches before each answer.
 
-{{< shot src="images/webui/pando-webui-settings-remembrances-chunking-context.jpg" alt="Chunking, code indexing and context enrichment settings" >}}
+There is also a more thorough form. A small helper does several rounds of searching, the way a librarian goes back to the shelves a few times, and hands the main agent a tidy summary. With it on:
 
-```toml
-[Remembrances]
-ContextEnrichmentEnabled = true
+- By default it runs on the first message of a session, which is the moment Pando knows the least about your project.
+- You see it working: a line in the chat says the helper is gathering context, and then how much it added.
+- Its work is saved as a small side session that you can open to read exactly what it searched and found.
+- If it takes too long or finds nothing, Pando falls back to the simple search, so you never end up with less than before.
+- It is prepared while Pando starts, so your first message does not wait for it.
 
-# KB enrichment
-ContextEnrichmentKBResults = 2
-ContextEnrichmentKBMaxChars = 0
+The helper uses its own model, separate from the one you chose for coding. A cheap, fast one is enough.
 
-# Code enrichment
-ContextEnrichmentCodeResults = 5
-ContextEnrichmentCodeProject = 'pando'
-ContextEnrichmentCodeMaxChars = 0
+## When to use it
 
-# Events enrichment
-ContextEnrichmentEventsResults = 5
-ContextEnrichmentEventsMaxChars = 0
+Turn it on once your project has something worth looking up: an indexed codebase, a folder of notes, some history. On a brand-new empty project there is nothing to find yet.
 
-# Global settings
-ContextEnrichmentMinScore = 0.0
-ContextEnrichmentTotalMaxChars = 0
+## Good to know
 
-# Planner selection
-ContextEnrichmentUseAgentPlanner = false
-ContextEnrichmentPlannerFallbackToCoder = false
-```
+- Every find that is brought along takes up room in the conversation. You choose how many are allowed from each place.
+- An optional filter, run by a tiny [decision model]({{< relref "/docs/features/decision-model" >}}), can discard finds that do not fit your question.
+- The thorough form costs a little extra, because the helper is a model too. Its cost is added to the session.
+- Pando also sizes up each message (is it about code, a bug, an explanation?) to leave out instructions that do not apply, which saves tokens.
 
-## Enrichment as an agent loop
+## Next steps
 
-{{< shot src="images/webui/pando-webui-settings-remembrances-context-enrichment.jpg" alt="Agent loop enrichment and relevance filter settings" >}}
-
-Instead of a single round of searches, Pando can run enrichment as a **small dedicated agent** that iteratively queries memory, the knowledge base, past events and the code index until it has what it needs. The main agent never sees those searches — it only receives the finished context block.
-
-The loop runs on its own model, independent of the one you chose for coding, so you can use a cheap fast model for it:
-
-```toml
-[Agents.context-enricher]
-Model = 'openrouter.some-cheap-model'
-
-[Remembrances]
-ContextEnrichmentAgentLoopEnabled        = true
-ContextEnrichmentAgentLoopTimeoutSeconds = 60      # bound for one run
-ContextEnrichmentAgentLoopMaxChars       = 6000    # cap on the injected context
-ContextEnrichmentAgentLoopEveryMessage   = false   # true = every turn, not only session start
-```
-
-What you will notice:
-
-- **By default it runs only on the first message of a session**, which is where the value is: it is the moment the agent knows nothing about your project. Set `ContextEnrichmentAgentLoopEveryMessage = true` for per-turn enrichment.
-- **You see it working.** The chat shows `🧠 Context enrichment agent gathering project context...` and then how much context it added, the same way compaction reports itself.
-- **The run appears as a child session** of your chat, so you can open it and read exactly what it searched and found. Its cost is added to the parent session.
-- **It falls back** to the classic single-shot search if it times out or comes back empty, so enabling it cannot leave you with less context than before.
-- **No cold start.** The enrichment agent is prepared in the background while Pando boots, so the first prompt does not wait for it.
-
-Configurable from TOML, from the TUI (Remembrances → Context Enrichment) and from the WebUI settings.
-
-## Planners
-
-### Heuristic Planner (Default)
-
-Analyzes the user message using keyword extraction and pattern matching to determine which search sources to query. Fast and deterministic.
-
-### LLM-Based Planner
-
-Uses a cheap LLM call to analyze the message and select optimal search strategies. More accurate but adds latency and token cost.
-
-```toml
-ContextEnrichmentUseAgentPlanner = true
-```
-
-## Context Profile
-
-The context-aware trimmer classifies each user message to optimize prompt composition:
-
-```json
-{
-  "task_type": "code|debug|refactor|explain|test|search|general",
-  "relevant_tool_names": ["tool1", "tool2"],
-  "skip_sections": ["capabilities/web_search"],
-  "confidence": 0.85
-}
-```
-
-This allows Pando to skip irrelevant prompt sections, saving tokens and improving response quality.
-
-{{< callout >}}
-Context enrichment works silently in the background. Enable it with `ContextEnrichmentEnabled = true` and configure result counts based on your project size.
-{{< /callout >}}
+- Guide: [Teach Pando your project with Remembrances]({{< relref "/guides/remembrances" >}}).
+- Reference: [Remembrances configuration]({{< relref "/docs/configuration/remembrances" >}}).
+- Related: [Persistent memory]({{< relref "/docs/features/persistent-memory" >}}).

@@ -3,60 +3,42 @@ title: Setup Assistant
 weight: 40
 ---
 
-The first time you open Pando in the Web UI or the desktop app, a setup assistant walks you through the minimum you need to start working: where to save your settings, which AI provider to use, which models, and whether you want memory and code search.
-
-It opens by itself when nothing is configured yet. You can also open it at any time from the configuration banner, with **Setup assistant**.
-
-## The steps
-
-### 1. Where to save your settings
+The setup assistant is the host who meets you at the door the first time you open Pando. Instead of leaving you in front of a wall of settings, it asks a handful of questions in order and has you working in a couple of minutes.
 
 {{< shot src="images/webui/pando-webui-setup-assistant-scope.jpg" dark="images/webui/pando-webui-setup-assistant-scope-dark.jpg" alt="Setup assistant: where to save the settings" >}}
 
-- **Global** (recommended): the settings apply to every project on this machine.
-- **This directory only**: the settings stay with this project.
+## What it does for you
 
-### 2. Provider
+It covers the minimum you need, and nothing else:
 
-{{< shot src="images/webui/pando-webui-setup-assistant-provider.jpg" dark="images/webui/pando-webui-setup-assistant-provider-dark.jpg" alt="Setup assistant: provider accounts" >}}
+1. **Where your settings live**: for every project on this computer, or only for this one.
+2. **Which AI provider you use**: GitHub Copilot, Anthropic, OpenAI, Gemini, OpenRouter, Groq, xAI, Ollama or any compatible service. Each one says what it needs and where to get it.
+3. **Which models do the work**: a capable one for the real thinking and a fast, cheap one for small chores like naming your sessions.
+4. **Whether you want memory**: Remembrances, Pando's long-term notebook and code search, which runs on your own machine.
+5. **A summary** of what was set up.
 
-Pick the AI provider you want to use: GitHub Copilot, Anthropic, OpenAI, Gemini, OpenRouter, Groq, xAI, Ollama or any OpenAI-compatible service. Each one shows what it needs and a link to get an API key.
+## How it feels in practice
 
-If you already have accounts configured, the assistant offers to keep using them.
+It opens by itself when nothing is configured. Five short screens, a progress bar on top, **Back** and **Skip** on every one. If accounts already exist it offers to keep using them instead of making you type again.
 
-With **GitHub Copilot** there is no key to paste. The assistant shows a code, you open GitHub, enter it, and the assistant continues by itself when the login completes. If your editor is already signed in to Copilot, that step is skipped.
+Signing in to GitHub Copilot needs no key: you get a short code, confirm it on GitHub and the assistant carries on by itself. For memory, it checks whether Ollama is installed and running, offers to start it and downloads what is missing with a progress bar.
 
-### 3. Models
+You can leave at any moment with **Cancel assistant**, the close button or `Esc`. Nothing is lost, and the regular settings screens are always there.
 
-{{< shot src="images/webui/pando-webui-setup-assistant-models.jpg" dark="images/webui/pando-webui-setup-assistant-models-dark.jpg" alt="Setup assistant: main and secondary model" >}}
+## When to use it
 
-Choose two models:
+- The first time you open Pando.
+- When you start a project that needs its own accounts or models.
+- Any time you want to redo the basics without hunting through settings: the yellow bar at the top of the chat has a **Setup assistant** button.
 
-- the **main model**, which writes and reasons about your code
-- a **fast, cheap model** for small background jobs, such as naming sessions or summarising
+## Good to know
 
-The assistant suggests suitable models from the provider you picked.
+- The assistant is part of the Web UI and the desktop app. In the terminal interface you set up providers and models from the settings screen.
+- The memory step is optional and can be done later.
+- Pando never installs anything on your machine without asking first.
 
-### 4. Memory and code search (Remembrances)
+## Next steps
 
-{{< shot src="images/webui/pando-webui-setup-assistant-remembrances.jpg" dark="images/webui/pando-webui-setup-assistant-remembrances-dark.jpg" alt="Setup assistant: Remembrances embedding models" >}}
-
-This step is optional. Remembrances gives Pando long-term memory and semantic search over your code and documents, and it runs locally with [Ollama](https://ollama.com).
-
-- If Ollama is not installed, the assistant shows how to install it on your system. Where it can, it offers to run the install for you after you confirm.
-- If Ollama is installed but stopped, there is a **Start Ollama** button.
-- When Ollama is running, you download the two models it needs with a button and a progress bar.
-
-You can skip this step and turn Remembrances on later from Settings.
-
-### 5. Done
-
-A summary of what was configured. Press **Finish** and start chatting.
-
-## Cancelling
-
-**Cancel assistant**, the close button or `Esc` close the assistant at any step. Nothing is lost: the usual settings screens are still there and you can configure everything by hand.
-
-{{< callout >}}
-The assistant is part of the Web UI and the desktop app. In the terminal interface you configure providers and models from the settings screen, as before.
-{{< /callout >}}
+- Guide: [Connect your AI accounts and pick your models]({{< relref "/guides/setup-providers-models" >}}), every step with screenshots.
+- Reference: [Configuration]({{< relref "/docs/configuration" >}}).
+- Related: [Persistent Memory]({{< relref "/docs/features/persistent-memory" >}}), [GitHub Copilot Auth]({{< relref "/docs/features/copilot-auth" >}}).

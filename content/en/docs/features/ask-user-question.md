@@ -3,29 +3,19 @@ title: Interactive User Questions
 weight: 22
 ---
 
-The `ask_user_question` tool allows the agent to pause and ask you structured, selectable questions mid-task—similar to Claude Code's interactive pattern.
+Sometimes the honest thing for an assistant to do is stop and ask. When Pando reaches a fork in the road, which database, which approach, what exactly did you mean, it pauses and shows you a small card with choices, like a waiter checking "still or sparkling?" before bringing the wrong bottle.
 
-## How It Works
+## What it does for you
 
-1. The agent calls `ask_user_question` with structured questions
-2. In TUI/Web UI: an interactive dialog appears
-3. In ACP: questions are formatted as numbered text and the agent pauses
-4. You respond by selecting options or typing free text
-5. The agent receives your answers and continues
+- **Fewer wrong guesses.** A ten-second answer from you saves ten minutes of work in the wrong direction.
+- **Easy to answer.** You pick from a few options instead of writing an essay. There is always an "Other" box when none fits.
+- **Several questions in one go.** Up to four related questions arrive together, and you see a summary of your answers before confirming.
+- **More than one choice when it makes sense.** Some questions let you tick several options.
+- **Patient.** If your connection drops or you reload the page, the question is still waiting.
 
-## Features
+## How it feels in practice
 
-- **1-4 questions** per call
-- **2-4 options** per question
-- **Multi-select** support (checkboxes)
-- **Free-text "Other"** option automatically included
-- **Short headers** (≤12 chars) displayed as chips
-- **Summary screen** before confirmation
-- **Reconnect-safe**: pending questions survive reconnection
-
-## Example
-
-The agent might ask:
+Pando is halfway through a task and a card appears:
 
 ```
 Question 1/2: Database Choice
@@ -40,24 +30,22 @@ Question 2/2: ORM Preference
  ○ Other
 ```
 
-## Configuration
+You choose, confirm, and Pando carries on with your answers in hand.
 
-Disable the tool entirely:
+The card adapts to where you are: a window with mouse and keyboard in the Web UI and desktop app, a keyboard-driven dialog in the terminal interface, and a numbered list of options in an editor's assistant panel, where Pando waits for you to reply in text.
 
-```toml
-[InternalTools]
-AskUserQuestionDisabled = true
-```
+## When to use it
 
-## Interface Behavior
+You do not call it; Pando does, when it needs you to decide about an approach, a design choice or an unclear request. To get more questions and fewer assumptions, say so ("ask me before deciding anything important") or use [Learning Mode]({{< relref "/docs/features/learning-mode" >}}).
 
-| Interface | Behavior |
-|-----------|----------|
-| TUI | Modal dialog with keyboard navigation |
-| Web UI | Overlay dialog with mouse/keyboard support |
-| ACP | Formatted text, agent pauses until response |
-| API | Structured response via API endpoint |
+## Good to know
 
-{{< callout >}}
-The agent uses this tool when it needs clarification on implementation choices, architecture decisions, or ambiguous requirements. It's more structured than free-form text input.
-{{< /callout >}}
+- Each round has one to four questions with two to four options each, so it never turns into a form.
+- It can be switched off if you prefer Pando never to interrupt with cards.
+- Questions are different from permission requests. A question is "which way?"; a permission request is "may I?".
+
+## Next steps
+
+- Guide: [Find your way around the Web UI]({{< relref "/guides/webui-tour" >}}).
+- Reference: [how to switch questions off]({{< relref "/docs/configuration/webui" >}}).
+- Related: [Fast User Feedback]({{< relref "/docs/features/steering" >}}).

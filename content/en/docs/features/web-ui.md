@@ -3,140 +3,47 @@ title: Web-UI & PWA
 weight: 3
 ---
 
-All Pando's features are available via a web interface accessible from any modern browser. The Pando Web-UI offers a smooth, interactive experience, designed for any device with browser access—including desktops, laptops, tablets, and smartphones.
+The Web UI is Pando in a browser tab. Everything Pando can do is there, with buttons instead of commands, on any device that has a browser: your desktop, a laptop, a tablet, your phone. If Pando were a car, this would be the dashboard: the engine is the same, but now you can see the dials.
 
 {{< shot src="images/webui/pando-webui-chat-light.jpg" dark="images/webui/pando-webui-chat-dark.jpg" alt="Pando chat view in the Web UI" >}}
 
-The web interface includes the following features:
+## What it does for you
 
-- **Multi-language support**: UI available in English, Spanish, French, German, Portuguese, Chinese, Japanese, with more coming.
-- **Chat interface and previous session loading**: Load any previous session from the sessions menu, or start a new one from the main screen.
-- **Interactive configuration panel**: Access configuration from the main menu, where you can add AI providers, configure tools, and customize Pando.
-- **Options and commands access**: Use the sidebar for commands and options, including opening interactive terminals, checking logs, launching sub-agents, and more.
-- **Updated Command Launcher**: Launch any local shell command directly and safely from your browser using the newly updated, intuitive action bar.
-- **Hot model/provider switching**: Change your AI model or provider at any time—no reload needed.
-- **File navigation**: Use the sidebar file panel to open any text file with syntax highlighting, and edit files in the web interface—no external editor needed.
-- **Multiple open files in tabs**: Open and switch between multiple files at once in Web-UI tabs.
-- **Image and graphic viewing**: The interface supports agent-generated images and graphics directly in the UI.
-- **Integrated terminal**: Open a real terminal in the web UI powered by xterm.js, supporting full shell interaction including zsh, command history, and ANSI colors.
-- **Chat info sidebar**: A right-hand information panel showing session details, modified files, and repository info — similar to the TUI sidebar.
-- **Basic authentication**: When binding to an external IP, enable basic auth to secure your Pando instance with a username and password.
-- **Project workspaces**: open registered projects as bottom tabs that host a full child WebUI, with keep-alive restoration and project-local terminals. See [Project workspaces](../project-workspaces).
-- **Design page**: create, preview and iterate design artifacts without leaving the browser, with live reload and a template gallery. See [Design Studio](../design-studio).
-- **External access toggle in the footer**: make the running instance reachable from your phone or another machine without restarting. See [WebUI Access](../webui-access).
-- **Fast session list**: sessions load progressively as you scroll, so a long history no longer slows down opening the app.
-- **Working directory always visible**: the chat info panel shows which directory the session is operating on.
-- **Knowledge base folder browser**: pick the indexed path from a folder browser in the Remembrances settings instead of typing it.
-- **Embeddings model selector**: choose the embeddings model per provider directly in the Remembrances settings.
-- **Simple & advanced views**: Switch between a basic chat/tools view and an advanced view showing all options and panels—ideal for users of all experience levels.
+- **A conversation with context.** The chat sits in the middle; your past sessions wait on the left; a fact sheet on the right tells you which folder Pando is working on, which files it changed and which version you run.
+- **Your project at hand.** Open files with colours for code in several tabs, edit them, and use a real terminal, all in the same window.
+- **Settings you can see.** Providers, models, tools, memory and safety are forms with switches, not a text file.
+- **Rooms for the bigger features.** Projects, the orchestrator for helper agents, the Design page, the history of changes, logs, running instances.
+- **Your language and your colours.** Seven interface languages; light, dark or automatic mode; four colour themes; adjustable text size.
+- **Two levels of detail.** A full view with every panel, and a simple chat with only the conversation.
+- **Install it like an app.** Your browser can add it to the home screen or the app list with its own icon. That is what PWA means.
 
-{{< callout >}}
-The Pando Web-UI is fully responsive and adapts to any screen size, providing an optimal experience on desktop and mobile. In addition, it features **robust offline reconnection**, automatically retrying and restoring your chat session if you temporarily lose your network connection.
-{{< /callout >}}
+## How it feels in practice
 
-## Appearance
+You open the address, pick a session or start one, and write. While Pando works you see what it is doing, step by step. If it needs a decision it shows a card with choices. If you want a different model for this conversation, you change it next to the send button and carry on, no reload.
 
-{{< shot src="images/webui/pando-webui-settings-appearance.jpg" alt="Appearance settings: mode, font size, theme and accent colour" >}}
+Lose the network for a moment, on a train say, and the page reconnects by itself and puts your chat back as it was. Leave a settings page with unsaved changes and Pando asks before throwing them away.
 
-The Web UI has a clean, native look that you can adjust in **Settings > Appearance**:
+The same screens work on a phone: the columns fold into menus and the chat takes the whole width.
 
-- **Mode**: light, dark, or follow your operating system. System mode switches live when your system does.
-- **Theme**: four colour families, Pando, Paper, Slate and Forest.
-- **Accent colour and font size**, kept per browser.
+## When to use it
 
-The header has a one-click light/dark switch.
+- You like to see and click.
+- You want to reach Pando from another device.
+- You are showing Pando to someone who does not use a terminal.
 
-## Simple chat
+The [desktop app]({{< relref "/docs/features/desktop-app" >}}) is this same interface in its own window with system notifications. The [Terminal UI]({{< relref "/docs/features/terminal-interface" >}}) is the keyboard-only sibling.
 
-{{< shot src="images/webui/pando-webui-simple-chat.jpg" alt="Simple chat view" >}}
+## Good to know
 
-The simple view keeps only the conversation, the session list and search. It lives inside the same app window as the full view, so switching between them does not reload anything. Pando remembers which view you use, also in the desktop app and across restarts.
-
-## Version and updates
-
-The chat info panel and **Settings > General > Diagnostics** show the Pando version you are running and tell you when a newer one is available. See [Self-Update]({{< relref "/docs/features/self-update" >}}).
-
-## Settings that do not get lost
-
-{{< shot src="images/webui/pando-webui-settings-general.jpg" alt="General settings" >}}
-
-If you leave a settings page with changes you have not saved, Pando asks before discarding them. Confirmations and prompts are part of the app, so they look and behave the same in the browser and in the desktop window.
-
-## First-run setup assistant
-
-{{< shot src="images/webui/pando-webui-setup-assistant-scope.jpg" dark="images/webui/pando-webui-setup-assistant-scope-dark.jpg" alt="Setup assistant: where to save the settings" >}}
-
-With nothing configured yet, the Web UI opens a [setup assistant]({{< relref "/docs/features/setup-assistant" >}}) for provider, models and memory.
-
-## Automatic model choice
-
-{{< shot src="images/webui/pando-webui-settings-auto-mode.jpg" alt="Auto mode settings" >}}
-
-Select **Auto** in the model switcher and Pando picks the model for each prompt from the routes you defined. See [Model Auto Mode]({{< relref "/docs/features/model-auto-mode" >}}).
-
-## Project workspaces
-
-{{< shot src="images/webui/pando-webui-projects.jpg" alt="Projects list in the Web UI" >}}
-
-{{< shot src="images/webui/pando-webui-project-workspace-tab.jpg" alt="A project open in its own workspace tab" >}}
-
-The unified shell can open a registered project as its own embedded workspace tab, reusing a background `pando serve` child for that project. The tab bar supports keep-alive restoration, project-local terminals, and keyboard navigation without leaving the parent WebUI.
-
-For the full workflow, shortcuts, security model, and `[Projects]` configuration, see [Project workspaces](../project-workspaces).
-
-## More screens
-
-### Code editor
-
-{{< shot src="images/webui/pando-webui-code-editor.jpg" alt="Code editor" >}}
-
-### Terminal
-
-{{< shot src="images/webui/pando-webui-terminal.jpg" alt="Terminal" >}}
-
-### Orchestrator
-
-{{< shot src="images/webui/pando-webui-orchestrator-tasks.jpg" alt="Mesnada orchestrator tasks" >}}
-
-{{< shot src="images/webui/pando-webui-orchestrator-cronjobs.jpg" alt="Scheduled cron jobs" >}}
-
-### Instances
-
-{{< shot src="images/webui/pando-webui-instances.jpg" alt="Running instances" >}}
-
-### Built-in tools
-
-{{< shot src="images/webui/pando-webui-settings-tools-search.jpg" alt="Built-in tools: fetch and web search" >}}
-
-### Shell commands
-
-{{< shot src="images/webui/pando-webui-settings-bash.jpg" alt="Banned and allowed shell commands" >}}
-
-### MCP gateway
-
-{{< shot src="images/webui/pando-webui-settings-mcp-gateway.jpg" alt="MCP gateway settings" >}}
-
-### Lua engine
-
-{{< shot src="images/webui/pando-webui-settings-lua-engine.jpg" alt="Lua engine settings" >}}
-
-## Projects workspace API
-
-When the Projects view opens a project inside the unified Web-UI, it uses the parent server's REST API instead of exposing the child server directly:
-
-| Endpoint | Purpose |
-|---|---|
-| `POST /api/v1/projects/{id}/web/open` | Start or reuse the project's background `pando serve` child. Returns `status` (`opened` or `already_open`), `project_id`, relative `web_url` (`/api/v1/projects/{id}/web/`) and `web_port`. |
-| `POST /api/v1/projects/{id}/web/close` | Stop only the background WebUI child and return `cancelled_delegations`. |
-| `GET /api/v1/projects/web` | List running project WebUI children as `instances[]` with `project_id`, `name`, `path`, `web_port`, `web_url`, `pid`, `state`, `started_at` and `delegations`. |
-| `GET /api/v1/projects/events` | Streams `web_started`, `web_stopped` and `web_error` SSE events (alongside the existing project events) so the tab bar updates live. |
-
-`GET /api/v1/projects` and `GET /api/v1/projects/{id}` now also include `web_state`, `web_port` and `web_url` so the browser can restore project tabs after a reload.
-
-Semantics of the related control endpoints stay split by child type:
-
-- `activate` starts or focuses the **ACP delegation child** for a project.
-- `stop` stops both the ACP child and the background WebUI child when the current server owns them.
-- `open-desktop` still opens a separate native desktop window and does not replace `web/open`.
+- Out of the box the Web UI answers only to the computer it runs on. Opening it to your network is a deliberate step, protected by username and password: see [WebUI Access]({{< relref "/docs/features/webui-access" >}}).
+- The connection is encrypted with a certificate Pando makes itself, so the first visit shows a browser warning. [Auto HTTPS Certificates]({{< relref "/docs/features/https-auto-cert" >}}) explains it.
+- With nothing configured, the first thing you see is the [setup assistant]({{< relref "/docs/features/setup-assistant" >}}).
+- Each project can open as a tab at the bottom: [Project Workspaces]({{< relref "/docs/features/project-workspaces" >}}).
 
 {{< youtube 6ETefyLsaOM >}}
+
+## Next steps
+
+- Guides: [Find your way around the Web UI]({{< relref "/guides/webui-tour" >}}), [Connect your AI accounts]({{< relref "/guides/setup-providers-models" >}}), [Remote access]({{< relref "/guides/remote-access" >}}).
+- Reference: [start commands, server options and API]({{< relref "/docs/configuration/webui" >}}).
+- Related: [Design Studio]({{< relref "/docs/features/design-studio" >}}), [Model Auto Mode]({{< relref "/docs/features/model-auto-mode" >}}), [Self-Update]({{< relref "/docs/features/self-update" >}}).

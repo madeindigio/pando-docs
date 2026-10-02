@@ -3,7 +3,7 @@ title: ACP Advanced Configuration
 weight: 33
 ---
 
-Advanced ACP (Agent Client Protocol) configuration for editor integration.
+Finer settings for using Pando inside a code editor through ACP, the shared language editors use to host an outside assistant. Start with the guide [Use Pando from your editor and other apps]({{< relref "/guides/editors-and-other-apps" >}}) and the editor snippets in [ACP Protocol]({{< relref "/docs/acp" >}}); come here when you need to change how sessions behave.
 
 ## Server Configuration
 
@@ -82,5 +82,5 @@ Control how reasoning is streamed to the editor:
 Options: `header`, `full`, `disabled`
 
 {{< callout >}}
-ACP integration works with VS Code, Zed, and JetBrains IDEs. See the main ACP documentation for setup instructions.
+ACP works with VS Code, Zed and JetBrains editors. Setup snippets are in [ACP Protocol]({{< relref "/docs/acp" >}}).
 {{< /callout >}}
