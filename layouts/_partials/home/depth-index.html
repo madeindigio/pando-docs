@@ -1,0 +1,15 @@
+{{- /* Depth index: the three strata, counts derived from data/features.yaml. */ -}}
+<section class="depth" id="atlas" aria-label="{{ T "features" }}">
+  <div class="wrap depth__grid stack-m">
+    {{- range slice (dict "id" "surface" "k" "表" "n" "I" "m" "0 M") (dict "id" "roots" "k" "根" "n" "II" "m" "−1 M") (dict "id" "soil" "k" "土" "n" "III" "m" "−3 M") }}
+      <a class="depth__item" href="#{{ .id }}">
+        <span class="kanji depth__kanji" aria-hidden="true">{{ .k }}</span>
+        <span class="depth__text">
+          <span class="label">{{ .n }} · {{ .m }}</span>
+          <span class="depth__name">{{ T (printf "stratum_%s" .id) }}</span>
+          <span class="depth__count">{{ T (printf "home_depth_%s" .id) (partial "features/count.html" .id) }}</span>
+        </span>
+      </a>
+    {{- end }}
+  </div>
+</section>

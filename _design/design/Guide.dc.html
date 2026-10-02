@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pando — Guide</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@500&amp;family=Shippori+Mincho:wght@500;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.pd{--bg:#F4F1E8;--bg2:#FBF9F3;--soil:#E9E2D0;--ink:#0F2A20;--ink2:#41554A;--line:rgba(15,42,32,.14);--acc:#8F6310;--node:#C68A17;--card:#FFFDF7;--code:#0F2A20;--sel:rgba(198,138,23,.12);font-family:'Space Grotesk',system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.pd.dark{--bg:#0B1F17;--bg2:#0F261C;--soil:#07140E;--ink:#F4F1E8;--ink2:#AFBCB3;--line:rgba(244,241,232,.13);--acc:#E9B949;--node:#E9B949;--card:#122C21;--code:#06130D;--sel:rgba(233,185,73,.12)}
+.pd *{box-sizing:border-box}
+.pd a{color:var(--acc)} .pd a:hover{color:var(--ink)}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kanji{font-family:'Shippori Mincho','Noto Serif SC',serif}
+.side{display:block;padding:8px 12px;border-radius:10px;color:var(--ink2);text-decoration:none;font-size:14.5px}
+.pd .side:hover{color:var(--ink);background:var(--sel)}
+.ibtn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
+.flow{stroke-dasharray:3 15;animation:flow 3.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-72}}
+@media (prefers-reduced-motion:reduce){.flow{animation:none}}
+@media (max-width:1100px){.hide-t{display:none !important}}
+@media (max-width:900px){.hide-m{display:none !important}.stack-m{grid-template-columns:minmax(0,1fr) !important;flex-direction:column !important}.h1{font-size:40px !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" style="min-height: 100vh">
+
+<header style="position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line)">
+<div style="height: 68px; padding: 0 24px; display: flex; align-items: center; gap: 28px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink)">
+<svg width="30" height="30" viewBox="0 0 48 48" fill="none" aria-hidden="true" style="stroke: var(--ink)"><path d="M8 17H40M24 5V43M24 17L10 35M24 17L38 35" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="10" cy="35" r="3.4" style="fill: var(--node); stroke: none"></circle><circle cx="38" cy="35" r="3.4" style="fill: var(--node); stroke: none"></circle><circle cx="24" cy="5" r="3.4" style="fill: var(--node); stroke: none"></circle></svg>
+<span style="font-weight: 600; font-size: 21px; letter-spacing: -0.03em">pando</span>
+<span class="mono" style="font-size: 12px; color: var(--ink2)">/ docs</span>
+</a>
+<div style="flex-grow: 1"></div>
+<button class="hide-m mono" style="height: 44px; min-width: 280px; display: flex; align-items: center; gap: 10px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg2); color: var(--ink2); font-size: 13px; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span style="flex-grow: 1; text-align: left">{{t.search}}</span>
+<span style="padding: 2px 6px; border: 1px solid var(--line); border-radius: 6px; font-size: 11px">⌘K</span>
+</button>
+<div class="mono" role="group" aria-label="Language" style="display: flex; padding: 4px; gap: 4px; border: 1px solid var(--line); border-radius: 12px; font-size: 13px">
+<button onClick="{{setEn}}" aria-pressed="{{isEn}}" style="{{enStyle}}">EN</button>
+<button onClick="{{setEs}}" aria-pressed="{{isEs}}" style="{{esStyle}}">ES</button>
+</div>
+<button class="ibtn" onClick="{{toggleTheme}}" aria-label="Toggle light / dark">
+<sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"></path></svg></sc-if>
+<sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+</button>
+</div>
+</header>
+
+<div class="stack-m" style="display: grid; grid-template-columns: 280px minmax(0, 1fr) 260px; max-width: 1600px; margin: 0 auto">
+
+<aside class="hide-m" aria-label="Documentation" style="position: sticky; top: 68px; align-self: start; height: calc(100vh - 68px); overflow: auto; padding: 28px 16px 28px 24px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 26px">
+<sc-for list="{{t.nav}}" as="g" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span class="mono" style="padding: 0 12px 8px; font-size: 11px; letter-spacing: .14em; color: var(--ink2)">{{g.title}}</span>
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="3">
+<a class="side" href="#" style="{{it.style}}">{{it.label}}</a>
+</sc-for>
+</div>
+</sc-for>
+</aside>
+
+<main style="padding: 48px 64px 120px; min-width: 0">
+<article style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<nav class="mono" aria-label="Breadcrumb" style="display: flex; gap: 8px; font-size: 12.5px; color: var(--ink2)"><a href="Guides.dc.html" style="text-decoration: none">{{t.crumb1}}</a><span>/</span><span>{{t.crumb2}}</span></nav>
+<h1 class="h1" style="margin: 0; font-size: 56px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 500">{{t.title}}</h1>
+<p style="margin: 0; font-size: 20px; line-height: 1.55; color: var(--ink2)">{{t.lead}}</p>
+<div class="mono" style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px">
+<span style="padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line)">表 {{t.level}}</span>
+<span style="padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line)">▶ {{t.format}}</span>
+<span style="padding: 5px 10px; border-radius: 999px; background: var(--sel); color: var(--acc)">{{t.avail}}</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 0; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); background: #0F2A20">
+<div style="position: relative; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; overflow: hidden">
+<svg width="100%" height="100%" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0">
+<path d="M0 250 C200 236 400 262 800 244 L800 450 L0 450 Z" fill="#0A2018"></path>
+<g stroke="rgba(244,241,232,.5)" stroke-width="2" stroke-linecap="round" fill="none"><path d="M90 250V140M90 160l-10-12M90 172l11-13M170 250V100M170 120l-10-12M170 134l11-13M260 250V160M260 178l-10-12M560 250V120M560 140l-10-12M560 154l11-13M640 250V80M640 100l-10-12M640 114l11-13M720 250V150M720 170l-10-12"></path></g>
+<g stroke="#E9B949" stroke-width="1.5" fill="none"><path class="flow" d="M90 250C90 330 300 360 400 380S640 330 640 250"></path><path class="flow" d="M170 250C180 320 330 370 400 380M560 250C550 320 460 370 400 380M720 250C720 330 480 370 400 380"></path></g>
+<circle cx="400" cy="380" r="6" fill="#E9B949"></circle>
+</svg>
+<span style="position: relative; width: 88px; height: 88px; border-radius: 50%; background: #E9B949; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 14px rgba(233,185,73,.16)"><svg width="30" height="30" viewBox="0 0 24 24" fill="#0F2A20" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+<span class="mono" style="position: absolute; left: 22px; top: 20px; font-size: 12px; color: rgba(244,241,232,.7)">{{t.videoTag}}</span>
+</div>
+<div class="mono" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; background: #0A2018; color: #F4F1E8; font-size: 12px">
+<button aria-label="Play" style="width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: #F4F1E8; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+<div style="flex-grow: 1; height: 4px; border-radius: 2px; background: rgba(244,241,232,.15); display: flex"><span style="width: 0%; background: #E9B949; border-radius: 2px"></span><span style="width: 20%; border-right: 2px solid #0A2018"></span><span style="width: 18%; border-right: 2px solid #0A2018"></span><span style="width: 24%; border-right: 2px solid #0A2018"></span><span style="width: 22%; border-right: 2px solid #0A2018"></span></div>
+<span style="padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(244,241,232,.25)">CC</span>
+<span style="padding: 4px 10px; border-radius: 6px; background: rgba(233,185,73,.18); color: #E9B949">{{t.audio}}</span>
+</div>
+<div class="stack-m" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid rgba(244,241,232,.1); background: #0F2A20">
+<sc-for list="{{t.chapters}}" as="c" hint-placeholder-count="5">
+<button style="{{c.style}}"><span class="mono" style="font-size: 11px; color: #E9B949">{{c.n}}</span><span style="font-size: 14px">{{c.label}}</span></button>
+</sc-for>
+</div>
+</div>
+
+<p class="mono" style="margin: 0; font-size: 13px; color: var(--ink2)">↓ {{t.prefer}}</p>
+
+<sc-for list="{{t.steps}}" as="s" hint-placeholder-count="5">
+<section style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; padding-top: 32px; border-top: 1px solid var(--line)">
+<span class="mono" style="font-size: 13px; color: var(--acc); padding-top: 8px">{{s.n}}</span>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 28px; letter-spacing: -0.02em; font-weight: 500">{{s.h}}</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.7; color: var(--ink2)">{{s.p}}</p>
+<sc-if value="{{s.hasCode}}" hint-placeholder-val="{{ true }}">
+<div class="mono" style="position: relative; padding: 18px 20px; border-radius: 14px; background: var(--code); color: #F4F1E8; font-size: 14px; line-height: 1.8; white-space: pre-wrap">{{s.code}}</div>
+</sc-if>
+<sc-if value="{{s.hasShot}}" hint-placeholder-val="{{ false }}">
+<div class="mono" style="aspect-ratio: 16 / 8; border-radius: 14px; border: 1px dashed var(--line); background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 12px; letter-spacing: .1em; color: var(--ink2)">{{s.shot}}</div>
+</sc-if>
+<sc-if value="{{s.hasCallout}}" hint-placeholder-val="{{ false }}">
+<div style="position: relative; overflow: hidden; display: flex; gap: 20px; padding: 24px; border-radius: 16px; background: #0F2A20; color: #F4F1E8">
+<span class="kanji" style="font-size: 40px; line-height: 1; color: #E9B949">根</span>
+<div style="display: flex; flex-direction: column; gap: 8px"><span class="mono" style="font-size: 11px; letter-spacing: .14em; color: #E9B949">{{t.calloutTitle}}</span><span style="font-size: 16px; line-height: 1.65; color: #D6DDD8">{{s.callout}}</span></div>
+</div>
+</sc-if>
+</div>
+</section>
+</sc-for>
+
+<div class="stack-m" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 24px; border: 1px solid var(--line); border-radius: 16px">
+<span style="font-size: 16px">{{t.helpful}}</span>
+<div style="display: flex; gap: 8px; align-items: center"><button style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; cursor: pointer">{{t.yes}}</button><button style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; cursor: pointer">{{t.no}}</button><a class="mono" href="#" style="margin-left: 12px; font-size: 13px">{{t.edit}}</a></div>
+</div>
+
+<div class="stack-m" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<a href="#" style="display: flex; flex-direction: column; gap: 6px; padding: 22px 24px; border: 1px solid var(--line); border-radius: 16px; text-decoration: none; color: var(--ink)"><span class="mono" style="font-size: 12px; color: var(--ink2)">← {{t.prevL}}</span><span style="font-size: 18px; font-weight: 500">{{t.prev}}</span></a>
+<a href="#" style="display: flex; flex-direction: column; gap: 6px; padding: 22px 24px; border: 1px solid var(--line); border-radius: 16px; text-decoration: none; color: var(--ink); text-align: right"><span class="mono" style="font-size: 12px; color: var(--ink2)">{{t.nextL}} →</span><span style="font-size: 18px; font-weight: 500">{{t.next}}</span></a>
+</div>
+</article>
+</main>
+
+<aside class="hide-t" aria-label="On this page" style="position: sticky; top: 68px; align-self: start; padding: 48px 24px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span class="mono" style="font-size: 11px; letter-spacing: .14em; color: var(--ink2)">{{t.toc}}</span>
+<sc-for list="{{t.steps}}" as="s" hint-placeholder-count="5">
+<a href="#" style="display: flex; gap: 10px; font-size: 14px; color: var(--ink2); text-decoration: none"><span class="mono" style="font-size: 11px; color: var(--acc); padding-top: 2px">{{s.n}}</span>{{s.h}}</a>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 18px; border-radius: 16px; background: var(--soil)">
+<span class="mono" style="font-size: 11px; letter-spacing: .14em; color: var(--ink2)">{{t.watchIn}}</span>
+<div class="mono" style="display: flex; gap: 6px; font-size: 13px">
+<button onClick="{{setEn}}" style="{{enStyle}}">English</button>
+<button onClick="{{setEs}}" style="{{esStyle}}">Español</button>
+</div>
+<span style="font-size: 13px; line-height: 1.5; color: var(--ink2)">{{t.watchNote}}</span>
+</div>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"lang":{"editor":"enum","options":["en","es"],"default":"en"},"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const theme = s.theme || this.props.theme || 'light';
+    const lang = s.lang || this.props.lang || 'en';
+    const on = 'height: 36px; padding: 0 12px; border: 0; border-radius: 8px; background: var(--ink); color: var(--bg); font: inherit; cursor: pointer';
+    const off = 'height: 36px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: var(--ink2); font: inherit; cursor: pointer';
+    const D = {
+      en: {
+        search: 'Search docs…', crumb1: 'Guides', crumb2: 'First steps',
+        title: 'Your first session with Pando',
+        lead: 'Install Pando, open it in a project and follow one request from the surface down to the roots.',
+        level: 'Beginner', format: 'Video + written steps', avail: 'Available in English · Español',
+        videoTag: 'GUIDE 01 · FIRST STEPS', audio: 'Audio: English', prefer: 'Prefer reading? Every step is written below.',
+        chapters: ['Install', 'Open a project', 'First request', 'What happened below', 'Switch surfaces'],
+        calloutTitle: 'UNDER THE SURFACE',
+        steps: [
+          { h: 'Install', p: 'Pando is a single Go binary. Install it with Go, or download a prebuilt binary for Windows, macOS or Linux from GitHub Releases.', code: '$ go install github.com/digiogithub/pando@latest' },
+          { h: 'Open a project', p: 'Run Pando from the root of your repository. That folder becomes the ground the grove grows in.', code: '$ cd my-project\n$ pando' },
+          { h: 'Your first request', p: 'Ask for something real: explain a module, fix a failing test. Keep an eye on the activity panel while it works.', shot: '[ SCREENSHOT · FIRST REQUEST IN PANDO DESKTOP ]' },
+          { h: 'What happened below', p: 'You typed one message. Underneath, several parts of the organism moved together.', callout: 'Remembrances indexed your code with tree‑sitter and recalled related context. When the task grew, Mesnada split it among subagents. None of it needed a command from you.' },
+          { h: 'Switch surfaces', p: 'Your session is waiting in Desktop, Web and the TUI. For quick shell help without opening a session, use the CLI assistant.', code: '$ pando cli-assist' }
+        ],
+        helpful: 'Was this guide helpful?', yes: 'Yes', no: 'No', edit: 'Edit on GitHub',
+        prevL: 'Previous', prev: 'Installation', nextL: 'Next', next: 'Choose your surface',
+        toc: 'ON THIS PAGE', watchIn: 'WATCH THIS GUIDE IN', watchNote: 'Switching language changes the video audio, subtitles and written steps.',
+        nav: [
+          { title: 'GETTING STARTED', items: ['Installation', 'Quick start', 'Configuration'] },
+          { title: 'GUIDES', items: ['Your first session', 'Choose your surface', 'Teach Pando your project', 'Delegate with Mesnada', 'Connect MCP servers'] },
+          { title: 'FEATURES', items: ['表 Surface · 12', '根 Roots · 11', '土 Soil · 15'] },
+          { title: 'REFERENCE', items: ['ACP Protocol', 'MCP Server', 'SDKs', 'Brand & Identity'] }
+        ]
+      },
+      es: {
+        search: 'Buscar en la documentación…', crumb1: 'Guías', crumb2: 'Primeros pasos',
+        title: 'Tu primera sesión con Pando',
+        lead: 'Instala Pando, ábrelo en un proyecto y sigue una petición desde la superficie hasta las raíces.',
+        level: 'Principiante', format: 'Vídeo + pasos escritos', avail: 'Disponible en Español · English',
+        videoTag: 'GUÍA 01 · PRIMEROS PASOS', audio: 'Audio: Español', prefer: '¿Prefieres leer? Todos los pasos están escritos abajo.',
+        chapters: ['Instalación', 'Abre un proyecto', 'Primera petición', 'Lo que pasó debajo', 'Cambia de superficie'],
+        calloutTitle: 'BAJO LA SUPERFICIE',
+        steps: [
+          { h: 'Instalación', p: 'Pando es un único binario en Go. Instálalo con Go o descarga un binario precompilado para Windows, macOS o Linux desde GitHub Releases.', code: '$ go install github.com/digiogithub/pando@latest' },
+          { h: 'Abre un proyecto', p: 'Ejecuta Pando desde la raíz de tu repositorio. Esa carpeta será el suelo donde crece la arboleda.', code: '$ cd mi-proyecto\n$ pando' },
+          { h: 'Tu primera petición', p: 'Pide algo real: explicar un módulo, arreglar un test que falla. Observa el panel de actividad mientras trabaja.', shot: '[ CAPTURA · PRIMERA PETICIÓN EN PANDO DESKTOP ]' },
+          { h: 'Lo que pasó debajo', p: 'Escribiste un solo mensaje. Por debajo, varias partes del organismo se movieron a la vez.', callout: 'Remembrances indexó tu código con tree‑sitter y recuperó el contexto relacionado. Cuando la tarea creció, Mesnada la repartió entre subagentes. Nada de eso necesitó una orden tuya.' },
+          { h: 'Cambia de superficie', p: 'Tu sesión te espera en Desktop, Web y la TUI. Para ayuda rápida en la shell sin abrir una sesión, usa el asistente CLI.', code: '$ pando cli-assist' }
+        ],
+        helpful: '¿Te ha sido útil esta guía?', yes: 'Sí', no: 'No', edit: 'Editar en GitHub',
+        prevL: 'Anterior', prev: 'Instalación', nextL: 'Siguiente', next: 'Elige tu superficie',
+        toc: 'EN ESTA PÁGINA', watchIn: 'VER ESTA GUÍA EN', watchNote: 'Cambiar el idioma cambia el audio del vídeo, los subtítulos y los pasos escritos.',
+        nav: [
+          { title: 'PRIMEROS PASOS', items: ['Instalación', 'Inicio rápido', 'Configuración'] },
+          { title: 'GUÍAS', items: ['Tu primera sesión', 'Elige tu superficie', 'Enseña tu proyecto a Pando', 'Delega con Mesnada', 'Conecta servidores MCP'] },
+          { title: 'FUNCIONALIDADES', items: ['表 Superficie · 12', '根 Raíces · 11', '土 Suelo · 15'] },
+          { title: 'REFERENCIA', items: ['Protocolo ACP', 'Servidor MCP', 'SDKs', 'Marca e identidad'] }
+        ]
+      }
+    };
+    const d = D[lang] || D.en;
+    const active = 'color: var(--ink); background: var(--sel); font-weight: 500; box-shadow: inset 2px 0 0 var(--acc)';
+    const t = Object.assign({}, d, {
+      chapters: d.chapters.map((label, i) => ({ n: '0' + (i + 1), label, style: 'display: flex; flex-direction: column; gap: 4px; align-items: flex-start; min-height: 64px; padding: 14px 18px; border: 0; border-right: 1px solid rgba(244,241,232,.1); background: ' + (i === 0 ? 'rgba(233,185,73,.12)' : 'transparent') + '; color: #F4F1E8; font: inherit; text-align: left; cursor: pointer' })),
+      steps: d.steps.map((st, i) => Object.assign({ n: '0' + (i + 1), hasCode: !!st.code, hasShot: !!st.shot, hasCallout: !!st.callout }, st)),
+      nav: d.nav.map((g, gi) => ({ title: g.title, items: g.items.map((label, ii) => ({ label, style: gi === 1 && ii === 0 ? active : '' })) }))
+    });
+    return {
+      t,
+      themeClass: theme === 'dark' ? 'pd dark' : 'pd',
+      isDark: theme === 'dark',
+      isLight: theme !== 'dark',
+      isEn: lang === 'en',
+      isEs: lang === 'es',
+      enStyle: lang === 'en' ? on : off,
+      esStyle: lang === 'es' ? on : off,
+      setEn: () => this.setState({ lang: 'en' }),
+      setEs: () => this.setState({ lang: 'es' }),
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' })
+    };
+  }
+}
+</script>
+</body>
+</html>

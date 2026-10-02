@@ -1,0 +1,13 @@
+{{- /* Home page. Spec: _design/design/Main.dc.html. A cross-section of the grove:
+       surface on top, roots below, soil at the bottom. */ -}}
+{{ define "main" }}
+  <main id="content" class="home">
+    {{ partial "home/hero.html" . }}
+    {{ partial "home/depth-index.html" . }}
+    {{ partial "home/surface.html" . }}
+    {{ partial "home/roots.html" . }}
+    {{ partial "home/soil.html" . }}
+    {{ partial "home/guides-teaser.html" . }}
+    {{ partial "home/install.html" . }}
+  </main>
+{{ end }}

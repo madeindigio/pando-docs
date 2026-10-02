@@ -1,0 +1,29 @@
+{{- /* Three guides flagged `home: true` in front matter, by weight. */ -}}
+{{- $guides := slice -}}
+{{- with site.GetPage "/guides" }}{{ $guides = first 3 (where .RegularPages "Params.home" true) }}{{ end -}}
+<section class="stratum stratum--guides" id="guides">
+  <div class="wrap stratum__inner stratum__inner--48">
+    <div class="teaser__head stack-m">
+      <div class="stratum__heading">
+        <span class="eyebrow">{{ T "home_guides_eyebrow" }}</span>
+        <h2 class="h2">{{ T "home_guides_title_1" }}<br />{{ T "home_guides_title_2" }}</h2>
+      </div>
+      <div class="teaser__side">
+        <span class="teaser__note">{{ T "home_guides_note" }}</span>
+        <a class="btn btn--ghost btn--sm" href="{{ "guides/" | relLangURL }}">{{ T "home_guides_all" }} →</a>
+      </div>
+    </div>
+    {{- with $guides }}
+      <div class="teaser__grid stack-m">
+        {{- range . }}
+          {{- $track := index site.Data.tracks (.Params.track | default "surface") }}
+          <a class="teaser__card" href="{{ .RelPermalink }}">
+            {{ partial "guides/thumb.html" (dict "page" . "size" "lg") }}
+            <span class="label">{{ index $track.short site.Language.Lang }} · {{ T (printf "level_%s" (.Params.level | default "beginner")) }}</span>
+            <span class="teaser__title">{{ .Title }}</span>
+          </a>
+        {{- end }}
+      </div>
+    {{- end }}
+  </div>
+</section>

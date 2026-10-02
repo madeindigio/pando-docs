@@ -1,0 +1,10 @@
+{{- /* Section hero shared by blog, tag and 404 pages (same pattern as the guides index).
+       Args: eyebrow, title, lead, kanji. */ -}}
+<section class="ghero">
+  <span class="kanji ghero__kanji hide-m" aria-hidden="true">{{ .kanji }}</span>
+  <div class="wrap ghero__inner">
+    <span class="eyebrow">{{ .eyebrow }}</span>
+    <h1 class="ghero__title">{{ .title }}</h1>
+    {{- with .lead }}<p class="ghero__lead">{{ . }}</p>{{ end }}
+  </div>
+</section>

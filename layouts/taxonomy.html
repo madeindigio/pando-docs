@@ -1,0 +1,13 @@
+{{- /* All tags, as chips with post counts. */ -}}
+{{ define "main" }}
+  <main id="content" class="guides">
+    {{ partial "blog/hero.html" (dict "eyebrow" (T "blog") "title" .Title "kanji" "流") }}
+    <section class="wrap guides__body">
+      <div class="chips">
+        {{- range .Data.Terms.Alphabetical }}
+          <a class="chip" href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }} <span class="mono chip__n">{{ .Count }}</span></a>
+        {{- end }}
+      </div>
+    </section>
+  </main>
+{{ end }}

@@ -1,0 +1,25 @@
+# Guide tracks = strata of the grove. Order here is the order on the guides index.
+surface:
+  kanji: "表"
+  depth: "0 m"
+  color: "#0F2A20"
+  weight: 1
+  label: { en: "First steps", es: "Primeros pasos" }
+  short: { en: "First steps", es: "Primeros pasos" }
+  desc: { en: "0 m · the surface", es: "0 m · la superficie" }
+roots:
+  kanji: "根"
+  depth: "−1 m"
+  color: "#163828"
+  weight: 2
+  label: { en: "Roots: memory & agents", es: "Raíces: memoria y agentes" }
+  short: { en: "Roots", es: "Raíces" }
+  desc: { en: "−1 m · what works unseen", es: "−1 m · lo que trabaja sin verse" }
+soil:
+  kanji: "土"
+  depth: "−3 m"
+  color: "#3A2E12"
+  weight: 3
+  label: { en: "Soil: extend", es: "Suelo: extiende" }
+  short: { en: "Soil", es: "Suelo" }
+  desc: { en: "−3 m · the ecosystem", es: "−3 m · el ecosistema" }

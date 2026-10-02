@@ -1,0 +1,42 @@
+{{- /* Three-column documentation shell: sidebar · article · TOC.
+       Spec: _design/design/Guide.dc.html without the video block.
+       Arg: the page. Used by docs, SDK and every default single/list page. */ -}}
+<div class="shell">
+  <aside class="shell__side hide-m">{{ partial "docs/sidebar.html" . }}</aside>
+  <main class="shell__main" id="content">
+    <article class="article">
+      <header class="article__head">
+        {{ partial "docs/crumbs.html" . }}
+        <h1 class="article__title">{{ .Title }}</h1>
+        {{- with .Description }}<p class="article__lead">{{ . }}</p>{{ end }}
+      </header>
+      {{- /* Features index: the three strata from data/features.yaml, before the prose. */}}
+      {{- if eq .Path "/docs/features" }}
+        <div class="strata">
+          {{- range slice (dict "id" "surface" "k" "表") (dict "id" "roots" "k" "根") (dict "id" "soil" "k" "土") }}
+            {{- $stratum := index site.Data.features .id }}
+            <section class="strata__row" id="{{ .id }}">
+              <div class="ggroup__head">
+                <span class="kanji ggroup__kanji" aria-hidden="true">{{ .k }}</span>
+                <h2 class="ggroup__title">{{ T (printf "stratum_%s" .id) }}</h2>
+                <span class="mono ggroup__desc">{{ partial "features/count.html" .id }}</span>
+              </div>
+              <div class="chips">
+                {{- if reflect.IsSlice $stratum }}
+                  {{- range $stratum }}{{ if .slug }}{{ partial "features/chip.html" (dict "item" .) }}{{ end }}{{ end }}
+                {{- else }}
+                  {{- range $stratum }}{{ range . }}{{ if .slug }}{{ partial "features/chip.html" (dict "item" .) }}{{ end }}{{ end }}{{ end }}
+                {{- end }}
+              </div>
+            </section>
+          {{- end }}
+        </div>
+      {{- end }}
+      <div class="content prose">{{ .Content }}</div>
+      {{- if ne .Params.pagination false }}
+        {{ partial "docs/pager.html" (dict "prev" .NextInSection "next" .PrevInSection) }}
+      {{- end }}
+    </article>
+  </main>
+  <aside class="shell__toc hide-t">{{ partial "docs/toc.html" (dict "page" .) }}</aside>
+</div>

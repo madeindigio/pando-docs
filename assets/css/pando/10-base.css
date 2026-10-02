@@ -1,0 +1,340 @@
+/* Base, utilities and shared components. */
+
+html body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.pd *,
+.pd *::before,
+.pd *::after {
+  box-sizing: border-box;
+}
+
+.pd a {
+  color: var(--acc);
+}
+
+.pd a:hover {
+  color: var(--ink);
+}
+
+.pd :focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.kanji {
+  font-family: var(--font-kanji);
+}
+
+.wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.pd-skip {
+  position: fixed;
+  left: 8px;
+  top: -100px;
+  z-index: 50;
+  padding: 10px 16px;
+  border-radius: var(--r-btn);
+  background: var(--ink);
+  color: var(--bg) !important;
+  font-size: 14px;
+}
+
+.pd-skip:focus {
+  top: 8px;
+}
+
+/* Eyebrow label: "I · SURFACE · 表" */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--acc);
+  text-transform: uppercase;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--ink2);
+  text-transform: uppercase;
+}
+
+/* Chips */
+.pd .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  font-size: 13.5px;
+  color: var(--ink);
+  text-decoration: none;
+  background: transparent;
+}
+
+.pd a.chip:hover {
+  border-color: var(--acc);
+  color: var(--ink);
+}
+
+.dchip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border: 1px solid var(--deepLine);
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  color: var(--deepInk);
+}
+
+/* Icon button, 44px target */
+.pd .ibtn {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-btn);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.pd .ibtn:hover {
+  border-color: var(--acc);
+  color: var(--ink);
+}
+
+/* Buttons */
+.pd .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 14px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pd .btn:hover {
+  color: var(--bg);
+  opacity: 0.9;
+}
+
+.pd .btn--ghost {
+  padding: 0 22px;
+  border-color: var(--line);
+  background: transparent;
+  color: var(--ink);
+}
+
+.pd .btn--ghost:hover {
+  border-color: var(--acc);
+  color: var(--ink);
+  opacity: 1;
+}
+
+.pd .btn--sm {
+  height: 48px;
+  padding: 0 20px;
+}
+
+/* Segmented control (EN / ES, watch-in) */
+.seg {
+  display: flex;
+  padding: 4px;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-btn);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.pd .seg__item {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink2);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pd .seg__item[aria-current='true'],
+.pd .seg__item[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* Motion: slow and continuous, never bouncy. */
+.flow {
+  stroke-dasharray: 3 15;
+  animation: flow 3.6s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -72;
+  }
+}
+
+.breathe {
+  animation: breathe 4.5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow,
+  .breathe {
+    animation: none;
+  }
+}
+
+/* Brand marks: official Pando v1 geometry (assets/pando-brand-v1), themed. */
+.mark {
+  display: block;
+  flex: none;
+}
+
+.mark__ink {
+  stroke: var(--ink);
+}
+
+.mark__node {
+  stroke: var(--node);
+}
+
+.mark__node--fill {
+  fill: var(--node);
+  stroke: none;
+}
+
+.mark--deep .mark__ink {
+  stroke: var(--ivory);
+}
+
+.mark--deep .mark__node {
+  stroke: var(--gold);
+}
+
+.mark--deep .mark__node--fill {
+  fill: var(--gold);
+}
+
+/* Helpers used by content (docs/brand.md and friends). */
+.brand-logo-light-only {
+  display: inline-block;
+}
+
+.dark .brand-logo-light-only {
+  display: none;
+}
+
+.brand-logo-dark-only {
+  display: none;
+}
+
+.dark .brand-logo-dark-only {
+  display: inline-block;
+}
+
+.pando-home-logo {
+  display: block;
+  margin: 0;
+  max-width: 200px;
+}
+
+.brand-family {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.brand-family > figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.brand-family img {
+  width: 64px;
+  height: 64px;
+}
+
+@media (max-width: 1100px) {
+  .hide-t {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .hide-m {
+    display: none !important;
+  }
+
+  .stack-m {
+    grid-template-columns: minmax(0, 1fr) !important;
+    flex-direction: column !important;
+  }
+
+  .wrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (min-width: 901px) {
+  .show-m {
+    display: none !important;
+  }
+}

@@ -1,0 +1,75 @@
+{{- /* Guides index. Spec: _design/design/Guides.dc.html.
+       Guides are grouped by `track` (data/tracks.yaml). The track filter is
+       progressive enhancement: without JS every group is visible. */ -}}
+{{ define "main" }}
+  {{- $lang := site.Language.Lang -}}
+  {{- $pages := .RegularPages.ByWeight -}}
+  {{- $featured := index (where $pages "Params.featured" true) 0 -}}
+  {{- $tracks := slice -}}
+  {{- range $id, $t := site.Data.tracks }}{{ $tracks = $tracks | append (merge $t (dict "id" $id)) }}{{ end -}}
+  {{- $tracks = sort $tracks "weight" -}}
+  <main id="content" class="guides">
+    <section class="ghero">
+      <span class="kanji ghero__kanji hide-m" aria-hidden="true">道</span>
+      <div class="wrap ghero__inner">
+        <span class="eyebrow">{{ T "guides_eyebrow" }}</span>
+        <h1 class="ghero__title">{{ T "guides_title" }}</h1>
+        <p class="ghero__lead">{{ T "guides_lead" }}</p>
+      </div>
+    </section>
+
+    <section class="wrap guides__body">
+      {{- with $featured }}
+        <a class="gfeat stack-m" href="{{ .RelPermalink }}">
+          <div class="gfeat__media">
+            {{ partial "svg/grove-poster.html" (dict "w" 700) }}
+            <span class="play play--84" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#0F2A20"><path d="M8 5v14l11-7z"></path></svg></span>
+          </div>
+          <div class="gfeat__text">
+            <span class="mono gfeat__eyebrow">{{ T "guides_featured" }}</span>
+            <span class="gfeat__title">{{ .Title }}</span>
+            <span class="gfeat__lead">{{ .Description }}</span>
+            <span class="mono gfeat__tags">
+              <span>{{ if .Params.video }}▶ {{ T "guides_video_text" }}{{ else }}{{ T "guides_text_only" }}{{ end }}</span>
+              <span>{{ range $i, $p := .AllTranslations }}{{ if $i }} · {{ end }}{{ .Language.Lang | upper }}{{ end }}</span>
+            </span>
+            <span class="gfeat__cta">{{ T "guides_start" }} →</span>
+          </div>
+        </a>
+      {{- end }}
+
+      <div class="gfilter" data-track-filter>
+        <span class="label gfilter__label">{{ T "guides_track" }}</span>
+        <button class="gfilter__tab" type="button" data-track="all" aria-pressed="true"><span class="kanji">道</span> {{ T "guides_all" }}</button>
+        {{- range $tracks }}
+          <button class="gfilter__tab" type="button" data-track="{{ .id }}" aria-pressed="false"><span class="kanji">{{ .kanji }}</span> {{ index .label $lang }}</button>
+        {{- end }}
+      </div>
+
+      {{- range $tracks }}
+        {{- $track := . -}}
+        {{- with where $pages "Params.track" .id }}
+          <div class="ggroup" data-track-group="{{ $track.id }}">
+            <div class="ggroup__head">
+              <span class="kanji ggroup__kanji" aria-hidden="true">{{ $track.kanji }}</span>
+              <h2 class="ggroup__title">{{ index $track.label $lang }}</h2>
+              <span class="mono ggroup__desc">{{ index $track.desc $lang }}</span>
+            </div>
+            <div class="ggroup__grid stack-m">
+              {{- range . }}
+                <a class="gcard" href="{{ .RelPermalink }}">
+                  {{ partial "guides/thumb.html" (dict "page" . "size" "md") }}
+                  <div class="gcard__text">
+                    <span class="label label--tight">{{ T (printf "level_%s" (.Params.level | default "beginner")) }} · {{ if .Params.planned }}{{ T "guides_planned" }}{{ else if .Params.video }}{{ T "guides_video_text" }}{{ else }}{{ T "guides_text_only" }}{{ end }}</span>
+                    <span class="gcard__title">{{ .Title }}</span>
+                    <span class="gcard__desc">{{ .Params.summary | default .Description }}</span>
+                  </div>
+                </a>
+              {{- end }}
+            </div>
+          </div>
+        {{- end }}
+      {{- end }}
+    </section>
+  </main>
+{{ end }}

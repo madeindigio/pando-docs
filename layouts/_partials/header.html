@@ -1,0 +1,114 @@
+{{- /* Site header. Spec: <header> of _design/design/Main.dc.html (home),
+       Guides.dc.html (sections) and Guide.dc.html (docs / single guide).
+
+       Variants:
+         home     72px, .wrap, version pill, language dropdown
+         section  72px, .wrap, EN/ES segmented
+         docs     68px, full-bleed, "/ docs" suffix, EN/ES segmented */ -}}
+{{- $page := . -}}
+{{- $variant := "section" -}}
+{{- if .IsHome -}}
+  {{- $variant = "home" -}}
+{{- else if or (in (slice "docs" "sdk") .Type) (and (eq .Type "guides") .IsPage) -}}
+  {{- $variant = "docs" -}}
+{{- end -}}
+
+{{- /* Main nav entries, and the one whose URL is the longest prefix of this page. */ -}}
+{{- $items := slice -}}
+{{- $activeLen := 0 -}}
+{{- $activeID := "" -}}
+{{- range .Site.Menus.main -}}
+  {{- $link := .URL -}}
+  {{- with .PageRef -}}{{- $link = relLangURL (strings.TrimPrefix "/" .) -}}{{- end -}}
+  {{- $link = printf "%s/" (strings.TrimSuffix "/" $link) -}}
+  {{- $items = $items | append (dict "id" .Identifier "name" (or (T .Identifier) .Name) "link" $link) -}}
+  {{- if and (hasPrefix $page.RelPermalink $link) (gt (len $link) $activeLen) -}}
+    {{- $activeLen = len $link -}}
+    {{- $activeID = .Identifier -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $searchPlaceholder := T "searchDocs" -}}
+{{- if .IsHome -}}{{- $searchPlaceholder = T "searchGrove" -}}{{- end -}}
+{{- $search := site.Params.search.enable | default true -}}
+
+<header class="pd-header pd-header--{{ $variant }}">
+  <div class="pd-header__bar{{ if ne $variant "docs" }} wrap{{ end }}">
+    <a class="pd-brand" href="{{ site.Home.RelPermalink }}" aria-label="{{ site.Title }} — {{ T "home" }}">
+      {{- partial "svg/mark-pando.html" (dict "size" (cond (eq $variant "docs") 30 34)) -}}
+      <span class="pd-brand__word">pando</span>
+      {{- if eq $variant "home" -}}
+        {{- with site.Params.version }}<span class="pd-brand__pill">v{{ . }}</span>{{ end -}}
+      {{- else if eq $variant "docs" -}}
+        <span class="pd-brand__suffix">/ {{ T (cond (eq .Type "guides") "guides" .Type) | lower }}</span>
+      {{- end -}}
+    </a>
+
+    <nav class="pd-nav hide-m" aria-label="{{ T "mainNav" }}">
+      {{- range $items }}
+        <a class="nav" href="{{ .link }}"{{ if eq .id $activeID }} aria-current="page"{{ end }}>{{ .name }}</a>
+      {{- end }}
+    </nav>
+
+    <div class="pd-header__grow"></div>
+
+    {{- if $search }}
+      <div class="hide-m">{{ partial "search.html" (dict "placeholder" $searchPlaceholder) }}</div>
+    {{- end }}
+
+    {{- if hugo.IsMultilingual }}
+      {{- if eq $variant "home" }}
+        <div class="pd-lang">
+          <button class="ibtn pd-lang__btn" type="button" aria-label="{{ T "changeLanguage" }}" aria-haspopup="true" aria-expanded="false" aria-controls="pd-lang-menu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"></path></svg>
+            <span>{{ site.Language.Lang | upper }}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+          </button>
+          <div class="pd-lang__menu" id="pd-lang-menu" hidden>
+            {{- range site.Languages }}
+              {{- $current := eq .Lang site.Language.Lang }}
+              <a class="pd-lang__item" href="{{ partial "utils/lang-link" (dict "lang" .Lang "context" $page) }}" hreflang="{{ .Lang }}" lang="{{ .Lang }}"{{ if $current }} aria-current="true"{{ end }}>
+                <span>{{ .LanguageName }}</span>
+                {{- if $current }}<span class="pd-lang__mark">● {{ T "active" }}</span>{{ end }}
+              </a>
+            {{- end }}
+          </div>
+        </div>
+      {{- else }}
+        <div class="seg" role="group" aria-label="{{ T "changeLanguage" }}">
+          {{- range site.Languages }}
+            <a class="seg__item" href="{{ partial "utils/lang-link" (dict "lang" .Lang "context" $page) }}" hreflang="{{ .Lang }}" lang="{{ .Lang }}" title="{{ .LanguageName }}"{{ if eq .Lang site.Language.Lang }} aria-current="true"{{ end }}>{{ .Lang | upper }}</a>
+          {{- end }}
+        </div>
+      {{- end }}
+    {{- end }}
+
+    <button class="ibtn" type="button" data-pd-theme-toggle aria-label="{{ T "toggleTheme" }}">
+      <svg class="pd-theme__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"></path></svg>
+      <svg class="pd-theme__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+    </button>
+
+    {{- with site.Params.github }}
+      <a class="ibtn hide-m" href="{{ . }}" aria-label="{{ T "githubRepo" }}" rel="noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 00-1.3-3.2 4.2 4.2 0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 00-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 00-.1 3.2A4.6 4.6 0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"></path></svg>
+      </a>
+    {{- end }}
+
+    <button class="ibtn pd-menu show-m" type="button" aria-label="{{ T "menu" | default "Menu" }}" aria-expanded="false" aria-controls="pd-drawer">
+      <svg class="pd-menu__open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      <svg class="pd-menu__close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </div>
+</header>
+
+{{- /* Mobile drawer: search + main nav, then the docs sidebar on documentation pages. */}}
+<div class="pd-drawer" id="pd-drawer">
+  {{- if $search }}{{ partial "search.html" (dict "placeholder" $searchPlaceholder) }}{{ end }}
+  <nav class="pd-drawer__nav" aria-label="{{ T "mainNav" }}">
+    {{- range $items }}
+      <a class="nav" href="{{ .link }}"{{ if eq .id $activeID }} aria-current="page"{{ end }}>{{ .name }}</a>
+    {{- end }}
+    {{- with site.Params.github }}<a class="nav" href="{{ . }}" rel="noreferrer">GitHub</a>{{ end }}
+  </nav>
+  {{- if eq $variant "docs" }}{{ partial "docs/sidebar.html" . }}{{ end }}
+</div>

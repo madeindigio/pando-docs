@@ -1,0 +1,21 @@
+{{- /* Overrides hextra's search.html: same hooks for assets/js/flexsearch.js
+       (.hextra-search-wrapper / -input / -results / -status), Pando look.
+       Args: placeholder (optional). */ -}}
+{{- $placeholder := .placeholder | default (T "searchPlaceholder") | default "Search..." -}}
+<div class="hextra-search-wrapper pd-search">
+  <div class="pd-search__field">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+    <input
+      class="hextra-search-input pd-search__input"
+      type="search"
+      placeholder="{{ $placeholder }}"
+      aria-label="{{ $placeholder }}"
+      autocomplete="off"
+      spellcheck="false"
+      value=""
+    />
+    <kbd>CTRL K</kbd>
+  </div>
+  <ul class="hextra-search-results hextra-scrollbar hx:hidden" aria-label="{{ T "searchResults" | default "Search results" }}"></ul>
+  <div class="hextra-search-status sr-only" aria-live="polite" role="status"></div>
+</div>

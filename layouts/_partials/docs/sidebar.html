@@ -1,0 +1,80 @@
+{{- /* Documentation sidebar, shared by docs, SDK and guide pages (and the
+       mobile drawer). Spec: <aside> of _design/design/Guide.dc.html.
+       Groups: Getting started · Guides · Features (by stratum) · Reference.
+       Arg: the current page. */ -}}
+{{- $page := . -}}
+{{- $here := .RelPermalink -}}
+<nav class="side" aria-label="{{ T "documentation" }}">
+  <div class="side__group">
+    <span class="label side__title">{{ T "gettingStarted" }}</span>
+    {{- range slice "/docs/getting-started" "/docs/configuration" }}
+      {{- with site.GetPage . }}
+        {{- template "side-link" (dict "page" . "here" $here) }}
+        {{- if and .IsSection (or (eq . $page) (.IsAncestor $page)) }}
+          <div class="side__children">
+            {{- range .RegularPages.ByWeight }}{{ template "side-link" (dict "page" . "here" $here) }}{{ end }}
+          </div>
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  </div>
+
+  {{- with site.GetPage "/guides" }}
+    <div class="side__group">
+      <a class="label side__title" href="{{ .RelPermalink }}">{{ T "guides" }}</a>
+      {{- range .RegularPages.ByWeight }}
+        {{- template "side-link" (dict "page" . "here" $here "title" (.Params.shortTitle | default .LinkTitle)) }}
+      {{- end }}
+    </div>
+  {{- end }}
+
+  <div class="side__group">
+    {{- with site.GetPage "/docs/features" }}
+      <a class="label side__title" href="{{ .RelPermalink }}">{{ T "features" }}</a>
+    {{- end }}
+    {{- range slice (dict "id" "surface" "k" "表") (dict "id" "roots" "k" "根") (dict "id" "soil" "k" "土") }}
+      {{- /* Flatten the stratum to its feature entries (those with a slug). */ -}}
+      {{- $entries := slice -}}
+      {{- $stratum := index site.Data.features .id -}}
+      {{- if reflect.IsSlice $stratum -}}
+        {{- range $stratum }}{{ if .slug }}{{ $entries = $entries | append . }}{{ end }}{{ end -}}
+      {{- else -}}
+        {{- range $group := slice "pando" "remembrances" "mesnada" "models" "protocols" "hands" "extend" "trust" "operations" -}}
+          {{- range index $stratum $group }}{{ if .slug }}{{ $entries = $entries | append . }}{{ end }}{{ end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $open := false -}}
+      {{- range $entries }}{{ if eq $page.File.ContentBaseName .slug }}{{ if eq $page.Section "docs" }}{{ $open = true }}{{ end }}{{ end }}{{ end }}
+      <details class="side__stratum"{{ if $open }} open{{ end }}>
+        <summary class="side__link"><span><span class="kanji">{{ .k }}</span> {{ T (printf "stratum_%s" .id) }} · {{ len $entries }}</span></summary>
+        <div class="side__children">
+          {{- range $entries }}
+            {{- $label := index . site.Language.Lang | default .en -}}
+            {{- $path := printf "/docs/features/%s" .slug -}}
+            {{- with or (site.GetPage $path) (site.Sites.Default.GetPage $path) }}
+              {{- template "side-link" (dict "page" . "here" $here "title" $label) }}
+            {{- end }}
+          {{- end }}
+        </div>
+      </details>
+    {{- end }}
+  </div>
+
+  <div class="side__group">
+    <span class="label side__title">{{ T "reference" }}</span>
+    {{- range slice "/docs/acp" "/docs/mcp" "/sdk" "/docs/brand" }}
+      {{- with site.GetPage . }}
+        {{- template "side-link" (dict "page" . "here" $here) }}
+        {{- if and .IsSection (or (eq . $page) (.IsAncestor $page)) }}
+          <div class="side__children">
+            {{- range .RegularPages.ByWeight }}{{ template "side-link" (dict "page" . "here" $here) }}{{ end }}
+          </div>
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  </div>
+</nav>
+
+{{- define "side-link" -}}
+  <a class="side__link" href="{{ .page.RelPermalink }}"{{ if eq .here .page.RelPermalink }} aria-current="page"{{ end }}>{{ .title | default .page.LinkTitle }}</a>
+{{- end -}}

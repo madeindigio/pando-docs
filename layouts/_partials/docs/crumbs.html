@@ -1,0 +1,9 @@
+{{- /* Breadcrumb: ancestors below the home page, then the current page. */ -}}
+{{- $ancestors := slice -}}
+{{- range .Ancestors.Reverse }}{{ if not .IsHome }}{{ $ancestors = $ancestors | append . }}{{ end }}{{ end -}}
+{{- with $ancestors }}
+  <nav class="crumbs mono" aria-label="{{ T "breadcrumb" }}">
+    {{- range . }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a><span aria-hidden="true">/</span>{{ end -}}
+    <span aria-current="page">{{ $.LinkTitle }}</span>
+  </nav>
+{{- end }}

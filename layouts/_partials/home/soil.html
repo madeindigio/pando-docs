@@ -1,0 +1,26 @@
+<section class="stratum stratum--soil" id="soil">
+  <div class="wrap stratum__inner">
+    <div class="stratum__head stack-m">
+      <div class="stratum__heading">
+        <span class="eyebrow">III · {{ T "stratum_soil" }} · <span class="kanji">土</span></span>
+        <h2 class="h2">{{ T "home_soil_title" }}</h2>
+      </div>
+      <p class="stratum__lead">{{ T "home_soil_lead" }}</p>
+    </div>
+    <div class="soilgrid stack-m">
+      {{- range slice "models" "protocols" "hands" "extend" "trust" "operations" }}
+        <div class="soilgrid__cell">
+          <span class="label label--acc">{{ T (printf "home_soil_%s_title" .) }}</span>
+          <span class="soilgrid__desc">{{ T (printf "home_soil_%s_desc" .) }}</span>
+          <div class="chips chips--tight">
+            {{- range index site.Data.features.soil . }}{{ partial "features/chip.html" (dict "item" .) }}{{ end -}}
+          </div>
+        </div>
+      {{- end }}
+    </div>
+    <div class="sdkstrip stack-m">
+      <span class="sdkstrip__text"><span class="label">SDKs</span><span class="sdkstrip__names">TypeScript · Python · Java · .NET</span></span>
+      <a class="sdkstrip__link" href="{{ "sdk/" | relLangURL }}">{{ T "home_sdk_cta" }} →</a>
+    </div>
+  </div>
+</section>

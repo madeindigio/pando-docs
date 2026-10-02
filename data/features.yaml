@@ -1,0 +1,78 @@
+# Pando features by stratum. Drives the home page chips and counts, the
+# docs sidebar and the features index.
+#
+#   slug  page under content/<lang>/docs/features/<slug>.md  → counts as a feature
+#   ref   any other site page (e.g. /docs/mcp)                → plain link chip
+#   none  static chip (providers, protocols…)
+#   en / es  chip label; es falls back to en.
+#
+# When you add a page under docs/features/, add its entry here. The build
+# fails if a slug has no page.
+
+surface:
+  - { slug: cli, en: "Command Line Interface", es: "Interfaz de línea de comandos" }
+  - { slug: terminal-interface, en: "Terminal UI", es: "Interfaz de terminal" }
+  - { slug: tui-enhancements, en: "TUI Enhancements", es: "Mejoras de la TUI" }
+  - { slug: web-ui, en: "Web‑UI & PWA", es: "Web‑UI y PWA" }
+  - { slug: webui-access, en: "WebUI Access", es: "Acceso a la WebUI" }
+  - { slug: desktop-app, en: "Native Desktop App", es: "App de escritorio nativa" }
+  - { slug: project-workspaces, en: "Project Workspaces", es: "Espacios de proyecto" }
+  - { slug: design-studio, en: "Design Studio" }
+  - { slug: slash-commands, en: "Slash Commands", es: "Comandos slash" }
+  - { slug: ask-user-question, en: "Interactive User Questions", es: "Preguntas interactivas" }
+  - { slug: steering, en: "Fast User Feedback", es: "Feedback rápido del usuario" }
+  - { slug: learning-mode, en: "Learning Mode", es: "Modo aprendizaje" }
+  - { slug: caveman-mode, en: "Caveman Mode", es: "Modo cavernícola" }
+
+roots:
+  pando:
+    - { slug: goal-mode, en: "Goal Mode" }
+    - { slug: tool-discovery, en: "Tool Discovery", es: "Descubrimiento de herramientas" }
+    - { slug: reasoning-modes, en: "Thinking & Reasoning Effort", es: "Pensamiento y esfuerzo de razonamiento" }
+    - { slug: superpowers-mode, en: "Superpowers Mode", es: "Modo Superpowers" }
+  remembrances:
+    - { slug: persistent-memory, en: "Persistent Memory System", es: "Memoria persistente" }
+    - { slug: context-enrichment, en: "Context Enrichment", es: "Enriquecimiento de contexto" }
+    - { slug: session-compaction, en: "Session Compaction", es: "Compactación de sesión" }
+    - { slug: agent-vcs, en: "Agent‑VCS" }
+  mesnada:
+    - { slug: agent-delegation, en: "Agent Delegation & Orchestration", es: "Delegación y orquestación de agentes" }
+    - { slug: pando-setup-tool, en: "Agent Self‑Service", es: "Autoservicio del agente" }
+    - { slug: self-improvement, en: "Self‑Improvement System", es: "Sistema de automejora" }
+
+soil:
+  models:
+    - { en: "OpenAI" }
+    - { en: "Anthropic" }
+    - { en: "Gemini" }
+    - { en: "AWS Bedrock" }
+    - { en: "Groq" }
+    - { en: "Azure" }
+    - { en: "OpenRouter" }
+    - { slug: llm-proxy, en: "Local LLM Proxy", es: "Proxy LLM local" }
+    - { slug: copilot-auth, en: "GitHub Copilot Auth" }
+  protocols:
+    - { ref: /docs/mcp, en: "MCP" }
+    - { slug: mcp-authentication, en: "MCP Server Authentication", es: "Autenticación de servidores MCP" }
+    - { ref: /docs/acp, en: "ACP" }
+    - { slug: lsp-auto-activation, en: "LSP Auto‑Activation", es: "Autoactivación de LSP" }
+    - { slug: ipc, en: "Inter‑Process Communication", es: "Comunicación entre procesos" }
+  hands:
+    - { slug: browser-automation, en: "Browser Automation", es: "Automatización del navegador" }
+    - { slug: desktop-controller, en: "Desktop Controller", es: "Control del escritorio" }
+    - { slug: markitdown, en: "Document Conversion", es: "Conversión de documentos" }
+    - { en: "Google · Perplexity · Brave · Exa" }
+  extend:
+    - { slug: extensions, en: "Extensions", es: "Extensiones" }
+    - { en: "Skills catalog", es: "Catálogo de skills" }
+    - { slug: ponytail, en: "Ponytail Skill" }
+    - { en: "Lua" }
+  trust:
+    - { en: "Docker · Podman" }
+    - { ref: /docs/configuration/age-encryption, en: "AGE encryption", es: "Cifrado AGE" }
+    - { slug: https-auto-cert, en: "Auto HTTPS Certificates", es: "Certificados HTTPS automáticos" }
+  operations:
+    - { slug: self-update, en: "Self‑Update", es: "Autoactualización" }
+    - { slug: installers, en: "Cross‑Platform Installers", es: "Instaladores multiplataforma" }
+    - { slug: db-compact, en: "Database Compact", es: "Compactación de la base de datos" }
+    - { slug: config-discovery, en: "Config File Discovery", es: "Descubrimiento de configuración" }

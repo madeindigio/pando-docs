@@ -1,0 +1,11 @@
+{{- /* Number of features (entries with a slug) in a stratum of data/features.yaml.
+       Arg: stratum name. Returns an int.
+       site.Data (not hugo.Data): CI still builds with Hugo 0.147. */ -}}
+{{- $n := 0 -}}
+{{- $stratum := index site.Data.features . -}}
+{{- if reflect.IsSlice $stratum -}}
+  {{- range $stratum }}{{ if .slug }}{{ $n = add $n 1 }}{{ end }}{{ end -}}
+{{- else -}}
+  {{- range $stratum }}{{ range . }}{{ if .slug }}{{ $n = add $n 1 }}{{ end }}{{ end }}{{ end -}}
+{{- end -}}
+{{- return $n -}}

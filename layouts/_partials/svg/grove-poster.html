@@ -1,0 +1,16 @@
+{{- /* Small grove used as video poster. Args: w, h (viewBox, default 800x450). */ -}}
+{{- if eq (.w | default 800) 700 -}}
+<svg class="poster" width="100%" height="100%" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <path d="M0 210 C200 196 400 222 700 204 L700 400 L0 400 Z" fill="#0A2018"></path>
+  <g stroke="rgba(244,241,232,.5)" stroke-width="2" stroke-linecap="round" fill="none"><path d="M80 210V110M80 128l-10-12M80 142l11-13M160 210V70M160 88l-10-12M160 102l11-13M250 210V130M480 210V90M480 108l-10-12M480 122l11-13M560 210V50M560 68l-10-12M560 82l11-13M630 210V120"></path></g>
+  <g stroke="#E9B949" stroke-width="1.5" fill="none"><path class="flow" d="M80 210C80 290 260 320 350 340S560 290 560 210"></path><path class="flow" d="M160 210C170 280 300 330 350 340M480 210C470 280 400 330 350 340M630 210C630 290 420 330 350 340"></path></g>
+  <circle cx="350" cy="340" r="6" fill="#E9B949"></circle>
+</svg>
+{{- else -}}
+<svg class="poster" width="100%" height="100%" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <path d="M0 250 C200 236 400 262 800 244 L800 450 L0 450 Z" fill="#0A2018"></path>
+  <g stroke="rgba(244,241,232,.5)" stroke-width="2" stroke-linecap="round" fill="none"><path d="M90 250V140M90 160l-10-12M90 172l11-13M170 250V100M170 120l-10-12M170 134l11-13M260 250V160M260 178l-10-12M560 250V120M560 140l-10-12M560 154l11-13M640 250V80M640 100l-10-12M640 114l11-13M720 250V150M720 170l-10-12"></path></g>
+  <g stroke="#E9B949" stroke-width="1.5" fill="none"><path class="flow" d="M90 250C90 330 300 360 400 380S640 330 640 250"></path><path class="flow" d="M170 250C180 320 330 370 400 380M560 250C550 320 460 370 400 380M720 250C720 330 480 370 400 380"></path></g>
+  <circle cx="400" cy="380" r="6" fill="#E9B949"></circle>
+</svg>
+{{- end -}}

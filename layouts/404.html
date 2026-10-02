@@ -1,0 +1,13 @@
+{{- /* Not found. */ -}}
+{{ define "main" }}
+  <main id="content" class="guides">
+    {{ partial "blog/hero.html" (dict "eyebrow" "404 · 道" "title" (T "notfound_title") "lead" (T "notfound_lead") "kanji" "道") }}
+    <section class="wrap guides__body">
+      <div class="hero__actions">
+        <a class="btn" href="{{ site.Home.RelPermalink }}">{{ T "home" }} <span aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="{{ "docs/" | relLangURL }}">{{ T "docs" }}</a>
+        <a class="btn btn--ghost" href="{{ "guides/" | relLangURL }}">{{ T "guides" }}</a>
+      </div>
+    </section>
+  </main>
+{{ end }}

@@ -20,6 +20,7 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/es"
 
 # ── Navigation menu ───────────────────────────────────────────
+# Labels are translated by identifier in i18n/*.yaml; `name` is the fallback.
 [[menus.main]]
   identifier = "docs"
   name = "Docs"
@@ -27,44 +28,108 @@ defaultContentLanguageInSubdir = false
   weight = 1
 
 [[menus.main]]
-  identifier = "blog"
-  name = "Blog"
-  pageRef = "/blog"
+  identifier = "guides"
+  name = "Guides"
+  pageRef = "/guides"
   weight = 2
+
+[[menus.main]]
+  identifier = "features"
+  name = "Features"
+  pageRef = "/docs/features"
+  weight = 3
 
 [[menus.main]]
   identifier = "sdk"
   name = "SDKs"
   pageRef = "/sdk"
+  weight = 4
+
+[[menus.main]]
+  identifier = "blog"
+  name = "Blog"
+  pageRef = "/blog"
+  weight = 5
+
+# ── Footer columns ────────────────────────────────────────────
+[[menus.footer_docs]]
+  identifier = "gettingStarted"
+  name = "Getting started"
+  pageRef = "/docs/getting-started"
+  weight = 1
+[[menus.footer_docs]]
+  identifier = "features"
+  name = "Features"
+  pageRef = "/docs/features"
+  weight = 2
+[[menus.footer_docs]]
+  identifier = "acp"
+  name = "ACP Protocol"
+  pageRef = "/docs/acp"
+  weight = 3
+[[menus.footer_docs]]
+  identifier = "mcp"
+  name = "MCP Server"
+  pageRef = "/docs/mcp"
+  weight = 4
+[[menus.footer_docs]]
+  identifier = "brand"
+  name = "Brand & Identity"
+  pageRef = "/docs/brand"
+  weight = 5
+
+[[menus.footer_learn]]
+  identifier = "guides"
+  name = "Guides"
+  pageRef = "/guides"
+  weight = 1
+[[menus.footer_learn]]
+  identifier = "blog"
+  name = "Blog"
+  pageRef = "/blog"
+  weight = 2
+[[menus.footer_learn]]
+  identifier = "changelog"
+  name = "Changelog"
+  url = "https://github.com/digiogithub/pando/releases"
   weight = 3
 
-[[menus.main]]
-  identifier = "search"
-  weight = 4
-  [menus.main.params]
-    type = "search"
+[[menus.footer_ecosystem]]
+  identifier = "remembrances"
+  name = "Remembrances"
+  pageRef = "/docs/configuration/remembrances"
+  weight = 1
+[[menus.footer_ecosystem]]
+  identifier = "mesnada"
+  name = "Mesnada"
+  pageRef = "/docs/features/agent-delegation"
+  weight = 2
+[[menus.footer_ecosystem]]
+  identifier = "sdk"
+  name = "SDKs"
+  pageRef = "/sdk"
+  weight = 3
 
-[[menus.main]]
+[[menus.footer_project]]
   identifier = "github"
+  name = "GitHub"
   url = "https://github.com/digiogithub/pando"
-  weight = 5
-  [menus.main.params]
-    icon = "github"
-
-[[menus.main]]
-  identifier = "theme-toggle"
-  weight = 6
-  [menus.main.params]
-    type = "theme-toggle"
-
-[[menus.main]]
-  identifier = "language"
-  weight = 7
-  [menus.main.params]
-    type = "language-switch"
+  weight = 1
+[[menus.footer_project]]
+  identifier = "releases"
+  name = "Releases"
+  url = "https://github.com/digiogithub/pando/releases"
+  weight = 2
+[[menus.footer_project]]
+  identifier = "license"
+  name = "MIT License"
+  url = "https://github.com/digiogithub/pando?tab=MIT-1-ov-file#readme"
+  weight = 3
 
 # ── Site params ───────────────────────────────────────────────
 [params]
+  version = "1.x"
+  github = "https://github.com/digiogithub/pando"
   description = "Asistente IA terminal para desarrolladores — potente, extensible y open source"
 
   [params.navbar]
@@ -85,7 +150,12 @@ defaultContentLanguageInSubdir = false
     type = "flexsearch"
 
   [params.editURL]
-    enable = false
+    enable = true
+    base = "https://github.com/madeindigio/pando-docs/edit/main/content"
+
+  # Feedback target for the "Was this guide helpful?" block.
+  [params.feedback]
+    issues = "https://github.com/madeindigio/pando-docs/issues/new"
 
   [params.blog]
     [params.blog.list]

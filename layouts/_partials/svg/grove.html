@@ -1,0 +1,44 @@
+{{- /* Hero grove: trees above ground joined by one root network below.
+       Verbatim from _design/design/Main.dc.html; labels translated. */ -}}
+<svg class="grove" width="100%" height="470" viewBox="0 0 1440 470" preserveAspectRatio="xMidYMid slice" role="img" aria-label="{{ T "home_grove_alt" }}">
+  <path d="M0 232 C180 224 360 238 540 230 S900 222 1080 232 S1320 236 1440 228 L1440 470 L0 470 Z" style="fill: var(--soil)"></path>
+  <path d="M0 300 H1440 M0 362 H1440 M0 424 H1440" style="stroke: var(--line)" stroke-dasharray="2 10"></path>
+  <path d="M0 232 C180 224 360 238 540 230 S900 222 1080 232 S1320 236 1440 228" fill="none" style="stroke: var(--ink)" stroke-width="1.6"></path>
+  <g fill="none" stroke-width="2.4" stroke-linecap="round" style="stroke: var(--ink)">
+    <path d="M120 232V120M120 138l-12-14M120 152l13-15 M205 232V70M205 88l-12-14M205 102l13-15 M262 232V140M262 158l-11-13M262 172l12-14 M340 232V40M340 58l-13-15M340 72l14-16M340 98l-10-12 M420 232V105M420 123l-12-14M420 137l13-15 M498 232V60M498 78l-12-14M498 92l13-15 M560 232V150M560 168l-11-13M560 182l12-14 M640 232V30M640 48l-13-15M640 62l14-16M640 90l-10-12 M720 232V90M720 108l-12-14M720 122l13-15 M800 232V20M800 38l-13-15M800 52l14-16M800 80l-10-12 M870 232V110M870 128l-12-14M870 142l13-15 M945 232V55M945 73l-12-14M945 87l13-15 M1010 232V135M1010 153l-11-13M1010 167l12-14 M1090 232V45M1090 63l-13-15M1090 77l14-16 M1160 232V100M1160 118l-12-14M1160 132l13-15 M1235 232V65M1235 83l-12-14M1235 97l13-15 M1300 232V140M1300 158l-11-13M1300 172l12-14 M1370 232V85M1370 103l-12-14M1370 117l13-15"></path>
+  </g>
+  <g style="fill: var(--node)">
+    <circle class="breathe" cx="340" cy="40" r="4.5"></circle><circle class="breathe" cx="640" cy="30" r="4.5" style="animation-delay: 1.2s"></circle><circle class="breathe" cx="800" cy="20" r="4.5" style="animation-delay: .6s"></circle><circle class="breathe" cx="1090" cy="45" r="4.5" style="animation-delay: 2s"></circle><circle class="breathe" cx="205" cy="70" r="4.5" style="animation-delay: 2.6s"></circle><circle class="breathe" cx="1235" cy="65" r="4.5" style="animation-delay: 1.6s"></circle>
+  </g>
+  <g fill="none" stroke-width="1.4" stroke-linecap="round" style="stroke: var(--ink); opacity: .42">
+    <path d="M120 232C120 280 205 280 205 232M262 232C262 290 340 290 340 232M420 232C420 284 498 284 498 232M560 232C560 292 640 292 640 232M720 232C720 284 800 284 800 232M870 232C870 290 945 290 945 232M1010 232C1010 284 1090 284 1090 232M1160 232C1160 290 1235 290 1235 232M1300 232C1300 284 1370 284 1370 232"></path>
+    <path d="M420 232C420 300 400 330 380 350M560 232C560 300 640 370 720 400M720 232C720 300 720 360 720 400M870 232C870 300 760 370 720 400M1010 232C1010 300 1040 330 1060 350M1160 232C1160 300 1090 335 1060 350M262 232C262 300 340 340 380 350"></path>
+  </g>
+  <g fill="none" stroke-width="1.8" stroke-linecap="round" style="stroke: var(--node)">
+    <path class="flow" d="M120 232C110 330 300 350 380 350"></path>
+    <path class="flow" d="M340 232C350 300 370 330 380 350"></path>
+    <path class="flow" d="M498 232C490 310 420 340 380 350"></path>
+    <path class="flow" d="M380 350C470 352 600 400 720 400"></path>
+    <path class="flow" d="M640 232C650 320 700 370 720 400"></path>
+    <path class="flow" d="M800 232C790 320 740 370 720 400"></path>
+    <path class="flow" d="M1060 350C970 352 840 400 720 400"></path>
+    <path class="flow" d="M945 232C960 300 1040 330 1060 350"></path>
+    <path class="flow" d="M1090 232C1080 300 1065 330 1060 350"></path>
+    <path class="flow" d="M1370 232C1390 330 1160 360 1060 350"></path>
+    <path class="flow" d="M205 232C200 300 300 345 380 350"></path>
+    <path class="flow" d="M1235 232C1240 300 1100 345 1060 350"></path>
+    <path class="flow" d="M0 440C220 430 460 450 720 400"></path>
+    <path class="flow" d="M1440 440C1220 430 980 450 720 400"></path>
+  </g>
+  <circle cx="380" cy="350" r="6" style="fill: var(--node)"></circle>
+  <circle cx="1060" cy="350" r="6" style="fill: var(--node)"></circle>
+  <circle cx="720" cy="400" r="8" style="fill: var(--node)"></circle>
+  <circle class="breathe" cx="720" cy="400" r="18" fill="none" stroke-width="1.2" style="stroke: var(--node)"></circle>
+  <g class="grove__labels hide-m" aria-hidden="true">
+    <text x="40" y="218" class="grove__label">↑ {{ T "home_grove_surface" }}</text>
+    <text x="40" y="258" class="grove__label">↓ {{ T "home_grove_roots" }}</text>
+    <text x="300" y="384" class="grove__name">本 remembrances</text>
+    <text x="1000" y="384" class="grove__name">众 mesnada</text>
+    <text x="672" y="444" class="grove__name">木 {{ T "home_grove_organism" }}</text>
+  </g>
+</svg>

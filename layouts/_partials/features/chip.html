@@ -1,0 +1,28 @@
+{{- /* One chip from data/features.yaml.
+       Args: item (entry), class ("chip" | "dchip"). Deep chips are never links
+       on the board, so "dchip" renders a span even when the entry has a page. */ -}}
+{{- $item := .item -}}
+{{- $class := .class | default "chip" -}}
+{{- $label := index $item site.Language.Lang | default $item.en -}}
+{{- $target := "" -}}
+{{- with $item.slug -}}
+  {{- $path := printf "/docs/features/%s" . -}}
+  {{- /* A page not translated yet links to the default-language one. */ -}}
+  {{- with or (site.GetPage $path) (site.Sites.Default.GetPage $path) -}}
+    {{- $target = .RelPermalink -}}
+  {{- else -}}
+    {{- errorf "data/features.yaml: no page for feature slug %q" . -}}
+  {{- end -}}
+{{- end -}}
+{{- with $item.ref -}}
+  {{- with site.GetPage . -}}
+    {{- $target = .RelPermalink -}}
+  {{- else -}}
+    {{- errorf "data/features.yaml: no page for ref %q (lang %s)" . site.Language.Lang -}}
+  {{- end -}}
+{{- end -}}
+{{- if and $target (eq $class "chip") -}}
+  <a class="chip" href="{{ $target }}">{{ $label }}</a>
+{{- else -}}
+  <span class="{{ $class }}">{{ $label }}</span>
+{{- end -}}

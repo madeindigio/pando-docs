@@ -1,0 +1,11 @@
+{{- /* Guide thumbnail: track colour, watermark kanji, play button, language tags.
+       Args: page (guide), size ("lg" | "md"). */ -}}
+{{- $page := .page -}}
+{{- $track := index site.Data.tracks ($page.Params.track | default "surface") -}}
+<div class="gthumb gthumb--{{ .size | default "md" }}" style="background: {{ $track.color }}">
+  <span class="kanji gthumb__kanji" aria-hidden="true">{{ $page.Params.kanji | default $track.kanji }}</span>
+  <span class="gthumb__play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0F2A20"><path d="M8 5v14l11-7z"></path></svg></span>
+  <span class="mono gthumb__langs" aria-hidden="true">
+    {{- range $page.AllTranslations }}<span>{{ .Language.Lang | upper }}</span>{{ end -}}
+  </span>
+</div>

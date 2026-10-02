@@ -3,59 +3,88 @@ title: Instaladores Multi-Plataforma
 weight: 23
 ---
 
-Pando proporciona scripts de instalación para Linux, macOS y Windows que descargan e instalan automáticamente la última release.
+Cada versión de Pando publica en GitHub binarios firmados para macOS, Linux y Windows. Descarga el de tu plataforma o deja que un script de instalación lo haga por ti.
 
-## Linux
+## Descargar una versión
 
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install-linux.sh)
-```
+Los ficheros están en la [última versión](https://github.com/digiogithub/pando/releases/latest):
 
-**Características:**
-- Detecta arquitectura (x86_64/aarch64)
-- Detecta distribución y gestor de paquetes (apt/dnf/pacman/zypper)
-- Instala dependencias del runtime de escritorio Wails (GTK, WebKitGTK)
-- Instala en `~/.local/bin/pando`
-- Crea entrada `.desktop` con icono
-- Añade a PATH si es necesario
-- Soporta actualización (compara versiones)
+| Plataforma | Fichero |
+|---|---|
+| macOS, Apple Silicon | `pando-<versión>-darwin-arm64.pkg` |
+| macOS, Intel | `pando-<versión>-darwin-x64.pkg` |
+| Linux, x86-64 | [`pando-linux-x64.zip`](https://github.com/digiogithub/pando/releases/latest/download/pando-linux-x64.zip) |
+| Linux, ARM64 | [`pando-linux-arm64.zip`](https://github.com/digiogithub/pando/releases/latest/download/pando-linux-arm64.zip) |
+| Windows, x86-64 | [`pando-windows-x64.zip`](https://github.com/digiogithub/pando/releases/latest/download/pando-windows-x64.zip) |
 
-## macOS
+- **macOS**: abre el `.pkg`. Está firmado y notarizado, e instala `Pando.app` en `/Applications` y el comando `pando` en `/usr/local/bin`.
+- **Linux**: descomprime, da permiso de ejecución al binario y muévelo a una carpeta de tu `PATH`, por ejemplo `~/.local/bin/pando`.
+- **Windows**: descomprime y ejecuta `pando.exe`. El binario está firmado con Authenticode.
 
-Pando proporciona bundles `.app` e instaladores `.pkg` para macOS:
+Cada versión publica también `SHA256SUMS` con el SHA-256 de todos los ficheros.
 
-- **Apple Silicon (M1/M2/M3)**: Build ARM64 nativo
-- **Intel**: Build x86_64
-- **Firmado y notarizado** para seguridad
-
-Descarga desde la página de GitHub Releases o compila desde fuente:
+## Linux y macOS: script de instalación
 
 ```bash
-make build-desktop
+curl -fsSL https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install.sh | bash
 ```
 
-## Windows
+En **Linux** el script:
+
+- detecta la arquitectura (x86-64 o ARM64) y descarga el zip correspondiente
+- instala `~/.local/bin/pando` y añade esa carpeta a tu `PATH` si hace falta
+- crea una entrada de menú con el icono de Pando
+- instala las bibliotecas GTK y WebKitGTK que necesita la ventana de escritorio, con apt, dnf, pacman o zypper. Solo pide `sudo` si falta alguna, y un fallo en ese paso no detiene la instalación
+
+En **macOS** descarga el `.pkg` de tu arquitectura, comprueba su firma y ejecuta el instalador del sistema (pide `sudo`).
+
+Vuelve a ejecutarlo para actualizar: compara la versión instalada con la publicada y reemplaza el binario.
+
+### Opciones
+
+Pasa las opciones después de `bash -s --`, o define la variable de entorno:
+
+| Opción | Variable | Efecto |
+|---|---|---|
+| `--version v1.2.7` | `PANDO_VERSION` | Instala esa versión en lugar de la última |
+| `--dir <ruta>` | `PANDO_INSTALL_DIR` | Dónde se instala el binario (por defecto `~/.local/bin`) |
+| `--no-desktop` | `PANDO_NO_DESKTOP=1` | Linux: sin paquetes del sistema, icono ni entrada de menú |
+| `--cli-only` | `PANDO_CLI_ONLY=1` | macOS: solo el binario `pando`, sin `.pkg` |
+| `--force` | `PANDO_FORCE=1` | Reinstala la misma versión |
+
+Para un servidor, un contenedor o CI, donde no hay escritorio:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install.sh | bash -s -- --no-desktop
+```
+
+{{< callout >}}
+El script verifica la descarga con el `SHA256SUMS` de la versión. Las versiones publicadas antes de que existiera ese fichero se instalan con un aviso.
+{{< /callout >}}
+
+## Windows: script de instalación
+
+En PowerShell:
 
 ```powershell
 iex (irm https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install-windows.ps1)
 ```
 
-**Características:**
-- Detecta arquitectura (AMD64/ARM64)
-- Instala en `%LOCALAPPDATA%\Programs\pando`
-- Añade al PATH del usuario
-- Soporta parámetro `-Version` para versión específica
+El script:
 
-## Compilar desde Fuente
+- instala en `%LOCALAPPDATA%\Programs\pando` y lo añade a tu `PATH` de usuario
+- comprueba el SHA-256 y la firma Authenticode del binario
+- acepta `-Version v1.2.7` para instalar una versión concreta
+- instala la compilación x86-64 en Windows on ARM, donde se ejecuta emulada
+
+## Compilar desde el código
+
+Para quien contribuye. Necesitas Go y [Bun](https://bun.sh):
 
 ```bash
-# Compilar solo CLI
+# Solo la CLI
 make build
 
-# Compilar aplicación de escritorio
+# Aplicación de escritorio
 make build-desktop
 ```
-
-{{< callout >}}
-Los scripts de instalación manejan toda la resolución de dependencias y configuración de PATH. Después de la instalación, ejecuta `pando` desde cualquier terminal.
-{{< /callout >}}

@@ -5,15 +5,29 @@ weight: 1
 
 ## Instalación
 
-### Desde binarios precompilados
+### Descarga una versión
 
-Accede a la última release en GitHub: [Releases · digiogithub/pando](https://github.com/digiogithub/pando/releases) y descarga el binario correspondiente a tu sistema operativo.
+Descarga el binario de tu sistema operativo desde la [última versión en GitHub](https://github.com/digiogithub/pando/releases/latest): un instalador `.pkg` para macOS y un `.zip` para Linux y Windows.
 
-También tendrás disponible en el futuro instaladores específicos para cada plataforma (Windows, macOS, Linux).
+### Con el script de instalación
+
+En Linux y macOS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install.sh | bash
+```
+
+En Windows, en PowerShell:
+
+```powershell
+iex (irm https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install-windows.ps1)
+```
+
+En [Instaladores Multi-Plataforma]({{< relref "/docs/features/installers" >}}) se explica qué hacen los scripts y sus opciones.
 
 ### Con Go
 
-Si tienes Go instalado (1.21 o superior):
+Si tienes Go instalado (1.21 o superior). Compila desde el código y no incluye la aplicación de escritorio:
 
 ```bash
 go install github.com/digiogithub/pando@latest

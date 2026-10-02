@@ -1,0 +1,10 @@
+{{- /* Screenshot for guides and docs.
+       Usage: {{< shot src="images/guides/first-request.png" alt="First request in Pando Desktop" >}}
+       Without src it renders a dashed placeholder labelled with alt, so a
+       guide can be published before its captures exist. */ -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- with .Get "src" -}}
+  <figure class="shot not-prose"><img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $alt }}" loading="lazy" /></figure>
+{{- else -}}
+  <div class="shot shot--empty mono not-prose" role="img" aria-label="{{ $alt }}">[ {{ T "shot_placeholder" | upper }} · {{ $alt | upper }} ]</div>
+{{- end -}}

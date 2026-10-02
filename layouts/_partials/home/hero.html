@@ -1,0 +1,32 @@
+<section class="hero" id="top">
+  <div class="hero__motto hide-m" aria-hidden="true">
+    <span class="kanji hero__motto-kanji" lang="ja">万物流転</span>
+    <span class="hero__motto-line"></span>
+    <span class="mono hero__motto-text">{{ T "home_motto" }}</span>
+  </div>
+  <div class="wrap hero__grid stack-m">
+    <div class="hero__col">
+      <a class="hero__badge mono" href="#roots">
+        <span class="hero__badge-tag">{{ site.Params.version }}</span>
+        <span>{{ T "home_badge" }}</span>
+        <span class="hero__badge-arrow" aria-hidden="true">→</span>
+      </a>
+      <h1 class="hero__title">{{ T "home_title_1" }}<br /><span class="hero__title-acc">{{ T "home_title_2" }}</span></h1>
+    </div>
+    <div class="hero__col hero__col--side">
+      <p class="hero__lead">{{ T "home_lead" }}</p>
+      <div class="hero__actions">
+        <a class="btn" href="#install">{{ T "home_cta_download" }} <span aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="{{ "guides/" | relLangURL }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>{{ T "home_cta_guides" }}</a>
+      </div>
+      {{- /* Latest release on GitHub: signed binaries for every platform. */}}
+      <a class="cmd cmd--link mono" href="{{ site.Params.github }}/releases/latest" rel="noreferrer">
+        <span class="cmd__prompt" aria-hidden="true">↓</span>
+        <span class="cmd__text">{{ T "home_download_line" }}</span>
+        <span class="cmd__prompt" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+  {{ partial "svg/grove.html" . }}
+</section>

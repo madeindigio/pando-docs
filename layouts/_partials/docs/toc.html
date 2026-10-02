@@ -1,0 +1,23 @@
+{{- /* "On this page". Args: page, numbered (bool: guide steps 01, 02…), levels (default 2). */ -}}
+{{- $numbered := .numbered | default false -}}
+{{- $levels := .levels | default 2 -}}
+{{- with .page.Fragments.Headings }}
+  {{- range . }}
+    {{- with .Headings }}
+      <nav class="toc" aria-label="{{ T "onThisPage" }}">
+        <span class="label">{{ T "onThisPage" }}</span>
+        {{- range $i, $h := . }}
+          <a class="toc__link" href="#{{ anchorize .ID }}">
+            {{- if $numbered }}<span class="mono toc__n">{{ printf "%02d" (add $i 1) }}</span>{{ end -}}
+            {{ .Title | safeHTML | plainify | htmlUnescape }}
+          </a>
+          {{- if ge $levels 2 }}
+            {{- range .Headings }}
+              <a class="toc__link toc__link--sub" href="#{{ anchorize .ID }}">{{ .Title | safeHTML | plainify | htmlUnescape }}</a>
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      </nav>
+    {{- end }}
+  {{- end }}
+{{- end }}

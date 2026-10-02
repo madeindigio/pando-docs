@@ -1,0 +1,116 @@
+/* ============================================================
+   Pando Docs 1.x — "Beneath the surface"
+   Design tokens. Source: _design/HANDOFF.md and the <helmet> blocks of
+   _design/design/*.dc.html.
+
+   Theme switch: hextra toggles `html.dark`; the design uses `[data-theme]`.
+   assets/js/head/theme.js sets both, so either selector works.
+
+   Light-mode gold as TEXT is always --acc (#8F6310, AA on Marfil).
+   --node (#C68A17) is for marks, nodes and flows only.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../fonts/space-grotesk-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-latin.woff2') format('woff2');
+}
+
+/* Kanji subsets: only the glyphs the site uses (万物流転 表根土道 木本 / 众).
+   Regenerate with the Google Fonts css2 `text=` parameter when a new glyph is needed. */
+@font-face {
+  font-family: 'Shippori Mincho';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/shippori-mincho-500-kanji.woff2') format('woff2');
+  /* Kanji plus basic Latin: mottos such as "木 · one root, many trunks" are set in this face. */
+  unicode-range: U+0020-007e, U+00a0-00ff, U+4e07, U+571f, U+6728, U+672c, U+6839, U+6d41, U+7269, U+8868, U+8ee2, U+9053;
+}
+
+@font-face {
+  font-family: 'Shippori Mincho';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/shippori-mincho-700-kanji.woff2') format('woff2');
+  unicode-range: U+4e07, U+571f, U+6728, U+672c, U+6839, U+6d41, U+7269, U+8868, U+8ee2, U+9053;
+}
+
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/noto-serif-sc-500-zhong.woff2') format('woff2');
+  unicode-range: U+4f17;
+}
+
+:root,
+[data-theme='light'] {
+  --bg: #f4f1e8;
+  --bg2: #fbf9f3;
+  --soil: #e9e2d0;
+  --ink: #0f2a20;
+  --ink2: #41554a;
+  --line: rgba(15, 42, 32, 0.14);
+  --acc: #8f6310;
+  --node: #c68a17;
+  --deep: #0f2a20;
+  --deepInk: #f4f1e8;
+  --deepInk2: #b7c3ba;
+  --deepLine: rgba(244, 241, 232, 0.16);
+  --gold: #e9b949;
+  --card: #fffdf7;
+  --shot: #0f2a20;
+  --code: #0f2a20;
+  --sel: rgba(198, 138, 23, 0.12);
+  --shadow: 0 18px 40px rgba(15, 42, 32, 0.14);
+
+  /* Constants: surfaces that stay dark in both themes (video, install, callout). */
+  --forest: #0f2a20;
+  --forest2: #0a2018;
+  --ivory: #f4f1e8;
+  --ivory2: #b7c3ba;
+
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-kanji: 'Shippori Mincho', 'Noto Serif SC', serif;
+
+  --r-btn: 12px;
+  --r-code: 14px;
+  --r-card: 24px;
+  --r-block: 32px;
+  --r-pill: 999px;
+
+  --header-h: 72px;
+}
+
+[data-theme='dark'],
+html.dark {
+  --bg: #0b1f17;
+  --bg2: #0f261c;
+  --soil: #07140e;
+  --ink: #f4f1e8;
+  --ink2: #afbcb3;
+  --line: rgba(244, 241, 232, 0.13);
+  --acc: #e9b949;
+  --node: #e9b949;
+  --deep: #050f0a;
+  --deepLine: rgba(244, 241, 232, 0.12);
+  --card: #122c21;
+  --shot: #081811;
+  --code: #06130d;
+  --sel: rgba(233, 185, 73, 0.12);
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}

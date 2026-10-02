@@ -5,15 +5,29 @@ weight: 1
 
 ## Installation
 
-### From precompiled binaries
+### Download a release
 
-Get the latest release on GitHub: [Releases · digiogithub/pando](https://github.com/digiogithub/pando/releases) and download the binary for your operating system.
+Download the binary for your operating system from the [latest release on GitHub](https://github.com/digiogithub/pando/releases/latest): a `.pkg` installer for macOS, a `.zip` for Linux and Windows.
 
-Specific installers for each platform (Windows, macOS, Linux) will also be available in the future.
+### With the install script
+
+On Linux and macOS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install.sh | bash
+```
+
+On Windows, in PowerShell:
+
+```powershell
+iex (irm https://raw.githubusercontent.com/digiogithub/pando/main/scripts/install-windows.ps1)
+```
+
+See [Cross-Platform Installers]({{< relref "/docs/features/installers" >}}) for what the scripts do and their options.
 
 ### With Go
 
-If you have Go installed (1.21 or higher):
+If you have Go installed (1.21 or higher). This builds from source and does not include the desktop wrapper:
 
 ```bash
 go install github.com/digiogithub/pando@latest

@@ -1,0 +1,13 @@
+{{- /* Blog post card. Arg: the post page. */ -}}
+<article class="pcard">
+  <a class="pcard__link" href="{{ .RelPermalink }}">
+    <span class="label label--tight">{{ partial "utils/format-date" .Date }}</span>
+    <h3 class="pcard__title">{{ .Title }}</h3>
+    <p class="pcard__desc">{{ .Description | default (.Summary | plainify | htmlUnescape | truncate 180) }}</p>
+  </a>
+  {{- with .GetTerms "tags" }}
+    <div class="chips chips--tight">
+      {{- range first 4 . }}<a class="chip chip--sm" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}
+    </div>
+  {{- end }}
+</article>

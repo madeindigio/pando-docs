@@ -1,0 +1,450 @@
+/* Site chrome: header, search, language, theme toggle, mobile drawer, footer. */
+
+.pd-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.pd-header__bar {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Docs / guide pages: full-bleed, slightly shorter bar. */
+.pd-header--docs {
+  --header-h: 68px;
+}
+
+.pd-header--docs .pd-header__bar {
+  padding: 0 24px;
+  gap: 28px;
+}
+
+.pd .pd-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--ink);
+  flex: none;
+}
+
+.pd-brand__word {
+  font-weight: 600;
+  font-size: 23px;
+  letter-spacing: -0.03em;
+}
+
+.pd-header--docs .pd-brand__word {
+  font-size: 21px;
+}
+
+.pd-brand__pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  color: var(--acc);
+}
+
+.pd-brand__suffix {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink2);
+}
+
+.pd-nav {
+  display: flex;
+  gap: 28px;
+}
+
+.pd .nav {
+  color: var(--ink2);
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.pd .nav:hover {
+  color: var(--ink);
+}
+
+.pd .nav[aria-current='page'] {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.pd-header__grow {
+  flex-grow: 1;
+}
+
+/* Search: hextra FlexSearch input, dressed as the board's ⌘K button. */
+.pd-search {
+  position: relative;
+  min-width: 260px;
+}
+
+.pd-header--docs .pd-search {
+  min-width: 280px;
+}
+
+.pd-search__field {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-btn);
+  background: var(--bg2);
+  color: var(--ink2);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.pd-search__field:focus-within {
+  border-color: var(--acc);
+}
+
+.pd-search__field svg {
+  flex: none;
+}
+
+.pd .pd-search__input {
+  flex-grow: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  appearance: none;
+}
+
+.pd .pd-search__input::placeholder {
+  color: var(--ink2);
+  opacity: 1;
+}
+
+.pd .pd-search__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.pd-search kbd {
+  flex: none;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink2);
+  background: transparent;
+}
+
+.pd .hextra-search-results {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 30;
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(60vh, 480px);
+  margin-top: 8px;
+  padding: 8px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-code);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  list-style: none;
+}
+
+.pd .hextra-search-results a {
+  color: var(--ink);
+  border-radius: 10px;
+}
+
+.pd .hextra-search-results a:hover,
+.pd .hextra-search-results .hextra-search-active {
+  background: var(--sel);
+  color: var(--ink);
+}
+
+.pd .hextra-search-results li {
+  list-style: none;
+}
+
+.pd .hextra-search-results a {
+  display: block;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.pd .hextra-search-prefix {
+  margin: 8px 0 2px;
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+
+.pd .hextra-search-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.pd .hextra-search-excerpt {
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink2);
+}
+
+.pd .hextra-search-results .hextra-search-match,
+.pd .hextra-search-results mark {
+  background: transparent;
+  color: var(--acc);
+  font-weight: 500;
+}
+
+/* Language dropdown (home) */
+.pd-lang {
+  position: relative;
+}
+
+.pd .pd-lang__btn {
+  width: auto;
+  padding: 0 12px;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.pd-lang__menu {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  width: 200px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-code);
+  box-shadow: var(--shadow);
+}
+
+.pd-lang__menu[hidden] {
+  display: none;
+}
+
+.pd .pd-lang__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.pd .pd-lang__item:hover {
+  background: var(--sel);
+}
+
+.pd-lang__mark {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--acc);
+}
+
+/* Theme toggle: moon in light, sun in dark. */
+.pd-theme__sun {
+  display: none;
+}
+
+[data-theme='dark'] .pd-theme__sun {
+  display: block;
+}
+
+[data-theme='dark'] .pd-theme__moon {
+  display: none;
+}
+
+/* Mobile drawer */
+.pd-drawer {
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: 19;
+  overflow: auto;
+  padding: 20px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--bg);
+}
+
+/* Closed = invisible but still laid out: hextra's flexsearch.js picks the
+   search box by `clientHeight > 0` and throws if none qualifies, so on mobile
+   (header search hidden) the drawer's copy must keep a height. */
+.pd-drawer:not([data-open]) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pd-drawer__nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.pd .pd-drawer__nav .nav {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  font-size: 18px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.pd-drawer .pd-search {
+  min-width: 0;
+}
+
+.pd-drawer .hextra-search-results {
+  position: static;
+  width: 100%;
+  box-shadow: none;
+}
+
+body.pd-drawer-open {
+  overflow: hidden;
+}
+
+.pd-menu__close {
+  display: none;
+}
+
+.pd-menu[aria-expanded='true'] .pd-menu__close {
+  display: block;
+}
+
+.pd-menu[aria-expanded='true'] .pd-menu__open {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .pd-drawer {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .pd-header__bar,
+  .pd-header--docs .pd-header__bar {
+    gap: 8px;
+  }
+
+  .pd-header--docs .pd-header__bar {
+    padding: 0 16px;
+  }
+
+  .pd-brand__pill,
+  .pd-brand__suffix {
+    display: none;
+  }
+}
+
+/* Footer */
+.pd-footer {
+  background: var(--soil);
+  border-top: 1px solid var(--line);
+  padding: 72px 0 40px;
+}
+
+.pd-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.pd-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.pd-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pd-footer__marks {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--ink);
+}
+
+.pd-footer__kanji {
+  font-size: 22px;
+  letter-spacing: 0.3em;
+  color: var(--ink2);
+}
+
+.pd-footer__tagline {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink2);
+  max-width: 300px;
+}
+
+.pd-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.pd-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink2);
+}
+
+@media (max-width: 900px) {
+  .pd-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pd-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* The field shows the focus state; no second ring on the input itself. */
+.pd .pd-search__input:focus-visible {
+  outline: 0;
+}
+
+.pd-drawer .pd-search kbd {
+  display: none;
+}

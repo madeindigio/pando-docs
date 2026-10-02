@@ -1,0 +1,9 @@
+{{- /* "Under the surface" callout for guides: what Pando did below what you saw.
+       Usage: {{< under-surface >}}Markdown text{{< /under-surface >}} */ -}}
+<aside class="under not-prose">
+  <span class="kanji under__kanji" aria-hidden="true">根</span>
+  <div class="under__body">
+    <span class="mono under__title">{{ T "guide_under_surface" }}</span>
+    <div class="under__text">{{ .Inner | .Page.RenderString }}</div>
+  </div>
+</aside>

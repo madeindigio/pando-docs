@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Pando Docs — Dirección visual</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@500&amp;family=Shippori+Mincho:wght@500;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kanji{font-family:'Shippori Mincho','Noto Serif SC',serif}
+.flow{stroke-dasharray:3 15;animation:flow 3.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-72}}
+@media (prefers-reduced-motion:reduce){.flow{animation:none}}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1000px; box-sizing: border-box; display: grid; grid-template-columns: 560px minmax(0, 1fr); font-family: 'Space Grotesk', sans-serif; background: #F4F1E8; color: #0F2A20">
+
+<div style="position: relative; overflow: hidden; padding: 64px; display: flex; flex-direction: column; justify-content: space-between; background: #0F2A20; color: #F4F1E8">
+<svg width="560" height="1000" viewBox="0 0 560 1000" aria-hidden="true" style="position: absolute; inset: 0">
+<path d="M0 560 C140 548 280 572 560 552" fill="none" stroke="rgba(244,241,232,.35)" stroke-width="1.5"></path>
+<g stroke="rgba(244,241,232,.22)" stroke-width="2" stroke-linecap="round" fill="none"><path d="M80 560V430M80 450l-10-12M80 464l11-13M170 560V380M170 400l-10-12M170 414l11-13M270 560V450M370 560V400M370 420l-10-12M460 560V360M460 380l-10-12M460 394l11-13"></path></g>
+<g stroke="#E9B949" stroke-width="1.4" fill="none"><path class="flow" d="M80 560C80 660 220 700 280 720S460 660 460 560"></path><path class="flow" d="M170 560C180 640 250 700 280 720M370 560C360 640 310 700 280 720M280 720C280 820 120 880 0 900M280 720C300 820 440 880 560 900"></path></g>
+<circle cx="280" cy="720" r="6" fill="#E9B949"></circle>
+</svg>
+<div style="position: relative; display: flex; flex-direction: column; gap: 20px">
+<span class="mono" style="font-size: 12px; letter-spacing: .16em; color: #E9B949">PANDO DOCS 1.x · CONCEPTO</span>
+<span style="font-size: 64px; line-height: .95; letter-spacing: -0.045em; font-weight: 500">Bajo la superficie.</span>
+<span style="font-size: 18px; line-height: 1.6; color: #B7C3BA; max-width: 420px">La web es un corte transversal del bosque: arriba lo que ves, abajo lo que trabaja. Bajar por la página es bajar por las raíces.</span>
+</div>
+<div style="position: relative; display: flex; align-items: flex-end; justify-content: space-between">
+<span class="kanji" style="writing-mode: vertical-rl; font-size: 34px; letter-spacing: .45em">万物流転</span>
+<span class="mono" style="font-size: 11px; letter-spacing: .14em; color: #B7C3BA; text-align: right">TODO FLUYE ·<br>UN SOLO ORGANISMO</span>
+</div>
+</div>
+
+<div style="padding: 56px 64px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span class="mono" style="font-size: 11px; letter-spacing: .16em; color: #8F6310">ESTRATOS · ORDEN DE LAS 38 FUNCIONALIDADES</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: rgba(15,42,32,.14); border: 1px solid rgba(15,42,32,.14); border-radius: 18px; overflow: hidden">
+<div style="padding: 22px; background: #FBF9F3; display: flex; flex-direction: column; gap: 8px"><span class="kanji" style="font-size: 40px; line-height: 1">表</span><span style="font-size: 18px; font-weight: 500">I · Superficie</span><span style="font-size: 14px; line-height: 1.5; color: #41554A">Interfaces y modos que tocas. 12</span></div>
+<div style="padding: 22px; background: #0F2A20; color: #F4F1E8; display: flex; flex-direction: column; gap: 8px"><span class="kanji" style="font-size: 40px; line-height: 1; color: #E9B949">根</span><span style="font-size: 18px; font-weight: 500">II · Raíces</span><span style="font-size: 14px; line-height: 1.5; color: #B7C3BA">木 Pando · 本 Remembrances · 众 Mesnada. 11</span></div>
+<div style="padding: 22px; background: #E9E2D0; display: flex; flex-direction: column; gap: 8px"><span class="kanji" style="font-size: 40px; line-height: 1">土</span><span style="font-size: 18px; font-weight: 500">III · Suelo</span><span style="font-size: 14px; line-height: 1.5; color: #41554A">Modelos, protocolos, herramientas, operación. 15</span></div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span class="mono" style="font-size: 11px; letter-spacing: .16em; color: #8F6310">LIGHT · POR DEFECTO</span>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #F4F1E8; border: 1px solid rgba(15,42,32,.14)"></span><span class="mono" style="font-size: 10px">Marfil<br>F4F1E8</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #E9E2D0"></span><span class="mono" style="font-size: 10px">Tierra<br>E9E2D0</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #0F2A20"></span><span class="mono" style="font-size: 10px">Bosque<br>0F2A20</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #8F6310"></span><span class="mono" style="font-size: 10px">Texto oro<br>8F6310</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #C68A17"></span><span class="mono" style="font-size: 10px">Nodo<br>C68A17</span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span class="mono" style="font-size: 11px; letter-spacing: .16em; color: #8F6310">DARK</span>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #0B1F17"></span><span class="mono" style="font-size: 10px">Noche<br>0B1F17</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #122C21"></span><span class="mono" style="font-size: 10px">Copa<br>122C21</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #050F0A"></span><span class="mono" style="font-size: 10px">Raíz<br>050F0A</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #F4F1E8; border: 1px solid rgba(15,42,32,.14)"></span><span class="mono" style="font-size: 10px">Marfil<br>F4F1E8</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 64px; border-radius: 12px; background: #E9B949"></span><span class="mono" style="font-size: 10px">Álamo<br>E9B949</span></div>
+</div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span class="mono" style="font-size: 11px; letter-spacing: .16em; color: #8F6310">TIPOGRAFÍA</span>
+<div style="display: flex; align-items: baseline; gap: 18px"><span style="font-size: 56px; line-height: 1; letter-spacing: -0.045em; font-weight: 500">Aa</span><span style="font-size: 15px; color: #41554A">Space Grotesk 500 — titulares y cuerpo</span></div>
+<div style="display: flex; align-items: baseline; gap: 18px"><span class="mono" style="font-size: 26px">$_</span><span style="font-size: 15px; color: #41554A">JetBrains Mono — código, etiquetas, profundidades</span></div>
+<div style="display: flex; align-items: baseline; gap: 18px"><span class="kanji" style="font-size: 40px; line-height: 1">木本众</span><span style="font-size: 15px; color: #41554A">Shippori Mincho — kanji y acentos orientales</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span class="mono" style="font-size: 11px; letter-spacing: .16em; color: #8F6310">PRINCIPIOS</span>
+<span style="font-size: 15px; line-height: 1.55">1 · Monolínea siempre: trazo constante, extremos redondeados.</span>
+<span style="font-size: 15px; line-height: 1.55">2 · El oro solo vive en nodos y flujos: lo que conecta.</span>
+<span style="font-size: 15px; line-height: 1.55">3 · Animación lenta y continua, nunca rebotes. Respeta reduced‑motion.</span>
+<span style="font-size: 15px; line-height: 1.55">4 · La profundidad ordena: cuanto más abajo, más oscuro.</span>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

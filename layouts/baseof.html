@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" dir="{{ .Site.Language.LanguageDirection | default `ltr` }}" data-theme="light">
+  {{- partial "head.html" . -}}
+  <body class="pd">
+    <a href="#content" class="pd-skip">{{ T "skipToContent" | default "Skip to content" }}</a>
+    {{- partial "header.html" . -}}
+    {{- block "main" . }}{{ end -}}
+    {{- partial "footer.html" . -}}
+    {{- partial "scripts.html" . -}}
+  </body>
+</html>

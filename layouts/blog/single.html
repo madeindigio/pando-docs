@@ -1,0 +1,24 @@
+{{- /* Blog post: the docs article without the left sidebar. */ -}}
+{{ define "main" }}
+  <div class="shell shell--post">
+    <main class="shell__main" id="content">
+      <article class="article">
+        <header class="article__head">
+          <nav class="crumbs mono" aria-label="{{ T "breadcrumb" }}">
+            <a href="{{ .Parent.RelPermalink }}">{{ T "blog" }}</a><span aria-hidden="true">/</span><span>{{ partial "utils/format-date" .Date }}</span>
+          </nav>
+          <h1 class="article__title">{{ .Title }}</h1>
+          {{- with .Description }}<p class="article__lead">{{ . }}</p>{{ end }}
+          {{- with .GetTerms "tags" }}
+            <div class="chips chips--tight">
+              {{- range . }}<a class="chip chip--sm" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}
+            </div>
+          {{- end }}
+        </header>
+        <div class="content prose">{{ .Content }}</div>
+        {{ partial "docs/pager.html" (dict "prev" .PrevInSection "next" .NextInSection) }}
+      </article>
+    </main>
+    <aside class="shell__toc hide-t">{{ partial "docs/toc.html" (dict "page" .) }}</aside>
+  </div>
+{{ end }}

@@ -1,0 +1,11 @@
+{{- /* Previous / next cards. Args: prev, next (pages or nil). */ -}}
+{{- if or .prev .next }}
+  <nav class="pager" aria-label="{{ T "pagination" }}">
+    {{- with .prev }}
+      <a class="pager__item" href="{{ .RelPermalink }}" rel="prev"><span class="mono pager__label">← {{ T "previous" }}</span><span class="pager__title">{{ .Params.shortTitle | default .LinkTitle }}</span></a>
+    {{- else }}<span></span>{{ end }}
+    {{- with .next }}
+      <a class="pager__item pager__item--next" href="{{ .RelPermalink }}" rel="next"><span class="mono pager__label">{{ T "next" }} →</span><span class="pager__title">{{ .Params.shortTitle | default .LinkTitle }}</span></a>
+    {{- end }}
+  </nav>
+{{- end }}

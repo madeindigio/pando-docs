@@ -1,13 +1,13 @@
-<!-- Pando v1 brand fonts: Space Grotesk (display/headings/wordmark) and
-     JetBrains Mono (code), loaded from Google Fonts. See assets/css/custom.css
-     for how --font-display / --font-mono-brand are applied. -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-  rel="stylesheet"
-/>
+{{- /* Pando design system: tokens + components, one bundle.
+       Output path css/pando.css keeps the relative ../fonts/ URLs valid
+       under any base path (GitHub Pages serves the site from /pando-docs/). */ -}}
+<link rel="preload" href="{{ "fonts/space-grotesk-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin />
+{{- $css := resources.Match "css/pando/*.css" | resources.Concat "css/pando.css" -}}
+{{- if hugo.IsProduction -}}
+  {{- $css = $css | minify | fingerprint -}}
+{{- end }}
+<link href="{{ $css.RelPermalink }}" rel="stylesheet"{{ with $css.Data.Integrity }} integrity="{{ . }}"{{ end }} />
 
-<!-- Bosque (brand background/ink) as the browser UI theme color, per color scheme. -->
-<meta name="theme-color" content="#fdfcf8" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#0c1f18" media="(prefers-color-scheme: dark)" />
+<!-- Browser UI colour per scheme: Marfil / Noche. -->
+<meta name="theme-color" content="#f4f1e8" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0b1f17" media="(prefers-color-scheme: dark)" />

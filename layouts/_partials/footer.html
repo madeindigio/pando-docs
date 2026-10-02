@@ -1,0 +1,32 @@
+{{- /* Site footer. Spec: <footer> of _design/design/Main.dc.html.
+       Columns come from menus.footer_docs / footer_learn / footer_ecosystem /
+       footer_project in hugo.toml; labels are translated by menu identifier. */ -}}
+<footer class="pd-footer">
+  <div class="wrap pd-footer__inner">
+    <div class="pd-footer__grid">
+      <div class="pd-footer__brand">
+        <div class="pd-footer__marks">
+          {{- partial "svg/mark-pando.html" (dict "size" 30) -}}
+          <span class="kanji pd-footer__kanji" aria-hidden="true">木本众</span>
+        </div>
+        <span class="pd-footer__tagline">{{ T "footerTagline" }}</span>
+      </div>
+      {{- range $col := slice "docs" "learn" "ecosystem" "project" }}
+        {{- with index site.Menus (printf "footer_%s" $col) }}
+          <nav class="pd-footer__col" aria-label="{{ T (printf "footer_%s" $col) }}">
+            <span class="label">{{ T (printf "footer_%s" $col) }}</span>
+            {{- range . }}
+              {{- $link := .URL -}}
+              {{- with .PageRef }}{{ $link = relLangURL (strings.TrimPrefix "/" .) }}{{ end }}
+              <a class="nav" href="{{ $link }}"{{ if strings.HasPrefix $link "http" }} rel="noreferrer"{{ end }}>{{ or (T .Identifier) .Name }}</a>
+            {{- end }}
+          </nav>
+        {{- end }}
+      {{- end }}
+    </div>
+    <div class="pd-footer__bottom">
+      <span>{{ T "footerCopyright" }}</span>
+      <span>{{ T "footerMadeIn" }} · <span class="kanji" lang="ja">万物流転</span></span>
+    </div>
+  </div>
+</footer>

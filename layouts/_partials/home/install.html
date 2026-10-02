@@ -1,0 +1,50 @@
+{{- /* Install block: downloads of the latest GitHub release, one tab per
+       platform. Asset names are stable across releases except the macOS .pkg,
+       whose name carries the version, so macOS links to the release page.
+       assets/js/core/pando.js preselects the visitor's platform. */ -}}
+{{- $latest := printf "%s/releases/latest" site.Params.github -}}
+{{- $dl := printf "%s/download" $latest -}}
+{{- $tabs := slice
+  (dict "id" "macos" "label" "macOS" "note" (T "home_install_macos_note") "files" (slice
+    (dict "name" "pando-<version>-darwin-arm64.pkg" "arch" "Apple Silicon" "url" $latest)
+    (dict "name" "pando-<version>-darwin-x64.pkg" "arch" "Intel" "url" $latest)))
+  (dict "id" "linux" "label" "Linux" "note" (T "home_install_linux_note") "files" (slice
+    (dict "name" "pando-linux-x64.zip" "arch" "x86-64" "url" (printf "%s/pando-linux-x64.zip" $dl))
+    (dict "name" "pando-linux-arm64.zip" "arch" "ARM64" "url" (printf "%s/pando-linux-arm64.zip" $dl))))
+  (dict "id" "windows" "label" "Windows" "note" (T "home_install_windows_note") "files" (slice
+    (dict "name" "pando-windows-x64.zip" "arch" "x86-64" "url" (printf "%s/pando-windows-x64.zip" $dl)))) }}
+<section class="install" id="install">
+  <div class="wrap">
+    <div class="install__box stack-m">
+      <span class="kanji install__kanji hide-m" aria-hidden="true">木</span>
+      <div class="install__text">
+        <h2 class="h2 h2--64">{{ T "home_install_title" }}</h2>
+        <p class="install__lead">{{ T "home_install_lead" }}</p>
+        <a class="btn btn--gold" href="{{ $latest }}" rel="noreferrer">{{ T "home_install_download" }} <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="install__panel" data-tabs data-tabs-platform>
+        <div class="install__tabs mono" role="tablist" aria-label="{{ T "home_install_method" }}">
+          {{- range $i, $t := $tabs }}
+            <button class="install__tab" type="button" role="tab" id="install-tab-{{ .id }}" data-platform="{{ .id }}" aria-controls="install-panel-{{ .id }}" aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}"{{ if ne $i 0 }} tabindex="-1"{{ end }}>{{ .label }}</button>
+          {{- end }}
+        </div>
+        {{- range $i, $t := $tabs }}
+          <div class="install__code mono" role="tabpanel" id="install-panel-{{ .id }}" aria-labelledby="install-tab-{{ .id }}" tabindex="0"{{ if ne $i 0 }} hidden{{ end }}>
+            {{- range .files }}
+              <a class="install__file" href="{{ .url }}" rel="noreferrer">
+                <span class="install__prompt" aria-hidden="true">↓</span>
+                <span class="install__file-name">{{ .name }}</span>
+                <span class="install__file-arch">{{ .arch }}</span>
+              </a>
+            {{- end }}
+            <div class="install__comment"># {{ .note }}</div>
+          </div>
+        {{- end }}
+        <div class="install__links">
+          {{- with site.GetPage "/docs/features/installers" }}<a href="{{ .RelPermalink }}">{{ T "home_install_scripts" }} →</a>{{ end }}
+          <a href="{{ "docs/getting-started/" | relLangURL }}">{{ T "home_install_guide" }} →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

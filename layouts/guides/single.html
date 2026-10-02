@@ -1,0 +1,99 @@
+{{- /* Single guide. Spec: _design/design/Guide.dc.html.
+       Front matter: track, level, weight, video {provider, id, subtitles},
+       chapters [{t, title}], planned. Each `##` in the body is one step;
+       numbering is done in CSS (assets/css/pando/45-guides.css). */ -}}
+{{ define "main" }}
+  {{- $lang := site.Language.Lang -}}
+  {{- $track := index site.Data.tracks (.Params.track | default "surface") -}}
+  {{- $siblings := .Parent.RegularPages.ByWeight -}}
+  {{- $number := 0 -}}
+  {{- range $i, $p := $siblings }}{{ if eq $p $ }}{{ $number = add $i 1 }}{{ end }}{{ end -}}
+  {{- $video := .Params.video -}}
+  {{- $steps := slice -}}
+  {{- range .Fragments.Headings }}{{ range .Headings }}{{ $steps = $steps | append . }}{{ end }}{{ end -}}
+  <div class="shell">
+    <aside class="shell__side hide-m">{{ partial "docs/sidebar.html" . }}</aside>
+    <main class="shell__main" id="content">
+      <article class="article">
+        <header class="article__head">
+          <nav class="crumbs mono" aria-label="{{ T "breadcrumb" }}">
+            <a href="{{ .Parent.RelPermalink }}">{{ T "guides" }}</a><span aria-hidden="true">/</span><span>{{ index $track.short $lang }}</span>
+          </nav>
+          <h1 class="article__title">{{ .Title }}</h1>
+          {{- with .Description }}<p class="article__lead">{{ . }}</p>{{ end }}
+          <div class="article__meta">
+            <span class="pill"><span class="kanji">{{ $track.kanji }}</span> {{ T (printf "level_%s" (.Params.level | default "beginner")) }}</span>
+            <span class="pill">{{ if $video }}▶ {{ T "guide_format_video" }}{{ else }}{{ T "guide_format_text" }}{{ end }}</span>
+            <span class="pill pill--acc">{{ T "guide_available" }} {{ range $i, $p := .AllTranslations }}{{ if $i }} · {{ end }}{{ .Language.LanguageName }}{{ end }}</span>
+          </div>
+        </header>
+
+        {{- if $video }}
+          {{- $hasVideo := and (eq $video.provider "youtube") $video.id }}
+          <div class="gvideo"{{ if $hasVideo }} data-video-id="{{ $video.id }}"{{ end }}>
+            <div class="gvideo__stage">
+              {{ partial "svg/grove-poster.html" (dict "w" 800) }}
+              {{- if $hasVideo }}
+                <button class="play play--88 gvideo__play" type="button" aria-label="{{ T "guide_play" }}"><svg width="30" height="30" viewBox="0 0 24 24" fill="#0F2A20" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+              {{- else }}
+                <span class="play play--88" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="#0F2A20"><path d="M8 5v14l11-7z"></path></svg></span>
+              {{- end }}
+              <span class="mono gvideo__tag">{{ T "guide_number" }} {{ printf "%02d" $number }} · {{ index $track.short $lang }}</span>
+            </div>
+            <div class="mono gvideo__bar">
+              <span class="gvideo__status">{{ if $hasVideo }}{{ T "guide_audio" }}: {{ site.Language.LanguageName }}{{ else }}{{ T "guide_video_soon" }}{{ end }}</span>
+              <span class="gvideo__grow"></span>
+              {{- with $video.subtitles }}<span class="gvideo__cc">CC {{ delimit (apply . "upper" ".") " · " }}</span>{{ end }}
+            </div>
+            {{- with .Params.chapters }}
+              <nav class="gvideo__chapters stack-m" aria-label="{{ T "guide_chapters" }}">
+                {{- range $i, $c := . }}
+                  {{- $anchor := "" -}}
+                  {{- with index $steps $i }}{{ $anchor = anchorize .ID }}{{ end }}
+                  <a class="gvideo__chapter" href="#{{ $anchor }}" data-t="{{ .t }}"><span class="mono gvideo__chapter-n">{{ printf "%02d" (add $i 1) }}</span><span>{{ .title }}</span></a>
+                {{- end }}
+              </nav>
+            {{- end }}
+          </div>
+          <p class="mono gprefer">↓ {{ T "guide_prefer" }}</p>
+        {{- end }}
+
+        {{- if .Params.planned }}
+          <p class="gplanned">{{ T "guide_planned_note" }}</p>
+        {{- end }}
+
+        <div class="content prose gsteps">{{ .Content }}</div>
+
+        <div class="ghelp stack-m" data-helpful>
+          <span class="ghelp__q">{{ T "guide_helpful" }}</span>
+          <div class="ghelp__actions">
+            <button class="btn btn--ghost btn--44" type="button" data-helpful-yes data-thanks="{{ T "guide_thanks" }}">{{ T "guide_yes" }}</button>
+            {{- with site.Params.feedback.issues }}
+              <a class="btn btn--ghost btn--44" href="{{ . }}?title={{ printf "Guide feedback: %s" $.Title | urlquery }}&labels=documentation" rel="noreferrer">{{ T "guide_no" }}</a>
+            {{- end }}
+            {{- if and site.Params.editURL.enable .File }}
+              <a class="mono ghelp__edit" href="{{ site.Params.editURL.base }}/{{ $lang }}/{{ .File.Path }}" rel="noreferrer">{{ T "guide_edit" }}</a>
+            {{- end }}
+          </div>
+        </div>
+
+        {{- /* Pages.Next/.Prev walk the collection backwards: Next is the item before. */}}
+        {{ partial "docs/pager.html" (dict "prev" ($siblings.Next .) "next" ($siblings.Prev .)) }}
+      </article>
+    </main>
+    <aside class="shell__toc hide-t">
+      {{ partial "docs/toc.html" (dict "page" . "numbered" true "levels" 1) }}
+      {{- if .IsTranslated }}
+        <div class="watchin">
+          <span class="label">{{ T "guide_watch_in" }}</span>
+          <div class="seg seg--bare">
+            {{- range .AllTranslations }}
+              <a class="seg__item" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}"{{ if eq .Language.Lang $lang }} aria-current="true"{{ end }}>{{ .Language.LanguageName }}</a>
+            {{- end }}
+          </div>
+          <span class="watchin__note">{{ T "guide_watch_note" }}</span>
+        </div>
+      {{- end }}
+    </aside>
+  </div>
+{{ end }}
