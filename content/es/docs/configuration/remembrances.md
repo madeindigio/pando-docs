@@ -36,6 +36,10 @@ MemoryPinnedScopes = []
 
 ## Configuración de Base de Conocimiento
 
+{{< shot src="images/webui/pando-webui-settings-remembrances.jpg" alt="Ajustes de Remembrances: sincronización de la base de conocimiento" >}}
+
+{{< shot src="images/webui/pando-webui-settings-remembrances-document-embeddings.jpg" alt="Ajustes de embeddings de documentos" >}}
+
 ```toml
 [Remembrances]
 # Directorio de sincronía para documentos KB
@@ -78,6 +82,8 @@ ContextEnrichmentPlannerFallbackToCoder = false
 ```
 
 ## Configuración de Índice de Código
+
+{{< shot src="images/webui/pando-webui-settings-remembrances-code-embeddings.jpg" alt="Ajustes de embeddings de código" >}}
 
 ```toml
 [Remembrances]

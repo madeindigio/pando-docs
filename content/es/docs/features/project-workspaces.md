@@ -7,6 +7,10 @@ Los espacios de trabajo de proyecto permiten que la vista **Projects** abra una 
 
 ## Abrir una pestaña de proyecto
 
+{{< shot src="images/webui/pando-webui-projects.jpg" alt="Lista de proyectos en la Web UI" >}}
+
+{{< shot src="images/webui/pando-webui-project-workspace-tab.jpg" alt="Un proyecto abierto en su propia pestaña" >}}
+
 1. Abre **Projects**.
 2. Haz clic en la fila del proyecto, o usa **Open tab** en la columna de acciones.
 3. Pando inicia el espacio de trabajo si hace falta y te lleva a `/projects/:id/workspace`.
@@ -35,6 +39,8 @@ Los espacios de trabajo de proyecto y la delegación de Mesnada comparten el mis
 En la aplicación de escritorio, los espacios de trabajo de proyecto permanecen dentro de la ventana principal y de la barra de pestañas de Pando. El título de la ventana y la bandeja siguen perteneciendo a la aplicación padre, así que abrir una pestaña de proyecto no crea nuevas entradas en la bandeja ni ventanas separadas salvo que uses explícitamente **Open desktop**.
 
 ## Configuración
+
+{{< shot src="images/webui/pando-webui-settings-general-tool-discovery-workspaces.jpg" alt="Ajustes de descubrimiento de herramientas y workspaces de proyecto" >}}
 
 Añade estas claves bajo `[Projects]` en `.pando.toml`:
 

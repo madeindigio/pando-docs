@@ -33,6 +33,8 @@ La herramienta `mesnada_spawn_agent` lanza tareas en segundo plano:
 
 ## Esperar Resultados
 
+{{< shot src="images/webui/pando-webui-settings-general-subagent-delegation.jpg" alt="Ajustes de delegación a subagentes" >}}
+
 ### No Bloqueante (Recomendado)
 
 Usa `mesnada_await` después de lanzar tareas en segundo plano:
@@ -96,6 +98,8 @@ El parámetro `project` enruta la tarea a la instancia activa del proyecto corre
 
 ## Reutilización de Instancias Activas
 
+{{< shot src="images/webui/pando-webui-settings-general-delegation-warm-instances.jpg" alt="Ajustes de instancias en caliente, verificación de conclusiones y circuit breaker" >}}
+
 Cuando está habilitado, las tareas delegadas se enrutan a instancias ACP ya en ejecución ("calientes") en lugar de lanzar nuevos procesos CLI:
 
 ```toml
@@ -106,6 +110,8 @@ MaxConcurrent = 8
 ```
 
 ## Supervisor de Delegación
+
+{{< shot src="images/webui/pando-webui-settings-general-delegation-event-log.jpg" alt="Ajustes del registro de eventos y del reparto de tareas" >}}
 
 El supervisor maneja la finalización automática de tareas delegadas:
 

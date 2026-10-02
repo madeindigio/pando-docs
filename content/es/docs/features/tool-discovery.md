@@ -17,6 +17,8 @@ Inspirado en el enfoque de VS Code Copilot:
 
 ## Configuración
 
+{{< shot src="images/webui/pando-webui-settings-general-tool-discovery-workspaces.jpg" alt="Ajustes de descubrimiento de herramientas y workspaces de proyecto" >}}
+
 ```toml
 [ToolDiscovery]
 Enabled = true

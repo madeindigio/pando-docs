@@ -14,6 +14,10 @@ Hasta que se publique esta guía, la documentación de referencia cubre este tem
 
 ## Divide el trabajo
 
+{{< shot src="images/webui/pando-webui-settings-mesnada.jpg" alt="Ajustes de Mesnada" >}}
+
+{{< shot src="images/webui/pando-webui-orchestrator-tasks.jpg" alt="Tareas del orquestador Mesnada" >}}
+
 ## Ejecuta subagentes en paralelo
 
 ## Reúne los resultados

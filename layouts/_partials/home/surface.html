@@ -18,7 +18,11 @@
           <span class="tag-new mono">{{ T "new" }}</span>
         </div>
         {{- with site.Params.home.desktopShot }}
-          <img class="shot-img" src="{{ . | relURL }}" alt="{{ T "home_desktop_title" }}" loading="lazy" />
+          {{- $dark := site.Params.home.desktopShotDark }}
+          <img class="shot-img{{ with $dark }} shot-img--light{{ end }}" src="{{ . | relURL }}" alt="{{ T "home_desktop_title" }}" loading="lazy" />
+          {{- with $dark }}
+          <img class="shot-img shot-img--dark" src="{{ . | relURL }}" alt="{{ T "home_desktop_title" }}" loading="lazy" />
+          {{- end }}
         {{- else }}
           {{- /* Placeholder until a real Pando Desktop 1.x capture is available. */}}
           <div class="shot-mock" aria-hidden="true">

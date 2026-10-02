@@ -20,6 +20,8 @@ Pando supports authenticating with MCP (Model Context Protocol) servers that req
 
 ### Via Web UI
 
+{{< shot src="images/webui/pando-webui-settings-mcp-add-server-http-auth.jpg" alt="Authentication types when adding an HTTP MCP server" >}}
+
 1. Open **Settings > MCP Servers**
 2. Select or add a server
 3. Choose the **Auth Type** from the dropdown

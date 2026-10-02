@@ -16,6 +16,8 @@ Cuando está habilitado, Pando enriquece cada mensaje del usuario antes de envia
 
 ## Configuración
 
+{{< shot src="images/webui/pando-webui-settings-remembrances-chunking-context.jpg" alt="Ajustes de troceado, indexado de código y enriquecimiento de contexto" >}}
+
 ```toml
 [Remembrances]
 ContextEnrichmentEnabled = true
@@ -43,6 +45,8 @@ ContextEnrichmentPlannerFallbackToCoder = false
 ```
 
 ## Enriquecimiento como bucle de agente
+
+{{< shot src="images/webui/pando-webui-settings-remembrances-context-enrichment.jpg" alt="Ajustes del bucle de enriquecimiento y del filtro de relevancia" >}}
 
 En lugar de una única ronda de búsquedas, Pando puede ejecutar el enriquecimiento como un **pequeño agente dedicado** que consulta de forma iterativa la memoria, la base de conocimiento, los eventos pasados y el índice de código hasta tener lo que necesita. El agente principal nunca ve esas búsquedas: solo recibe el bloque de contexto ya terminado.
 

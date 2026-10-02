@@ -471,6 +471,15 @@
   border-radius: var(--r-code);
 }
 
+.shot .shot__dark,
+.dark .shot .shot__light {
+  display: none;
+}
+
+.dark .shot .shot__dark {
+  display: block;
+}
+
 .shot--empty {
   aspect-ratio: 16 / 8;
   display: flex;

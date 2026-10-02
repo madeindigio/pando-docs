@@ -3,7 +3,7 @@ title: Auto-Actualización
 weight: 19
 ---
 
-Pando puede actualizarse a sí mismo descargando la última versión desde GitHub y reemplazando el binario en ejecución.
+Pando se actualiza solo: descarga una versión desde GitHub y reemplaza su propio binario.
 
 ## Uso
 
@@ -11,34 +11,45 @@ Pando puede actualizarse a sí mismo descargando la última versión desde GitHu
 # Actualizar a la última versión estable
 pando update
 
-# Verificar si existe una versión más reciente (sin cambio)
+# Solo comprobar si existe una versión más reciente
 pando update --check
+
+# Instalar una versión concreta
+pando update v1.2.6
 ```
 
-## Cómo Funciona
+## Instalar una versión concreta o volver atrás
 
-1. Consulta la API de GitHub para la última release de `digiogithub/pando`
-2. Verifica tu arquitectura (x64/arm64) y SO
-3. Descarga el archivo zip y extrae el binario de pando
-4. Reemplaza atómicamente el ejecutable en ejecución
-5. Verifica permisos de escritura antes de intentar la actualización
+Pasa una versión a `pando update` para instalar exactamente esa, aunque sea anterior a la que tienes. Sirve para volver atrás después de una actualización que no te funciona, o para reinstalar la versión actual.
 
-## Verificación de Actualización en Segundo Plano
-
-Al iniciar, Pando ejecuta una verificación en segundo plano (timeout de 2 segundos) y muestra un aviso en stderr si hay una versión más reciente disponible:
-
+```bash
+pando update v1.1.1      # volver a la 1.1.1
+pando update 1.2.6       # la "v" es opcional
 ```
-Una versión más reciente de Pando está disponible: v1.2.3 (actual: v1.2.2)
-Ejecuta 'pando update' para actualizar.
-```
+
+Pando te dice lo que va a hacer: `Installing`, `Downgrading` o `Reinstalling`.
+
+## Dónde ves que hay una actualización
+
+- **Terminal**: al arrancar, Pando muestra un aviso cuando hay una versión más reciente.
+
+  ```
+  A newer version of Pando is available: v1.2.3 (current: v1.2.2)
+  Run 'pando update' to upgrade.
+  ```
+
+- **Web UI y escritorio**: el panel de información del chat y **Ajustes > General > Diagnóstico** muestran tu versión y te avisan cuando existe una más nueva.
+
+## Cómo funciona
+
+1. Busca la versión en GitHub (`digiogithub/pando`)
+2. Elige el fichero de tu sistema operativo y arquitectura
+3. Lo descarga y extrae el binario
+4. Reemplaza el ejecutable en marcha en un solo paso
 
 ## Notas
 
-- Requiere permisos de escritura en la ubicación del binario de pando
-- Resuelve symlinks antes de reemplazar
-- Seguro de ejecutar mientras Pando está en uso
-- Las actualizaciones se obtienen del repositorio GitHub `digiogithub/pando`
-
-{{< callout >}}
-Ejecuta `pando update` regularmente para obtener las últimas funcionalidades y correcciones de errores. El proceso de actualización es atómico—o el nuevo binario se instala completamente o el anterior permanece.
-{{< /callout >}}
+- Necesitas permiso de escritura en la carpeta donde está el binario `pando`.
+- Es seguro ejecutarlo mientras Pando está en uso.
+- El reemplazo es atómico: o el binario nuevo queda instalado del todo o se queda el anterior.
+- En macOS, si instalaste con el `.pkg`, usa un `.pkg` nuevo para actualizar `Pando.app`. Consulta [Instaladores Multi-Plataforma]({{< relref "/docs/features/installers" >}}).

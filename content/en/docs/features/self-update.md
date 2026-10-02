@@ -3,42 +3,53 @@ title: Self-Update
 weight: 19
 ---
 
-Pando can update itself by downloading the latest release from GitHub and replacing the running binary.
+Pando updates itself: it downloads a release from GitHub and replaces its own binary.
 
 ## Usage
 
 ```bash
-# Update to latest stable release
+# Update to the latest stable release
 pando update
 
-# Check if a newer version exists (no change)
+# Only check whether a newer release exists
 pando update --check
+
+# Install one specific release
+pando update v1.2.6
 ```
 
-## How It Works
+## Install a specific version or go back
 
-1. Queries GitHub API for the latest release from `digiogithub/pando`
-2. Matches your architecture (x64/arm64) and OS
-3. Downloads the zip archive and extracts the pando binary
-4. Atomically replaces the running executable
-5. Checks write permissions before attempting update
+Pass a version to `pando update` to install exactly that release, even when it is older than the one you have. Use it to go back after an update that does not work for you, or to reinstall the current version.
 
-## Background Update Check
-
-On startup, Pando runs a background check (2-second timeout) and prints a notice to stderr if a newer version is available:
-
+```bash
+pando update v1.1.1      # go back to 1.1.1
+pando update 1.2.6       # the "v" is optional
 ```
-A newer version of Pando is available: v1.2.3 (current: v1.2.2)
-Run 'pando update' to upgrade.
-```
+
+Pando tells you what it is about to do: `Installing`, `Downgrading` or `Reinstalling`.
+
+## Where you see that an update exists
+
+- **Terminal**: on startup, Pando prints a notice when a newer release is available.
+
+  ```
+  A newer version of Pando is available: v1.2.3 (current: v1.2.2)
+  Run 'pando update' to upgrade.
+  ```
+
+- **Web UI and desktop**: the chat info panel and **Settings > General > Diagnostics** show your version and tell you when a newer one exists.
+
+## How it works
+
+1. Looks up the release on GitHub (`digiogithub/pando`)
+2. Picks the file for your operating system and architecture
+3. Downloads it and extracts the binary
+4. Replaces the running executable in one step
 
 ## Notes
 
-- Requires write permissions to the pando binary location
-- Resolves symlinks before replacing
-- Safe to run while Pando is in use
-- Updates are pulled from the `digiogithub/pando` GitHub repository
-
-{{< callout >}}
-Run `pando update` regularly to get the latest features and bug fixes. The update process is atomic—either the new binary is installed completely or the old one remains.
-{{< /callout >}}
+- You need write permission on the folder where the `pando` binary lives.
+- It is safe to run while Pando is in use.
+- The replacement is atomic: either the new binary is fully installed or the old one stays.
+- On macOS, if you installed with the `.pkg`, use a new `.pkg` to update `Pando.app`. See [Cross-Platform Installers]({{< relref "/docs/features/installers" >}}).

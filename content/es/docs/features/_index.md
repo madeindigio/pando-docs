@@ -55,11 +55,14 @@ Pando soporta múltiples entornos de ejecución para mayor seguridad y reproduci
 - **Ejecución Aislada**: Soporte nativo para ejecutar comandos y herramientas dentro de contenedores **Docker** o **Podman**.
 - **Devcontainers**: Integración con entornos de desarrollo estandarizados.
 - **Runtime Embebido**: Capacidad de ejecución controlada para minimizar efectos secundarios en el sistema host.
+- **Sandbox de comandos**: en Linux y macOS, los comandos que el agente ejecuta en tu máquina quedan confinados a tu proyecto por defecto. Consulta [Sandbox de comandos](sandbox).
 
 ## Multiproveedor y Multicuenta
 
-- **Soporte Amplio**: Compatible con Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, Ollama, OpenRouter y el proveedor seguro **Antigravity**.
+- **Soporte Amplio**: Compatible con Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, xAI, Ollama, OpenRouter, GitHub Copilot y cualquier servicio compatible con OpenAI.
 - **Gestión de Cuentas**: Permite configurar múltiples cuentas para un mismo proveedor y alternar entre ellas o entre diferentes modelos de forma instantánea.
+- **Modo automático de modelos**: deja que Pando elija el modelo de cada mensaje según las rutas que definas. Consulta [Modo automático de modelos](model-auto-mode).
+- **Inicio de sesión**: Anthropic y Gemini usan una clave de API. GitHub Copilot usa tu sesión de GitHub.
 
 ## Indexación y RAG Automático
 

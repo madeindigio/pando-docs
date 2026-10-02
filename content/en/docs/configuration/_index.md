@@ -86,6 +86,12 @@ autoCompact = true
 
 ## AI Providers
 
+{{< shot src="images/webui/pando-webui-settings-providers.jpg" alt="Provider accounts in Settings" >}}
+
+{{< shot src="images/webui/pando-webui-settings-providers-add-account.jpg" alt="Add provider account dialog" >}}
+
+{{< shot src="images/webui/pando-webui-settings-agents.jpg" alt="Model per built-in agent in Settings" >}}
+
 Pando supports the following AI providers:
 
 - **Anthropic** (Claude 3.5 Sonnet, Claude 3.7 Sonnet, etc.)

@@ -13,6 +13,6 @@ Bienvenido a la documentación de **Pando**, un asistente de IA basado en termin
   {{< card link="features" title="Características" icon="star" subtitle="Funcionalidades y herramientas disponibles" >}}
   {{< card link="acp" title="Protocolo ACP" icon="code" subtitle="Integración con editores via Agent Client Protocol" >}}
   {{< card link="mcp" title="Servidor MCP" icon="puzzle" subtitle="Model Context Protocol para herramientas externas" >}}
-  {{< card link="sdk" title="SDKs" icon="terminal" subtitle="Integración programática en tu lenguaje" >}}
+  {{< card link="../sdk" title="SDKs" icon="terminal" subtitle="Integración programática en tu lenguaje" >}}
   {{< card link="brand" title="Marca e identidad" icon="sparkles" subtitle="Guía de estilo: símbolo, paleta, tipografía y recursos" >}}
 {{< /cards >}}

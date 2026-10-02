@@ -86,6 +86,12 @@ autoCompact = true
 
 ## Proveedores de IA
 
+{{< shot src="images/webui/pando-webui-settings-providers.jpg" alt="Cuentas de proveedor en Ajustes" >}}
+
+{{< shot src="images/webui/pando-webui-settings-providers-add-account.jpg" alt="Diálogo para añadir una cuenta de proveedor" >}}
+
+{{< shot src="images/webui/pando-webui-settings-agents.jpg" alt="Modelo de cada agente integrado en Ajustes" >}}
+
 Pando soporta los siguientes proveedores de IA:
 
 - **Anthropic** (Claude 3.5 Sonnet, Claude 3.7 Sonnet, etc.)

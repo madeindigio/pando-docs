@@ -5,6 +5,8 @@ weight: 3
 
 All Pando's features are available via a web interface accessible from any modern browser. The Pando Web-UI offers a smooth, interactive experience, designed for any device with browser access—including desktops, laptops, tablets, and smartphones.
 
+{{< shot src="images/webui/pando-webui-chat-light.jpg" dark="images/webui/pando-webui-chat-dark.jpg" alt="Pando chat view in the Web UI" >}}
+
 The web interface includes the following features:
 
 - **Multi-language support**: UI available in English, Spanish, French, German, Portuguese, Chinese, Japanese, with more coming.
@@ -32,11 +34,91 @@ The web interface includes the following features:
 The Pando Web-UI is fully responsive and adapts to any screen size, providing an optimal experience on desktop and mobile. In addition, it features **robust offline reconnection**, automatically retrying and restoring your chat session if you temporarily lose your network connection.
 {{< /callout >}}
 
+## Appearance
+
+{{< shot src="images/webui/pando-webui-settings-appearance.jpg" alt="Appearance settings: mode, font size, theme and accent colour" >}}
+
+The Web UI has a clean, native look that you can adjust in **Settings > Appearance**:
+
+- **Mode**: light, dark, or follow your operating system. System mode switches live when your system does.
+- **Theme**: four colour families, Pando, Paper, Slate and Forest.
+- **Accent colour and font size**, kept per browser.
+
+The header has a one-click light/dark switch.
+
+## Simple chat
+
+{{< shot src="images/webui/pando-webui-simple-chat.jpg" alt="Simple chat view" >}}
+
+The simple view keeps only the conversation, the session list and search. It lives inside the same app window as the full view, so switching between them does not reload anything. Pando remembers which view you use, also in the desktop app and across restarts.
+
+## Version and updates
+
+The chat info panel and **Settings > General > Diagnostics** show the Pando version you are running and tell you when a newer one is available. See [Self-Update]({{< relref "/docs/features/self-update" >}}).
+
+## Settings that do not get lost
+
+{{< shot src="images/webui/pando-webui-settings-general.jpg" alt="General settings" >}}
+
+If you leave a settings page with changes you have not saved, Pando asks before discarding them. Confirmations and prompts are part of the app, so they look and behave the same in the browser and in the desktop window.
+
+## First-run setup assistant
+
+{{< shot src="images/webui/pando-webui-setup-assistant-scope.jpg" dark="images/webui/pando-webui-setup-assistant-scope-dark.jpg" alt="Setup assistant: where to save the settings" >}}
+
+With nothing configured yet, the Web UI opens a [setup assistant]({{< relref "/docs/features/setup-assistant" >}}) for provider, models and memory.
+
+## Automatic model choice
+
+{{< shot src="images/webui/pando-webui-settings-auto-mode.jpg" alt="Auto mode settings" >}}
+
+Select **Auto** in the model switcher and Pando picks the model for each prompt from the routes you defined. See [Model Auto Mode]({{< relref "/docs/features/model-auto-mode" >}}).
+
 ## Project workspaces
+
+{{< shot src="images/webui/pando-webui-projects.jpg" alt="Projects list in the Web UI" >}}
+
+{{< shot src="images/webui/pando-webui-project-workspace-tab.jpg" alt="A project open in its own workspace tab" >}}
 
 The unified shell can open a registered project as its own embedded workspace tab, reusing a background `pando serve` child for that project. The tab bar supports keep-alive restoration, project-local terminals, and keyboard navigation without leaving the parent WebUI.
 
 For the full workflow, shortcuts, security model, and `[Projects]` configuration, see [Project workspaces](../project-workspaces).
+
+## More screens
+
+### Code editor
+
+{{< shot src="images/webui/pando-webui-code-editor.jpg" alt="Code editor" >}}
+
+### Terminal
+
+{{< shot src="images/webui/pando-webui-terminal.jpg" alt="Terminal" >}}
+
+### Orchestrator
+
+{{< shot src="images/webui/pando-webui-orchestrator-tasks.jpg" alt="Mesnada orchestrator tasks" >}}
+
+{{< shot src="images/webui/pando-webui-orchestrator-cronjobs.jpg" alt="Scheduled cron jobs" >}}
+
+### Instances
+
+{{< shot src="images/webui/pando-webui-instances.jpg" alt="Running instances" >}}
+
+### Built-in tools
+
+{{< shot src="images/webui/pando-webui-settings-tools-search.jpg" alt="Built-in tools: fetch and web search" >}}
+
+### Shell commands
+
+{{< shot src="images/webui/pando-webui-settings-bash.jpg" alt="Banned and allowed shell commands" >}}
+
+### MCP gateway
+
+{{< shot src="images/webui/pando-webui-settings-mcp-gateway.jpg" alt="MCP gateway settings" >}}
+
+### Lua engine
+
+{{< shot src="images/webui/pando-webui-settings-lua-engine.jpg" alt="Lua engine settings" >}}
 
 ## Projects workspace API
 

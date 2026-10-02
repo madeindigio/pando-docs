@@ -17,6 +17,8 @@ Inspired by VS Code Copilot's approach:
 
 ## Configuration
 
+{{< shot src="images/webui/pando-webui-settings-general-tool-discovery-workspaces.jpg" alt="Tool discovery and project workspace settings" >}}
+
 ```toml
 [ToolDiscovery]
 Enabled = true

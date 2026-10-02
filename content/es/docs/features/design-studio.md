@@ -47,6 +47,8 @@ pando design create "Revisión Q3" --skill deck-basic
 
 ## Plantillas y referencias de oficio
 
+{{< shot src="images/webui/pando-webui-design-templates.jpg" alt="Plantillas de diseño" >}}
+
 Pando incluye plantillas de diseño desde las que partir y referencias de oficio que el agente lee mientras diseña (tipografía, color, layout y una guía «anti-AI-slop» que evita que el resultado parezca genérico).
 
 ```bash
@@ -59,6 +61,8 @@ Plantillas incluidas: `landing-page`, `web-prototype`, `dashboard-page`, `deck-b
 En la WebUI, la página Design tiene una galería con un botón **Try it** y un prompt inicial por plantilla.
 
 ## El sistema de diseño
+
+{{< shot src="images/webui/pando-webui-settings-design-system.jpg" alt="Ajustes del sistema de diseño" >}}
 
 Un único conjunto de tokens para todo el proyecto, en `designer/_system/`: `tokens.json` (la fuente de verdad), `system.css` (generado) y `DESIGN.md`, el contrato escrito que el agente debe respetar.
 

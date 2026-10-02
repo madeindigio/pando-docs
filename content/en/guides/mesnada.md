@@ -14,6 +14,10 @@ Until this guide is published, the reference documentation covers this topic: [r
 
 ## Split the work
 
+{{< shot src="images/webui/pando-webui-settings-mesnada.jpg" alt="Mesnada settings" >}}
+
+{{< shot src="images/webui/pando-webui-orchestrator-tasks.jpg" alt="Mesnada orchestrator tasks" >}}
+
 ## Run subagents in parallel
 
 ## Gather the results

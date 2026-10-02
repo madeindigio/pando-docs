@@ -62,6 +62,10 @@ Endpoint = "https://remembrances.corp.internal"
 - **UI panels and pages** in the WebUI, including replacing the frontend entirely.
 - **Memory behaviour** — observing what gets remembered, and augmenting what a search returns.
 - **Licensing hooks**, for commercial modules.
+- **Managed configuration**: an extension can supply settings from a central source and lock the keys users must not change. Locked settings appear as read-only in the settings screens.
+- **Sign-in**: an extension can plug in your organisation's identity provider and attach the right credentials to requests sent to AI providers.
+- **Interface policy**: an extension can hide or disable parts of the interface that do not apply in your organisation.
+- **Events and prompts**: an extension can react to what happens in Pando, such as a model being chosen or a session ending, and run prompts of its own.
 
 ## Enterprise builds
 

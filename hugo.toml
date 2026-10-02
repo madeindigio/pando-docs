@@ -132,6 +132,11 @@ defaultContentLanguageInSubdir = false
   github = "https://github.com/digiogithub/pando"
   description = "Asistente IA terminal para desarrolladores — potente, extensible y open source"
 
+  [params.home]
+    # Pando Desktop capture on the home page; desktopShotDark replaces it in dark mode.
+    desktopShot = "images/webui/pando-webui-chat-light.jpg"
+    desktopShotDark = "images/webui/pando-webui-chat-dark.jpg"
+
   [params.navbar]
     displayTitle = true
     displayLogo = true

@@ -33,6 +33,8 @@ Reading is free; anything that touches the screen or changes state asks you firs
 
 ## Enabling it
 
+{{< shot src="images/webui/pando-webui-settings-tools-desktop-controller.jpg" alt="Desktop controller settings" >}}
+
 In `.pando.toml`:
 
 ```toml

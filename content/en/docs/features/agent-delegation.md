@@ -33,6 +33,8 @@ The `mesnada_spawn_agent` tool launches background tasks:
 
 ## Waiting for Results
 
+{{< shot src="images/webui/pando-webui-settings-general-subagent-delegation.jpg" alt="Subagent delegation settings" >}}
+
 ### Non-Blocking (Recommended)
 
 Use `mesnada_await` after spawning background tasks:
@@ -96,6 +98,8 @@ The `project` parameter routes the task to the correct project's warm instance.
 
 ## Warm Instance Reuse
 
+{{< shot src="images/webui/pando-webui-settings-general-delegation-warm-instances.jpg" alt="Warm instance, integrity gate and circuit breaker settings" >}}
+
 When enabled, delegated tasks are routed to already-running ("warm") ACP instances instead of spawning new CLI processes:
 
 ```toml
@@ -106,6 +110,8 @@ MaxConcurrent = 8
 ```
 
 ## Delegation Supervisor
+
+{{< shot src="images/webui/pando-webui-settings-general-delegation-event-log.jpg" alt="Durable event log and dispatch settings" >}}
 
 The supervisor handles automatic finalization of delegated tasks:
 

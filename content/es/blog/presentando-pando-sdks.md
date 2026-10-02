@@ -58,5 +58,5 @@ En lugar de limitarnos a envolver llamadas de consola estándar, adaptamos cada 
 
 Los cuatro SDKs son de código abierto con licencia MIT y están completamente documentados en nuestro nuevo portal de documentación.
 
-* Explora las guías en español: [Documentación de los SDKs de Pando](/es/docs/sdk/)
+* Explora las guías en español: [Documentación de los SDKs de Pando]({{< relref "/sdk" >}})
 * Descarga los paquetes desde NuGet, PyPI, npm o Maven Central y lleva la automatización de tus desarrollos al siguiente nivel.

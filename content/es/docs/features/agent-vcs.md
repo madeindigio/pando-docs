@@ -71,6 +71,8 @@ AutoCleanupDays = 5
 
 ## Integración con Web UI
 
+{{< shot src="images/webui/pando-webui-agent-vcs.jpg" alt="Vista de Agent VCS" >}}
+
 La Web UI proporciona una ventana de snapshot con visualización de diffs, permitiéndote revisar los cambios hechos por el agente y revertir archivos específicos o sesiones completas.
 
 {{< callout >}}

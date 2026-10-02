@@ -62,6 +62,10 @@ Endpoint = "https://remembrances.corp.internal"
 - **Paneles y páginas** en la WebUI, incluido reemplazar el frontend entero.
 - **Comportamiento de memoria**: observar qué se recuerda y enriquecer lo que devuelve una búsqueda.
 - **Ganchos de licenciamiento**, para módulos comerciales.
+- **Configuración gestionada**: una extensión puede aportar ajustes desde una fuente central y bloquear las claves que los usuarios no deben cambiar. Los ajustes bloqueados aparecen como solo lectura en las pantallas de ajustes.
+- **Inicio de sesión**: una extensión puede conectar el proveedor de identidad de tu organización y añadir las credenciales correctas a las peticiones que van a los proveedores de IA.
+- **Política de interfaz**: una extensión puede ocultar o desactivar las partes de la interfaz que no aplican en tu organización.
+- **Eventos y prompts**: una extensión puede reaccionar a lo que pasa en Pando, como la elección de un modelo o el final de una sesión, y ejecutar sus propios prompts.
 
 ## Compilaciones empresariales
 

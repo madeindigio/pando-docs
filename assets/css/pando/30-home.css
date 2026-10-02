@@ -384,6 +384,15 @@
   border: 1px solid var(--line);
 }
 
+.shot-img--dark,
+.dark .shot-img--light {
+  display: none;
+}
+
+.dark .shot-img--dark {
+  display: block;
+}
+
 .shot-mock {
   height: 400px;
   display: grid;

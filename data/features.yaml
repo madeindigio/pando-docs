@@ -16,6 +16,7 @@ surface:
   - { slug: web-ui, en: "Web‑UI & PWA", es: "Web‑UI y PWA" }
   - { slug: webui-access, en: "WebUI Access", es: "Acceso a la WebUI" }
   - { slug: desktop-app, en: "Native Desktop App", es: "App de escritorio nativa" }
+  - { slug: setup-assistant, en: "Setup Assistant", es: "Asistente de configuración" }
   - { slug: project-workspaces, en: "Project Workspaces", es: "Espacios de proyecto" }
   - { slug: design-studio, en: "Design Studio" }
   - { slug: slash-commands, en: "Slash Commands", es: "Comandos slash" }
@@ -28,6 +29,7 @@ roots:
   pando:
     - { slug: goal-mode, en: "Goal Mode" }
     - { slug: tool-discovery, en: "Tool Discovery", es: "Descubrimiento de herramientas" }
+    - { slug: model-auto-mode, en: "Model Auto Mode", es: "Modo automático de modelos" }
     - { slug: reasoning-modes, en: "Thinking & Reasoning Effort", es: "Pensamiento y esfuerzo de razonamiento" }
     - { slug: superpowers-mode, en: "Superpowers Mode", es: "Modo Superpowers" }
   remembrances:
@@ -55,6 +57,7 @@ soil:
     - { ref: /docs/mcp, en: "MCP" }
     - { slug: mcp-authentication, en: "MCP Server Authentication", es: "Autenticación de servidores MCP" }
     - { ref: /docs/acp, en: "ACP" }
+    - { slug: agui, en: "AG‑UI for Web Apps", es: "AG‑UI para aplicaciones web" }
     - { slug: lsp-auto-activation, en: "LSP Auto‑Activation", es: "Autoactivación de LSP" }
     - { slug: ipc, en: "Inter‑Process Communication", es: "Comunicación entre procesos" }
   hands:
@@ -68,11 +71,13 @@ soil:
     - { slug: ponytail, en: "Ponytail Skill" }
     - { en: "Lua" }
   trust:
+    - { slug: sandbox, en: "Command Sandbox", es: "Sandbox de comandos" }
     - { en: "Docker · Podman" }
     - { ref: /docs/configuration/age-encryption, en: "AGE encryption", es: "Cifrado AGE" }
     - { slug: https-auto-cert, en: "Auto HTTPS Certificates", es: "Certificados HTTPS automáticos" }
   operations:
     - { slug: self-update, en: "Self‑Update", es: "Autoactualización" }
     - { slug: installers, en: "Cross‑Platform Installers", es: "Instaladores multiplataforma" }
+    - { slug: remote-diagnostics, en: "Remote Diagnostics", es: "Diagnóstico remoto" }
     - { slug: db-compact, en: "Database Compact", es: "Compactación de la base de datos" }
     - { slug: config-discovery, en: "Config File Discovery", es: "Descubrimiento de configuración" }

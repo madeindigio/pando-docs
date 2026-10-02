@@ -14,6 +14,10 @@ Until this guide is published, the reference documentation covers this topic: [r
 
 ## Index your code
 
+{{< shot src="images/webui/pando-webui-settings-remembrances-code-embeddings.jpg" alt="Code embedding settings" >}}
+
 ## Add knowledge base documents
+
+{{< shot src="images/webui/pando-webui-settings-remembrances.jpg" alt="Remembrances settings: knowledge base sync" >}}
 
 ## Recall in a session

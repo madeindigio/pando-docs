@@ -1,10 +1,15 @@
 {{- /* Screenshot for guides and docs.
        Usage: {{< shot src="images/guides/first-request.png" alt="First request in Pando Desktop" >}}
+       Optional dark="images/…": a second capture shown instead of src when
+       the site is in dark mode.
        Without src it renders a dashed placeholder labelled with alt, so a
        guide can be published before its captures exist. */ -}}
 {{- $alt := .Get "alt" | default "" -}}
+{{- $dark := .Get "dark" -}}
 {{- with .Get "src" -}}
-  <figure class="shot not-prose"><img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $alt }}" loading="lazy" /></figure>
+  <figure class="shot not-prose"><img{{ with $dark }} class="shot__light"{{ end }} src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $alt }}" loading="lazy" />
+  {{- with $dark }}<img class="shot__dark" src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $alt }}" loading="lazy" />{{ end -}}
+  </figure>
 {{- else -}}
   <div class="shot shot--empty mono not-prose" role="img" aria-label="{{ $alt }}">[ {{ T "shot_placeholder" | upper }} · {{ $alt | upper }} ]</div>
 {{- end -}}

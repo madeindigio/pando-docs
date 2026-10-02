@@ -3,56 +3,79 @@ title: Self-Improvement System
 weight: 25
 ---
 
-Pando includes an evaluation loop using LLM-as-Judge to assess session quality, with UCB1-based skill selection and reward optimization.
+Pando can learn from how your sessions go. It scores each finished session, notices what worked, and proposes short rules for next time. You review those rules, and only the ones you approve are used.
 
-## How It Works
+It is **off by default**.
 
-1. **Session Evaluation**: After each session, an LLM judge evaluates quality
-2. **Skill Selection**: UCB1 algorithm balances exploration vs exploitation
-3. **Reward Optimization**: Tracks task success and token efficiency
-4. **Continuous Improvement**: Skills with higher rewards are used more frequently
+## How it works
 
-## Configuration
+1. **Every session gets a score.** When a session ends or goes idle, Pando scores it without calling any model. It looks at whether you had to correct the agent, how many tool errors and cancellations there were, and how many tokens it took.
+2. **You can say it yourself.** `/feedback good` or `/feedback bad` in the chat overrides the automatic score.
+3. **A judge looks at the clear cases.** For sessions that went clearly well or clearly badly, a model reads the conversation and may propose a rule, such as "verify the build before reporting done". The judge has a daily budget, so it does not run up your bill.
+4. **You review the proposals.** Each proposed rule is a file you can read and edit. Nothing reaches your prompts until you approve it.
+5. **Approved rules are used in new sessions.** Rules that do not help are retired automatically.
+
+## Turn it on
+
+{{< shot src="images/webui/pando-webui-settings-self-improvement.jpg" alt="Self-improvement settings" >}}
+
+In **Settings > Self-Improvement** (Web UI and TUI), or in the config file:
 
 ```toml
 [evaluator]
 enabled = true
-model = 'ollama.qwopus:latest'
-provider = 'ollama'
-alphaWeight = 0.8          # Importance of task success
-betaWeight = 0.2           # Importance of token efficiency
-explorationC = 1.41        # UCB1 exploration factor
-minSessionsForUCB = 5
-maxTokensBaseline = 50
-maxSkills = 100
-judgePromptTemplate = ''
-async = true
-
-[[evaluator.taskPatterns]]
-pattern = 'fix|bug|error|crash'
-taskType = 'debug'
+model = 'anthropic.claude-haiku-4'   # the judge; a cheap model is enough
 ```
 
-## MCP Exposure
+## Reviewing learned rules
 
-When running as MCP server, evaluator tools are exposed:
+In the Web UI, the Self-Improvement view lists the pending proposals with **Approve** and **Reject** buttons. From the terminal:
+
+```bash
+pando skills list --status pending
+pando skills approve verify-the-build-before-reporting-done
+pando skills reject some-skill-id
+```
+
+The proposals are files under `.pando/skills/learned/`. Edit them before approving if you want to change the wording. An approval applies to sessions you start afterwards.
+
+## Is it working?
+
+```bash
+pando evaluator doctor
+```
+
+The doctor says in plain words whether the loop is running and, if not, why: disabled, no judge model, no sessions scored yet, budget used up. The Web UI shows the same report in a banner at the top of the Self-Improvement view.
+
+The view also shows the scores of your recent sessions, why each got its score, and how the average evolved over the last 14 days.
+
+To score sessions by hand:
+
+```bash
+pando evaluate --all --limit 20
+```
+
+## Trying different prompt wordings
+
+If you want to compare two ways of instructing the agent, put an alternative version of a prompt section in `.pando/prompts/variants/<section>/<name>.md.tpl`. Pando uses one variant per session, tracks the scores and gradually prefers the one that works better.
+
+## Settings you may want
+
+{{< shot src="images/webui/pando-webui-settings-self-improvement-evaluation.jpg" alt="When sessions are evaluated" >}}
+
+{{< shot src="images/webui/pando-webui-settings-self-improvement-judge-limits.jpg" alt="Judge limits and prompt variants" >}}
+
+{{< shot src="images/webui/pando-webui-settings-self-improvement-correction-patterns.jpg" alt="Correction patterns" >}}
 
 ```toml
-[MCPServer.SelfImprovement]
-Enabled = true
+[evaluator]
+idleTimeout = '30m'        # score a session after this long without activity
+
+[evaluator.judge]
+dailyCalls  = 20           # judge calls per day; 0 = no limit
+dailyTokens = 200000       # judge tokens per day; 0 = no limit
 ```
 
-This exposes evaluator stats, skills, and evaluation triggers as MCP tools.
-
-## Metrics
-
-The system tracks:
-
-- **Task success rate** per skill
-- **Token efficiency** per skill
-- **UCB1 scores** for exploration/exploitation balance
-- **Session quality** ratings
-
 {{< callout >}}
-The self-improvement system is opt-in and runs asynchronously. It helps Pando learn which approaches work best for different task types over time.
+Pando never rewrites its own prompts behind your back. Prompt variants are files you write, and learned rules are files you approve.
 {{< /callout >}}

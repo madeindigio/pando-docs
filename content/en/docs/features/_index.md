@@ -58,11 +58,14 @@ Pando supports multiple execution environments for enhanced security and reprodu
 - **Isolated Execution**: Native support for running commands and tools inside **Docker** or **Podman** containers.
 - **Devcontainers**: Integration with standardized development environments.
 - **Embedded Runtime**: Controlled execution to minimize side effects on the host system.
+- **Command Sandbox**: on Linux and macOS, the commands the agent runs on your machine are confined to your project by default. See [Command Sandbox](sandbox).
 
 ## Multi-Provider & Multi-Account
 
-- **Broad Support**: Compatible with Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, Ollama, OpenRouter, and the secure **Antigravity** provider.
+- **Broad Support**: Compatible with Anthropic (Claude), OpenAI (GPT), Google (Gemini), AWS (Bedrock), Azure, Groq, xAI, Ollama, OpenRouter, GitHub Copilot and any OpenAI-compatible service.
 - **Account Management**: Configure multiple accounts for the same provider and switch between them or between different models instantly.
+- **Model Auto Mode**: let Pando pick the model for each prompt from routes you define. See [Model Auto Mode](model-auto-mode).
+- **Sign-in**: Anthropic and Gemini use an API key. GitHub Copilot uses your GitHub login.
 
 ## Automatic Indexing & RAG
 

@@ -9,6 +9,8 @@ You can configure these options in the **Settings > Token Optimization** section
 
 ## File Read Optimization
 
+{{< shot src="images/webui/pando-webui-settings-token-optimization.jpg" alt="Token optimization settings" >}}
+
 When Pando reads files, it sends the content to the AI model as tokens. These settings control how much detail is included.
 
 ### Default Read Mode

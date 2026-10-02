@@ -36,6 +36,10 @@ MemoryPinnedScopes = []
 
 ## Knowledge Base Settings
 
+{{< shot src="images/webui/pando-webui-settings-remembrances.jpg" alt="Remembrances settings: knowledge base sync" >}}
+
+{{< shot src="images/webui/pando-webui-settings-remembrances-document-embeddings.jpg" alt="Document embedding settings" >}}
+
 ```toml
 [Remembrances]
 # Sync directory for KB documents
@@ -78,6 +82,8 @@ ContextEnrichmentPlannerFallbackToCoder = false
 ```
 
 ## Code Index Settings
+
+{{< shot src="images/webui/pando-webui-settings-remembrances-code-embeddings.jpg" alt="Code embedding settings" >}}
 
 ```toml
 [Remembrances]

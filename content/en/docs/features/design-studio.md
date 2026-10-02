@@ -47,6 +47,8 @@ pando design create "Q3 review" --skill deck-basic
 
 ## Templates and craft references
 
+{{< shot src="images/webui/pando-webui-design-templates.jpg" alt="Design templates" >}}
+
 Pando ships design templates you can scaffold from, and craft references the agent reads while designing (typography, colour, layout, and an "anti-AI-slop" guide that keeps output from looking generic).
 
 ```bash
@@ -59,6 +61,8 @@ Bundled templates: `landing-page`, `web-prototype`, `dashboard-page`, `deck-basi
 In the WebUI, the Design page has a gallery with a **Try it** starter prompt for each template.
 
 ## The design system
+
+{{< shot src="images/webui/pando-webui-settings-design-system.jpg" alt="Design system settings" >}}
 
 One shared set of tokens for the whole project, in `designer/_system/`: `tokens.json` (the source of truth), `system.css` (generated) and `DESIGN.md` (the written contract the agent must follow).
 

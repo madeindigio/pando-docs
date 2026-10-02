@@ -36,9 +36,33 @@ mindmap
   - **macOS**: Fully optimized for Apple Silicon (M1/M2/M3) and Intel, utilizing native WebKit renders for buttery-smooth animations and low battery consumption.
   - **Windows**: High-performance, lightweight interface with complete support for secure encryption mechanisms to protect your development settings.
 
+## The window
+
+The desktop app has its own title bar, drawn by Pando instead of the operating system. The minimise, maximise and close buttons sit in the same bar as the session title and the app actions, so the content gets the full height of the window. Drag the bar to move the window.
+
+On Linux and Windows, Pando also adds an icon to the **system tray**. Use it to bring the window back or to quit.
+
+## One window per project
+
+From the **Projects** view you can open a project in its own Pando window with **Open desktop**. Each window works on its own folder, with its own sessions and terminals. If you prefer everything in a single window, open the project as a tab instead: see [Project workspaces]({{< relref "/docs/features/project-workspaces" >}}).
+
+## Starting from the app icon
+
+When you open Pando from the Dock, the Start menu or the application launcher, it starts in your home folder as a general workspace. On macOS it also picks up the `PATH` of your login shell, so the tools you installed with Homebrew or a version manager are found the same way as in your terminal.
+
+## Linux: missing libraries
+
+The Linux window needs the GTK 3 and WebKitGTK libraries. If one is missing, Pando says which and shows the command to install it on your distribution, instead of failing with a cryptic error. The [install script]({{< relref "/docs/features/installers" >}}) installs them for you.
+
+If there is no graphical session at all, for example over SSH, Pando explains that there is no display to open a window on. Use `pando serve` and a browser in that case.
+
+## First run
+
+The first time you open the app with nothing configured, the [setup assistant]({{< relref "/docs/features/setup-assistant" >}}) walks you through provider, models and memory.
+
 ## Getting Started
 
-To launch the desktop application, download the precompiled package for your operating system from the releases page, install it, and open it like any standard application.
+To launch the desktop application, download the package for your operating system from the [latest release](https://github.com/digiogithub/pando/releases/latest), install it, and open it like any other application. The macOS installer and the Windows binary are signed, so the system opens them without security warnings. See [Cross-Platform Installers]({{< relref "/docs/features/installers" >}}).
 
 If you prefer to compile it from source, ensure you have the developer dependencies installed and build it using the standard build command:
 

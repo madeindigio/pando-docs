@@ -9,6 +9,8 @@ Puedes configurar estas opciones en la sección **Ajustes > Optimización de tok
 
 ## Optimización de Lectura de Archivos
 
+{{< shot src="images/webui/pando-webui-settings-token-optimization.jpg" alt="Ajustes de optimización de tokens" >}}
+
 Cuando Pando lee archivos, envía el contenido al modelo de IA como tokens. Estas configuraciones controlan cuánto detalle se incluye.
 
 ### Modo de Lectura por Defecto

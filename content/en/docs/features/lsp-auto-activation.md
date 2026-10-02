@@ -36,6 +36,8 @@ Pando includes presets for these languages out of the box:
 
 ## Configuration
 
+{{< shot src="images/webui/pando-webui-settings-lsp.jpg" alt="Language server settings" >}}
+
 ### Auto-Activation (Default)
 
 By default, LSP auto-activation is **enabled**. Servers start on-demand when you open a matching file.
@@ -93,6 +95,8 @@ When the agent reads, writes, or edits a file, Pando ensures the matching LSP se
 - Code completion data is fresh and accurate
 
 ## Presets vs Custom Servers
+
+{{< shot src="images/webui/pando-webui-settings-lsp-add-server.jpg" alt="Add language server dialog" >}}
 
 You can extend or override the built-in presets:
 

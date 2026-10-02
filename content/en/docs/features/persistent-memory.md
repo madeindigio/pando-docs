@@ -63,6 +63,8 @@ Memories are automatically injected into the system prompt as a `<memories>` XML
 
 ## Configuration
 
+{{< shot src="images/webui/pando-webui-settings-remembrances-memory.jpg" alt="Memory system settings" >}}
+
 ```toml
 [Remembrances]
 MemoryEnabled = true

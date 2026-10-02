@@ -16,6 +16,8 @@ When enabled, Pando enriches each user message before sending it to the LLM:
 
 ## Configuration
 
+{{< shot src="images/webui/pando-webui-settings-remembrances-chunking-context.jpg" alt="Chunking, code indexing and context enrichment settings" >}}
+
 ```toml
 [Remembrances]
 ContextEnrichmentEnabled = true
@@ -43,6 +45,8 @@ ContextEnrichmentPlannerFallbackToCoder = false
 ```
 
 ## Enrichment as an agent loop
+
+{{< shot src="images/webui/pando-webui-settings-remembrances-context-enrichment.jpg" alt="Agent loop enrichment and relevance filter settings" >}}
 
 Instead of a single round of searches, Pando can run enrichment as a **small dedicated agent** that iteratively queries memory, the knowledge base, past events and the code index until it has what it needs. The main agent never sees those searches — it only receives the finished context block.
 

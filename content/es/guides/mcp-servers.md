@@ -12,6 +12,12 @@ Hasta que se publique esta guía, la documentación de referencia cubre este tem
 
 ## Añade un servidor
 
+{{< shot src="images/webui/pando-webui-settings-mcp-servers.jpg" alt="Servidores MCP en Ajustes" >}}
+
+{{< shot src="images/webui/pando-webui-settings-mcp-add-server-stdio.jpg" alt="Diálogo para añadir un servidor MCP de tipo stdio" >}}
+
 ## Autentícalo
+
+{{< shot src="images/webui/pando-webui-settings-mcp-add-server-sse.jpg" alt="Diálogo para añadir un servidor MCP de tipo SSE con cabeceras y autenticación" >}}
 
 ## Usa sus herramientas

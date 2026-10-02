@@ -15,6 +15,7 @@ Pando incluye un completo suite de automatización de navegador usando chromedp,
 | `opera` | Opera |
 | `firefox` | Firefox (vía herramienta fetch) |
 | `lightpanda` | Navegador headless ligero |
+| `obscura` | Navegador headless rápido escrito en Rust |
 
 ## Herramientas Disponibles
 
@@ -48,7 +49,22 @@ BrowserType = 'lightpanda'
 
 A diferencia de los navegadores locales, Lightpanda se lanza como un proceso servidor CDP y se conecta via WebSocket. No se aplican perfiles de usuario ni flags de headless.
 
+## Soporte de Obscura
+
+[Obscura](https://github.com/h4ckf0r0day/obscura) es un navegador headless pequeño que arranca rápido y usa poca memoria. Encaja bien en servidores, contenedores y CI, donde instalar Chrome pesa.
+
+Instala Obscura de modo que el comando `obscura` esté en tu `PATH` y selecciónalo:
+
+```toml
+[InternalTools]
+BrowserType = 'obscura'
+```
+
+Todas las herramientas de navegador funcionan con él: navegar, leer contenido, hacer clic, rellenar formularios, ejecutar JavaScript y hacer capturas. Igual que Lightpanda, no tiene ventana ni perfil de usuario.
+
 ## Configuración
+
+{{< shot src="images/webui/pando-webui-settings-tools-browser.jpg" alt="Ajustes de la herramienta de navegador" >}}
 
 ```toml
 [InternalTools]

@@ -58,5 +58,5 @@ We didn't just wrap command-line calls — each SDK is tailored to feel native t
 
 All four SDKs are open source, licensed under MIT, and fully documented in our new documentation section!
 
-* Explore the guides: [Pando SDK Documentation](/docs/sdk/)
+* Explore the guides: [Pando SDK Documentation]({{< relref "/sdk" >}})
 * Download from NuGet, PyPI, npm, or Maven Central today and elevate your software engineering automation!

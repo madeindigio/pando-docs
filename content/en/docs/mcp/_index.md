@@ -79,3 +79,18 @@ Or in JSON:
   }
 }
 ```
+
+## HTTP access token
+
+When Pando runs as an MCP server over HTTP, every request needs an access token: `Authorization: Bearer <token>`. This applies on your own machine too.
+
+- On `localhost`, Pando creates a token the first time, shows it once in the terminal and reuses it on later starts.
+- To choose the token yourself, set `MCPServer.HttpToken`.
+- On any other address, Pando does not start without a token.
+- Browsers can connect only from the origins listed in `MCPServer.HttpAllowedOrigins`.
+
+Clients that connect over `stdio` are not affected.
+
+{{< callout type="warning" >}}
+If you used the HTTP transport before September 2026 without a token, your client now receives `401`. Add the `Authorization` header to its configuration.
+{{< /callout >}}

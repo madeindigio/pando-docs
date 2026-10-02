@@ -71,6 +71,8 @@ AutoCleanupDays = 5
 
 ## Web UI Integration
 
+{{< shot src="images/webui/pando-webui-agent-vcs.jpg" alt="Agent VCS view" >}}
+
 The Web UI provides a snapshot window with diff visualization, allowing you to review changes made by the agent and revert specific files or entire sessions.
 
 {{< callout >}}

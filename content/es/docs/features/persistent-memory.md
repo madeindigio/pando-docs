@@ -63,6 +63,8 @@ Las memorias se inyectan automáticamente en el system prompt como un bloque XML
 
 ## Configuración
 
+{{< shot src="images/webui/pando-webui-settings-remembrances-memory.jpg" alt="Ajustes del sistema de memoria" >}}
+
 ```toml
 [Remembrances]
 MemoryEnabled = true

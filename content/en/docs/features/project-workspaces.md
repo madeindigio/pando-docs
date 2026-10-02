@@ -7,6 +7,10 @@ Project workspaces let the **Projects** view open a full Pando WebUI for any reg
 
 ## Opening a project tab
 
+{{< shot src="images/webui/pando-webui-projects.jpg" alt="Projects list in the Web UI" >}}
+
+{{< shot src="images/webui/pando-webui-project-workspace-tab.jpg" alt="A project open in its own workspace tab" >}}
+
 1. Open **Projects**.
 2. Click the project row, or use **Open tab** in the actions column.
 3. Pando starts the workspace if needed and routes you to `/projects/:id/workspace`.
@@ -35,6 +39,8 @@ Project workspaces and Mesnada delegation share the same project runtime. If a p
 In the desktop app, project workspaces stay inside the main Pando window and tab bar. The window title and tray remain tied to the parent application, so opening a workspace tab does not create extra tray entries or detached project windows unless you explicitly use **Open desktop**.
 
 ## Configuration
+
+{{< shot src="images/webui/pando-webui-settings-general-tool-discovery-workspaces.jpg" alt="Tool discovery and project workspace settings" >}}
 
 Add these keys under `[Projects]` in `.pando.toml`:
 

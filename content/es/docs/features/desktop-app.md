@@ -36,9 +36,33 @@ mindmap
   - **macOS**: Totalmente optimizada para Apple Silicon (M1/M2/M3) e Intel, utilizando renderizado WebKit nativo para ofrecer transiciones fluidas y un consumo de batería mínimo.
   - **Windows**: Interfaz ligera y de alto rendimiento con soporte completo para cifrado seguro para mantener tus credenciales protegidas.
 
+## La ventana
+
+La app de escritorio tiene su propia barra de título, dibujada por Pando y no por el sistema operativo. Los botones de minimizar, maximizar y cerrar están en la misma barra que el título de la sesión y las acciones de la app, así que el contenido ocupa toda la altura de la ventana. Arrastra la barra para mover la ventana.
+
+En Linux y Windows, Pando añade además un icono en la **bandeja del sistema**. Úsalo para recuperar la ventana o para salir.
+
+## Una ventana por proyecto
+
+Desde la vista **Projects** puedes abrir un proyecto en su propia ventana de Pando con **Open desktop**. Cada ventana trabaja sobre su carpeta, con sus sesiones y sus terminales. Si prefieres tenerlo todo en una sola ventana, abre el proyecto como pestaña: consulta [Espacios de trabajo de proyecto]({{< relref "/docs/features/project-workspaces" >}}).
+
+## Arrancar desde el icono de la app
+
+Cuando abres Pando desde el Dock, el menú Inicio o el lanzador de aplicaciones, arranca en tu carpeta personal como espacio de trabajo general. En macOS recoge además el `PATH` de tu shell de inicio de sesión, así que encuentra las herramientas que instalaste con Homebrew o con un gestor de versiones igual que tu terminal.
+
+## Linux: bibliotecas que faltan
+
+La ventana en Linux necesita las bibliotecas GTK 3 y WebKitGTK. Si falta alguna, Pando dice cuál y muestra el comando para instalarla en tu distribución, en lugar de fallar con un error críptico. El [script de instalación]({{< relref "/docs/features/installers" >}}) las instala por ti.
+
+Si no hay ninguna sesión gráfica, por ejemplo por SSH, Pando explica que no hay pantalla donde abrir una ventana. En ese caso usa `pando serve` y un navegador.
+
+## Primer arranque
+
+La primera vez que abres la app sin nada configurado, el [asistente de configuración]({{< relref "/docs/features/setup-assistant" >}}) te guía por proveedor, modelos y memoria.
+
 ## Cómo Empezar
 
-Para iniciar la aplicación de escritorio, descarga el paquete precompilado correspondiente a tu sistema operativo desde la sección de lanzamientos, instálalo y ábrelo como cualquier otra aplicación.
+Para iniciar la aplicación de escritorio, descarga el paquete de tu sistema operativo desde la [última versión](https://github.com/digiogithub/pando/releases/latest), instálalo y ábrelo como cualquier otra aplicación. El instalador de macOS y el binario de Windows están firmados, así que el sistema los abre sin avisos de seguridad. Consulta [Instaladores Multi-Plataforma]({{< relref "/docs/features/installers" >}}).
 
 Si prefieres compilarla desde las fuentes del proyecto, asegúrate de tener instaladas las dependencias de desarrollo y compila el paquete usando el comando:
 

@@ -33,6 +33,8 @@ Leer es gratis; todo lo que toca la pantalla o cambia estado te lo pregunta ante
 
 ## Activarlo
 
+{{< shot src="images/webui/pando-webui-settings-tools-desktop-controller.jpg" alt="Ajustes del controlador de escritorio" >}}
+
 En `.pando.toml`:
 
 ```toml

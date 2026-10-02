@@ -7,6 +7,8 @@ Pando's IPC system enables multiple instances to communicate, share state, and c
 
 ## Architecture
 
+{{< shot src="images/webui/pando-webui-instances.jpg" alt="Running instances" >}}
+
 - **Primary instance**: Creates the IPC bus with PUB (events) and ROUTER (RPC) sockets
 - **Secondary instances**: Connect via SUB (events) and DEALER (RPC)
 - **Instance registry**: File-based tracking at `/tmp/pando-instances/`

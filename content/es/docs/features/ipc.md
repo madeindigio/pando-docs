@@ -7,6 +7,8 @@ El sistema IPC de Pando permite que múltiples instancias se comuniquen, compart
 
 ## Arquitectura
 
+{{< shot src="images/webui/pando-webui-instances.jpg" alt="Instancias en ejecución" >}}
+
 - **Instancia primaria**: Crea el bus IPC con sockets PUB (eventos) y ROUTER (RPC)
 - **Instancias secundarias**: Conectan via SUB (eventos) y DEALER (RPC)
 - **Registro de instancias**: Rastreo basado en archivos en `/tmp/pando-instances/`

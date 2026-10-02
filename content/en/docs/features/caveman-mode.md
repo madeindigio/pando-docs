@@ -22,6 +22,8 @@ Type these in the chat input:
 
 ### Settings
 
+{{< shot src="images/webui/pando-webui-settings-general-caveman-brevity.jpg" alt="Caveman output brevity level in General settings" >}}
+
 Set a default mode that applies to all new sessions:
 
 **Web UI:** Settings > Token Optimization > Caveman Mode

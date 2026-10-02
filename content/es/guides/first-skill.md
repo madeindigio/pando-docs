@@ -15,3 +15,7 @@ Hasta que se publique esta guía, la documentación de referencia cubre este tem
 ## Describe cuándo se aplica
 
 ## Compártela con tu equipo
+
+{{< shot src="images/webui/pando-webui-settings-skills.jpg" alt="Skills instaladas en Ajustes" >}}
+
+{{< shot src="images/webui/pando-webui-settings-skills-catalog.jpg" alt="Ajustes de rutas y catálogo de skills" >}}
