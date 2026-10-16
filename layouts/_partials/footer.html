@@ -25,8 +25,10 @@
       {{- end }}
     </div>
     <div class="pd-footer__bottom">
-      <span>{{ T "footerCopyright" }}</span>
-      <span>{{ T "footerMadeIn" }} · <span class="kanji" lang="ja">万物流転</span></span>
+      {{- $digio := `<a href="https://digio.es" rel="noreferrer">Digio</a>` -}}
+      {{- $alchemai := printf `<strong>%s</strong>` (T "footerAlchemAI") }}
+      <span class="pd-footer__credit">{{ T "footerMadeBy" (dict "Digio" $digio "AlchemAI" $alchemai) | safeHTML }}</span>
+      <span>{{ T "footerLicense" }} · <span class="kanji" lang="ja">万物流転</span></span>
     </div>
   </div>
 </footer>

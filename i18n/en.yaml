@@ -30,8 +30,9 @@ mesnada: "Mesnada"
 github: "GitHub"
 releases: "Releases"
 license: "MIT License"
-footerCopyright: "© Pando contributors · MIT"
-footerMadeIn: "Made in digio"
+footerMadeBy: "A project by {{ .Digio }}, part of the {{ .AlchemAI }}."
+footerAlchemAI: "AlchemAI Project"
+footerLicense: "MIT License"
 
 # ── Shared ────────────────────────────────────────────────────
 new: "NEW"

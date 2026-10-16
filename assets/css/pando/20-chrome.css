@@ -448,3 +448,9 @@ body.pd-drawer-open {
 .pd-drawer .pd-search kbd {
   display: none;
 }
+
+.pd-footer__credit a,
+.pd-footer__credit strong {
+  color: var(--ink);
+  font-weight: 600;
+}
